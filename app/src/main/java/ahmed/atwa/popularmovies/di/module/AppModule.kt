@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.R
@@ -17,6 +19,11 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import javax.inject.Singleton
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
+
 
 @Module
 class AppModule {
@@ -57,22 +64,20 @@ class AppModule {
 
     @Provides
     @Singleton
-    internal fun provideAppPrefrence(mContext : Context): AppPrefrence {
+    internal fun provideAppPrefrence(mContext: Context): AppPrefrence {
         return AppPrefrence(mContext)
     }
 
     @Provides
     @Singleton
-    internal fun provideAppRepository(mContext : Context,appdatabase :AppDatabase,appPrefrence : AppPrefrence,appWebService :AppWebService): AppRepository {
-        return AppRepository(mContext,appdatabase,appPrefrence,appWebService)
+    internal fun provideAppRepository(mContext: Context, appdatabase: AppDatabase, appPrefrence: AppPrefrence, appWebService: AppWebService): AppRepository {
+        return AppRepository(mContext, appdatabase, appPrefrence, appWebService)
     }
 
     @Provides
     internal fun provideRxSchedule(): RxSchedule {
         return RxSchedule()
     }
-
-
 
 
 }

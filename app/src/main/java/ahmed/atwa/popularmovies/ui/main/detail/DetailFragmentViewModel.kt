@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.main.detail
 
 import ahmed.atwa.popularmovies.data.AppRepository
@@ -15,6 +17,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import io.reactivex.functions.Consumer
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class DetailFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel(appRepository, rxSchedule) {
 

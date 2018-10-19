@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.data.prefrence
 
 import ahmed.atwa.popularmovies.utils.AppConstants
@@ -5,6 +7,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 @Singleton
 class AppPrefrence @Inject constructor(mContext: Context){

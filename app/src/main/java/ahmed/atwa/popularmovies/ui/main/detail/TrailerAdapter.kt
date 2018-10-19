@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.main.detail
 
 import ahmed.atwa.popularmovies.data.api.Movie
@@ -9,6 +11,10 @@ import ahmed.atwa.popularmovies.ui.main.home.MovieItemViewModel
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class TrailerAdapter(var mTrailerList: MutableList<Trailer>) : RecyclerView.Adapter<BaseViewHolder>() {
 

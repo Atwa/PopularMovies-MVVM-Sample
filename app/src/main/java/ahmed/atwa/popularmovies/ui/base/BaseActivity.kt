@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.base
 
 import ahmed.atwa.popularmovies.utils.AppUtils
@@ -14,6 +16,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
 import dagger.android.AndroidInjection
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatActivity(), BaseFragment.Callback {
 

@@ -1,4 +1,10 @@
+
+
 package ahmed.atwa.popularmovies.utils
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class AppConstants {
 

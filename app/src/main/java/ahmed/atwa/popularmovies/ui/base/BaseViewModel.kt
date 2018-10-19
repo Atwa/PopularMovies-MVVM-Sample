@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.base
 
 import ahmed.atwa.popularmovies.data.AppRepository
@@ -5,6 +7,10 @@ import ahmed.atwa.popularmovies.utils.RxSchedule
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import io.reactivex.disposables.CompositeDisposable
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 abstract class BaseViewModel(appRepository: AppRepository, rxSchedule: RxSchedule) : ViewModel() {
 

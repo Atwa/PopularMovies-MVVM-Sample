@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.data.api
 
 import android.database.Observable
@@ -9,6 +11,9 @@ import javax.inject.Singleton
 import retrofit2.http.GET
 import kotlin.collections.ArrayList
 
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 @Singleton
 interface AppWebService {

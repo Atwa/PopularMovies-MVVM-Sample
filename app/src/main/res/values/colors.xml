@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /**
+  ~  * Created by Ahmed Atwa on 19/10/2018
+  ~  * Copyright (c) 19/10/2018 . All rights reserved.
+  ~  **/
+  -->
+
 <resources>
     <color name="colorPrimary">@color/blue_black_light</color>
     <color name="colorPrimaryDark">@color/black</color>

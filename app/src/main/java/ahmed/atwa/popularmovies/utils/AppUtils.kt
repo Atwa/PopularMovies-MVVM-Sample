@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.utils
 
 import ahmed.atwa.popularmovies.R
@@ -6,6 +8,10 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class AppUtils {
 

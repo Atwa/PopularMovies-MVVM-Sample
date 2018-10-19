@@ -9,6 +9,10 @@ import dagger.android.HasActivityInjector
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import javax.inject.Inject
 
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
+
 class PopMovApp : Application(),HasActivityInjector {
 
     @Inject

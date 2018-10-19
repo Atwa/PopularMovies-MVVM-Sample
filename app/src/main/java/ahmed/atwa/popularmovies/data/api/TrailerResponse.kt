@@ -1,8 +1,13 @@
+
+
 package ahmed.atwa.popularmovies.data.api
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 data class TrailerResponse(
 

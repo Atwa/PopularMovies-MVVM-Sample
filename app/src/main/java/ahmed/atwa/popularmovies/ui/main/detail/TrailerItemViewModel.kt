@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.main.detail
 
 import ahmed.atwa.popularmovies.data.api.Movie
@@ -12,6 +14,9 @@ import android.content.Context
 import android.net.Uri
 import javax.inject.Inject
 
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class TrailerItemViewModel (var trailer: Trailer, var mListener: TrailerItemViewModelListener)  {
 

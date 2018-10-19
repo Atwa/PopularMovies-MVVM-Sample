@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.main.home
 
 import ahmed.atwa.popularmovies.BR
@@ -14,6 +16,10 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import javax.inject.Inject
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesFragmentViewModel>() ,MovieAdapter.MovieAdapterListener{
 

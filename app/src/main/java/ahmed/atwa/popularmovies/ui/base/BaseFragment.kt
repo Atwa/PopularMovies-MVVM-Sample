@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.base
 
 import android.app.Fragment
@@ -10,6 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : android.support.v4.app.Fragment() {
 

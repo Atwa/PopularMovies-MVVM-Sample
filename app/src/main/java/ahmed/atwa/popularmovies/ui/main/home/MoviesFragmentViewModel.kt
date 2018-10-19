@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.main.home
 
 import ahmed.atwa.popularmovies.data.AppRepository
@@ -9,6 +11,10 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
 import android.util.Log
 import javax.inject.Inject
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class MoviesFragmentViewModel @Inject constructor (appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel(appRepository, rxSchedule) {
 

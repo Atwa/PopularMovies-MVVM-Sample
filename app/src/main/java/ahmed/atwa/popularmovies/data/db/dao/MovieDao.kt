@@ -1,9 +1,15 @@
+
+
 package ahmed.atwa.popularmovies.data.db.dao
 
 import ahmed.atwa.popularmovies.data.api.Movie
 import android.arch.persistence.room.*
 import io.reactivex.Observable
 import io.reactivex.Single
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 @Dao
 interface MovieDao {

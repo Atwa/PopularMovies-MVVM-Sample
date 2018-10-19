@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
@@ -14,6 +16,10 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
+
 @Module
 class MoviesFragmentModule {
 
@@ -24,7 +30,7 @@ class MoviesFragmentModule {
 
     @Provides
     internal fun provideGridLayoutManager(fragment: MoviesFragment): GridLayoutManager {
-        return GridLayoutManager(fragment.getActivity(),2)
+        return GridLayoutManager(fragment.activity!!,2)
     }
 
     @Provides

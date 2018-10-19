@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
@@ -10,6 +12,10 @@ import android.arch.lifecycle.ViewModelProvider
 import android.support.v7.widget.LinearLayoutManager
 import dagger.Module
 import dagger.Provides
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 @Module
 class DetailFragmentModule {

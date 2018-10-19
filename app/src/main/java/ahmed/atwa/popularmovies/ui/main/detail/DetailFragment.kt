@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.main.detail
 
 import ahmed.atwa.popularmovies.BR
@@ -15,6 +17,10 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import javax.inject.Inject
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 @SuppressLint("ValidFragment")
 class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, DetailFragmentViewModel>() ,TrailerAdapter.TrailerAdapterListener {

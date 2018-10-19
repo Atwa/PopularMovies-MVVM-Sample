@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.base
 
 import android.app.Dialog
@@ -11,6 +13,10 @@ import android.support.v4.app.FragmentManager
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.RelativeLayout
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel> : DialogFragment() {
 

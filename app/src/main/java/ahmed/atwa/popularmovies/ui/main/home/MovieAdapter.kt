@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.main.home
 
 import ahmed.atwa.popularmovies.data.api.Movie
@@ -7,6 +9,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import javax.inject.Inject
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class MovieAdapter(var mMoviesList: MutableList<Movie>) : RecyclerView.Adapter<BaseViewHolder>() {
 

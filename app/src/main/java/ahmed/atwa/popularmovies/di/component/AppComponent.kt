@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.di.component
 
 import ahmed.atwa.popularmovies.PopMovApp
@@ -8,6 +10,10 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 @Singleton
 @Component(modules = [(AndroidInjectionModule::class), (AppModule::class), (ActivityBuilder::class)])

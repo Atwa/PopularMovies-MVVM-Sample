@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.ui.main
 
 import ahmed.atwa.popularmovies.BR
@@ -18,6 +20,10 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupportFragmentInjector ,
         MoviesFragment.MainFragmentListener, DetailFragment.DetailFragmentListener {

@@ -1,3 +1,5 @@
+
+
 package ahmed.atwa.popularmovies.di.builder
 
 import ahmed.atwa.popularmovies.ui.main.MainActivity
@@ -6,6 +8,10 @@ import ahmed.atwa.popularmovies.di.module.DetailFragmentProvider
 import ahmed.atwa.popularmovies.di.module.MoviesFragmentProvider
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 @Module
 abstract class ActivityBuilder {

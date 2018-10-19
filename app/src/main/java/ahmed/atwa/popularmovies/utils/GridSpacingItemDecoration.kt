@@ -1,8 +1,14 @@
+
+
 package ahmed.atwa.popularmovies.utils
 
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 import android.view.View
+
+/**
+ * Created by Ahmed Atwa on 10/19/18.
+ */
 
 class GridSpacingItemDecoration(private val spanCount: Int, private val spacing: Int, private val includeEdge: Boolean) : RecyclerView.ItemDecoration() {
 
