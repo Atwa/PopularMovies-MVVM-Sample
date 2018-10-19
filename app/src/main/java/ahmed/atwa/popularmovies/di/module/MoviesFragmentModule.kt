@@ -15,7 +15,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class MainFragmentModule {
+class MoviesFragmentModule {
 
     @Provides
     internal fun provideMainFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedule): MoviesFragmentViewModel {

@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class MainFragmentProvider {
+abstract class MoviesFragmentProvider {
 
-    @ContributesAndroidInjector(modules =[(MainFragmentModule::class)])
+    @ContributesAndroidInjector(modules =[(MoviesFragmentModule::class)])
     internal abstract fun provideMainFragmentFactory(): MoviesFragment
 
 }
