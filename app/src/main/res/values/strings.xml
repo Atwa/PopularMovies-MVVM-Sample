@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PopularMovies</string>
+    <string name="released_on">Released in </string>
+    <string name="votes_count">Votes : </string>
+</resources>
