@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies
 
-import ahmed.atwa.popularmovies.di.DaggerAppComponent
+import ahmed.atwa.popularmovies.di.component.DaggerAppComponent
 import android.app.Activity
 import android.app.Application
 import dagger.android.AndroidInjector
@@ -18,7 +18,7 @@ class PopMovApp : Application(),HasActivityInjector {
     lateinit var mCalligraphyConfig : CalligraphyConfig
 
     override fun activityInjector(): AndroidInjector<Activity> {
-        return activityDispatchingAndroidInjector;
+        return activityDispatchingAndroidInjector
     }
 
     override fun onCreate() {

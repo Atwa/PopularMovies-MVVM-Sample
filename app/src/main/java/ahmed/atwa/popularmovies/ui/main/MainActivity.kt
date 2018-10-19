@@ -7,22 +7,20 @@ import ahmed.atwa.popularmovies.data.api.Trailer
 import ahmed.atwa.popularmovies.databinding.ActivityMainBinding
 import ahmed.atwa.popularmovies.ui.base.BaseActivity
 import ahmed.atwa.popularmovies.ui.main.detail.DetailFragment
-import ahmed.atwa.popularmovies.ui.main.home.MainFragment
-import android.arch.lifecycle.Observer
+import ahmed.atwa.popularmovies.ui.main.home.MoviesFragment
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupportFragmentInjector ,
-        MainFragment.MainFragmentListener, DetailFragment.DetailFragmentListener {
+        MoviesFragment.MainFragmentListener, DetailFragment.DetailFragmentListener {
 
 
 
@@ -52,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupp
     }
 
     private fun setUp() {
-        val mMainFragment = MainFragment()
+        val mMainFragment = MoviesFragment()
         mMainFragment.mListener = this
         replaceFragment(mMainFragment)
     }

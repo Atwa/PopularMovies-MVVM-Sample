@@ -9,15 +9,18 @@ import io.reactivex.Single
 interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertAll(movies: List<Movie>)
+    fun insertAll(movies: List<Movie>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(movie: Movie)
+    fun insert(movie: Movie)
 
     @Delete
-    abstract fun remove(movie: Movie)
+    fun remove(movie: Movie)
 
     @Query("SELECT * FROM movies WHERE id = :movieId")
-    abstract fun loadAllMoviesById(movieId: Int?): List<Movie>
+    fun loadAllMoviesById(movieId: Int?): List<Movie>
+
+    @Query("SELECT * FROM movies")
+    fun loadAllMovies(): List<Movie>
 
 }

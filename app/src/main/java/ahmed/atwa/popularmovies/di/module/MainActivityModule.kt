@@ -1,12 +1,10 @@
-package ahmed.atwa.popularmovies.ui.main
+package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.AppRepository
+import ahmed.atwa.popularmovies.ui.main.MainViewModel
 import ahmed.atwa.popularmovies.utils.RxSchedule
-import android.arch.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 
 @Module
 class MainActivityModule {

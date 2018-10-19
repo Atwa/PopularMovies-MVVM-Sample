@@ -54,13 +54,11 @@ class DetailFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedu
 
     private fun checkLikeState() {
         mCompositeDisposable.add(mRepository
-                .loadAllMoviesById(movieId = movie.id)
+                .isMovieLike(movieId = movie.id)
                 .subscribeOn(mRxSchedule.io())
                 .observeOn(mRxSchedule.ui())
                 .subscribe {
-                    if (it.isNotEmpty())
-                        isLiked.set(true)
-                    Log.v("Atwa List :", it.size.toString())
+                    if (it) isLiked.set(true)
                 })
     }
 

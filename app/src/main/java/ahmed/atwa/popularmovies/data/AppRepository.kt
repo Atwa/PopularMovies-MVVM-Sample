@@ -25,6 +25,10 @@ class AppRepository @Inject constructor(private val mContext: Context,
 
     fun loadAllMoviesById(movieId: Int): Observable<List<Movie>> = mAppDatabase.loadAllMoviesById(movieId)
 
+    fun isMovieLike(movieId: Int): Observable<Boolean> {
+        return Observable.fromCallable { mAppDatabase.movieDao().loadAllMoviesById(movieId).isNotEmpty() }
+    }
+
     fun insertMovieToLikes(movie: Movie): Observable<Boolean> = mAppDatabase.insertMovieToLikes(movie)
 
     fun removeMovieFromLikes(movie: Movie): Observable<Boolean> = mAppDatabase.removeMovieFromLikes(movie)

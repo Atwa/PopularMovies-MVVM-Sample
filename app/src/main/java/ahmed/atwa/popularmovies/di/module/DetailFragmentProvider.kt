@@ -1,5 +1,6 @@
-package ahmed.atwa.popularmovies.ui.main.detail
+package ahmed.atwa.popularmovies.di.module
 
+import ahmed.atwa.popularmovies.ui.main.detail.DetailFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

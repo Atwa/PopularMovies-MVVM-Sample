@@ -1,7 +1,10 @@
-package ahmed.atwa.popularmovies.ui.main.detail
+package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.AppRepository
+import ahmed.atwa.popularmovies.ui.main.detail.DetailFragment
+import ahmed.atwa.popularmovies.ui.main.detail.DetailFragmentViewModel
+import ahmed.atwa.popularmovies.ui.main.detail.TrailerAdapter
 import ahmed.atwa.popularmovies.utils.RxSchedule
 import android.arch.lifecycle.ViewModelProvider
 import android.support.v7.widget.LinearLayoutManager

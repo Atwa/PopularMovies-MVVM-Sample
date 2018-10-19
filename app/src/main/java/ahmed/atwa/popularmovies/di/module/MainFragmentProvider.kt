@@ -1,5 +1,6 @@
-package ahmed.atwa.popularmovies.ui.main.home
+package ahmed.atwa.popularmovies.di.module
 
+import ahmed.atwa.popularmovies.ui.main.home.MoviesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -7,6 +8,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class MainFragmentProvider {
 
     @ContributesAndroidInjector(modules =[(MainFragmentModule::class)])
-    internal abstract fun provideMainFragmentFactory(): MainFragment
+    internal abstract fun provideMainFragmentFactory(): MoviesFragment
 
 }

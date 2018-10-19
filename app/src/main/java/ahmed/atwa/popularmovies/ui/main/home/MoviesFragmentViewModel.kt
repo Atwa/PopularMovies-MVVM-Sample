@@ -10,7 +10,7 @@ import android.databinding.ObservableList
 import android.util.Log
 import javax.inject.Inject
 
-class MainFragmentViewModel @Inject constructor (appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel(appRepository, rxSchedule) {
+class MoviesFragmentViewModel @Inject constructor (appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel(appRepository, rxSchedule) {
 
     var movieObservableList: ObservableList<Movie> = ObservableArrayList<Movie>()
 

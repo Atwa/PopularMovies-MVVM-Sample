@@ -1,7 +1,10 @@
-package ahmed.atwa.popularmovies.ui.main.home
+package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.AppRepository
+import ahmed.atwa.popularmovies.ui.main.home.MoviesFragment
+import ahmed.atwa.popularmovies.ui.main.home.MoviesFragmentViewModel
+import ahmed.atwa.popularmovies.ui.main.home.MovieAdapter
 import ahmed.atwa.popularmovies.ui.main.home.MovieAdapter.MovieAdapterListener
 import ahmed.atwa.popularmovies.utils.GridSpacingItemDecoration
 import ahmed.atwa.popularmovies.utils.RxSchedule
@@ -15,12 +18,12 @@ import javax.inject.Singleton
 class MainFragmentModule {
 
     @Provides
-    internal fun provideMainFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedule): MainFragmentViewModel{
-        return MainFragmentViewModel(appRepository, rxSchedule)
+    internal fun provideMainFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedule): MoviesFragmentViewModel {
+        return MoviesFragmentViewModel(appRepository, rxSchedule)
     }
 
     @Provides
-    internal fun provideGridLayoutManager(fragment: MainFragment): GridLayoutManager {
+    internal fun provideGridLayoutManager(fragment: MoviesFragment): GridLayoutManager {
         return GridLayoutManager(fragment.getActivity(),2)
     }
 
@@ -42,8 +45,8 @@ class MainFragmentModule {
 
 
     @Provides
-    internal fun mainFragmentViewModelProvider(mainFragmentViewModel: MainFragmentViewModel): ViewModelProvider.Factory {
-        return ViewModelProviderFactory(mainFragmentViewModel)
+    internal fun mainFragmentViewModelProvider(moviesFragmentViewModel: MoviesFragmentViewModel): ViewModelProvider.Factory {
+        return ViewModelProviderFactory(moviesFragmentViewModel)
     }
 
 }
