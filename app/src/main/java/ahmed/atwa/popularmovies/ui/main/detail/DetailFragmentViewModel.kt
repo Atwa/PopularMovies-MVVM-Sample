@@ -2,27 +2,23 @@
 
 package ahmed.atwa.popularmovies.ui.main.detail
 
+import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.data.AppRepository
 import ahmed.atwa.popularmovies.data.api.Movie
 import ahmed.atwa.popularmovies.data.api.Trailer
 import ahmed.atwa.popularmovies.ui.base.BaseViewModel
 import ahmed.atwa.popularmovies.utils.RxSchedule
 import android.arch.lifecycle.MutableLiveData
-import android.databinding.BindingAdapter
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableField
 import android.databinding.ObservableList
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
-import com.bumptech.glide.Glide
-import io.reactivex.functions.Consumer
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class DetailFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel(appRepository, rxSchedule) {
+class DetailFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel<DetailsNavigator>(appRepository, rxSchedule) {
 
     private lateinit var movie: Movie
 
@@ -75,14 +71,20 @@ class DetailFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedu
                     .removeMovieFromLikes(movie)
                     .subscribeOn(mRxSchedule.io())
                     .observeOn(mRxSchedule.ui())
-                    .subscribe { isLiked.set(false) })
+                    .subscribe {
+                        isLiked.set(false)
+                        getNavigator().showLikeMessage(R.string.movie_unliked)
+                    })
         else
 
             mCompositeDisposable.add(mRepository
                     .insertMovieToLikes(movie)
                     .subscribeOn(mRxSchedule.io())
                     .observeOn(mRxSchedule.ui())
-                    .subscribe { isLiked.set(true) })
+                    .subscribe {
+                        isLiked.set(true)
+                        getNavigator().showLikeMessage(R.string.movie_liked)
+                    })
     }
 
 

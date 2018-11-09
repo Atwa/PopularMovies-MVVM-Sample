@@ -1,6 +1,30 @@
 
 
-package ahmed.atwa.popularmovies.ui.main
+/*
+ * *
+ *  Created by Ahmed Atwa on  19/10/2018.
+ * /
+ */
+
+/*
+ * *
+ *  Created by Ahmed Atwa on  19/10/2018.
+ * /
+ */
+
+/*
+ * *
+ *  Created by Ahmed Atwa on  19/10/2018.
+ * /
+ */
+
+/*
+ * *
+ *  Created by Ahmed Atwa on  19/10/2018.
+ * /
+ */
+
+package ahmed.atwa.popularmovies.ui
 
 import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
@@ -26,7 +50,7 @@ import javax.inject.Inject
  */
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupportFragmentInjector ,
-        MoviesFragment.MainFragmentListener, DetailFragment.DetailFragmentListener {
+        MoviesFragment.MainFragmentListener, DetailFragment.DetailFragmentListener , MainNavigator {
 
 
 
@@ -52,6 +76,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupp
         super.onCreate(savedInstanceState)
         mContext = this
         mActivityMainBinding = getViewDataBinding()
+        mMainViewModel.setNavigator(this)
         setUp()
     }
 

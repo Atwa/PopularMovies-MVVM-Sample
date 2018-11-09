@@ -18,7 +18,7 @@ import android.widget.RelativeLayout
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel> : DialogFragment() {
+abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel<*>> : DialogFragment() {
 
     var mActivity: BaseActivity<T, V>? = null
 

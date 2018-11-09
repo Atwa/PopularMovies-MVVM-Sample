@@ -9,4 +9,7 @@
     <string name="app_name">PopularMovies</string>
     <string name="released_on">Released in </string>
     <string name="votes_count">Votes : </string>
+    <string name="some_error">Some error occured !</string>
+    <string name="movie_unliked">Movie Removed from likes</string>
+    <string name="movie_liked">Movie added to likes</string>
 </resources>

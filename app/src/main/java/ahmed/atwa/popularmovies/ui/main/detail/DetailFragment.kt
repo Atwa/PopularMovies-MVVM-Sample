@@ -23,7 +23,7 @@ import javax.inject.Inject
  */
 
 @SuppressLint("ValidFragment")
-class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, DetailFragmentViewModel>() ,TrailerAdapter.TrailerAdapterListener {
+class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, DetailFragmentViewModel>() ,TrailerAdapter.TrailerAdapterListener ,DetailsNavigator{
 
 
 
@@ -53,6 +53,7 @@ class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, Det
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mTrailerAdapter.mListener = this
+        mDetailFragmentViewModel.setNavigator(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,6 +84,10 @@ class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, Det
 
     interface DetailFragmentListener{
         fun onTrailerSelected(trailer: Trailer)
+    }
+
+    override fun showLikeMessage(message: Int) {
+        showMessage(getString(message))
     }
 
 }

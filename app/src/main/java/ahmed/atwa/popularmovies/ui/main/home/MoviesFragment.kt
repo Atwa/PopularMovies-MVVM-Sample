@@ -21,7 +21,7 @@ import javax.inject.Inject
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesFragmentViewModel>() ,MovieAdapter.MovieAdapterListener{
+class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesFragmentViewModel>() ,MovieAdapter.MovieAdapterListener,MoviesNavigator{
 
 
     @Inject
@@ -52,6 +52,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesFragmentViewMod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mMovieAdapter.mListener = this
+        mMoviesFragmentViewModel.setNavigator(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

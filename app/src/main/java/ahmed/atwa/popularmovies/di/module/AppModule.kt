@@ -44,23 +44,6 @@ class AppModule {
                 .build()
     }
 
-    @Provides
-    @Singleton
-    internal fun provideAppWebService(): AppWebService {
-        return Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://api.themoviedb.org/3/")
-                .build().create(AppWebService::class.java)
-    }
-
-
-    @Provides
-    @Singleton
-    internal fun provideAppDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, AppConstants.DB_NAME).fallbackToDestructiveMigration()
-                .build()
-    }
 
     @Provides
     @Singleton
@@ -68,11 +51,6 @@ class AppModule {
         return AppPrefrence(mContext)
     }
 
-    @Provides
-    @Singleton
-    internal fun provideAppRepository(mContext: Context, appdatabase: AppDatabase, appPrefrence: AppPrefrence, appWebService: AppWebService): AppRepository {
-        return AppRepository(mContext, appdatabase, appPrefrence, appWebService)
-    }
 
     @Provides
     internal fun provideRxSchedule(): RxSchedule {

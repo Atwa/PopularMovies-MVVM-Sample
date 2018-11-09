@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MoviesFragmentViewModel @Inject constructor (appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel(appRepository, rxSchedule) {
+class MoviesFragmentViewModel @Inject constructor (appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel<MoviesNavigator>(appRepository, rxSchedule) {
 
     var movieObservableList: ObservableList<Movie> = ObservableArrayList<Movie>()
 

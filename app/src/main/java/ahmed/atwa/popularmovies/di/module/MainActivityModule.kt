@@ -3,7 +3,7 @@
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.data.AppRepository
-import ahmed.atwa.popularmovies.ui.main.MainViewModel
+import ahmed.atwa.popularmovies.ui.MainViewModel
 import ahmed.atwa.popularmovies.utils.RxSchedule
 import dagger.Module
 import dagger.Provides

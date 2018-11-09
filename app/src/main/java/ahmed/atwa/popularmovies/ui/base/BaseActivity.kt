@@ -2,6 +2,7 @@
 
 package ahmed.atwa.popularmovies.ui.base
 
+import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.utils.AppUtils
 import android.annotation.TargetApi
 import android.app.ProgressDialog
@@ -12,8 +13,13 @@ import android.databinding.ViewDataBinding
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import android.widget.Toast
 import dagger.android.AndroidInjection
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
@@ -21,7 +27,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatActivity(), BaseFragment.Callback {
+abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity(), BaseFragment.Callback {
 
     var mProgressDialog: ProgressDialog? = null
     private lateinit var mViewDataBinding: T
@@ -93,6 +99,29 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatA
     fun isNetworkConnected(): Boolean {
         return AppUtils.isNetworkConnected(applicationContext)
     }
+
+    fun showMessage(message : String){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
+    }
+
+    fun onError(message: String?) {
+        if (message != null) {
+            showSnackBar(message)
+        } else {
+            showSnackBar(getString(R.string.some_error))
+        }
+    }
+
+    private fun showSnackBar(message: String) {
+        val snackbar = Snackbar.make(findViewById(android.R.id.content),
+                message, Snackbar.LENGTH_SHORT)
+        val sbView = snackbar.view
+        val textView = sbView
+                .findViewById<View>(android.support.design.R.id.snackbar_text) as TextView
+        textView.setTextColor(ContextCompat.getColor(this, R.color.white))
+        snackbar.show()
+    }
+
 
 
 }

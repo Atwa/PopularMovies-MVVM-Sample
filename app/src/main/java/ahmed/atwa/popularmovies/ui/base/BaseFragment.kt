@@ -2,14 +2,19 @@
 
 package ahmed.atwa.popularmovies.ui.base
 
+import ahmed.atwa.popularmovies.R
 import android.app.Fragment
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 
@@ -17,7 +22,7 @@ import dagger.android.support.AndroidSupportInjection
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : android.support.v4.app.Fragment() {
+abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*>> : android.support.v4.app.Fragment() {
 
     var mActivity: BaseActivity<T, V>? = null
     lateinit var mRootView: View
@@ -82,6 +87,16 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : android.su
         fun onFragmentAttached()
         fun onFragmentDetached(tag: String)
     }
+
+    fun showMessage(message : String){
+        mActivity?.showMessage(message)
+    }
+
+    fun onError(message: String?) {
+        mActivity?.onError(message)
+    }
+
+
 
 
 }
