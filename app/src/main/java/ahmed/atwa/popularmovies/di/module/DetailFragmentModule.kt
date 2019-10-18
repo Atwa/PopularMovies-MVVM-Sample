@@ -3,13 +3,12 @@
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
-import ahmed.atwa.popularmovies.data.AppRepository
-import ahmed.atwa.popularmovies.ui.main.detail.DetailFragment
-import ahmed.atwa.popularmovies.ui.main.detail.DetailFragmentViewModel
-import ahmed.atwa.popularmovies.ui.main.detail.TrailerAdapter
-import ahmed.atwa.popularmovies.utils.RxSchedule
-import android.arch.lifecycle.ViewModelProvider
-import android.support.v7.widget.LinearLayoutManager
+import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.ui.detail.DetailFragment
+import ahmed.atwa.popularmovies.ui.detail.DetailFragmentViewModel
+import ahmed.atwa.popularmovies.ui.detail.TrailerAdapter
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.Module
 import dagger.Provides
 
@@ -22,8 +21,8 @@ class DetailFragmentModule {
 
 
     @Provides
-    internal fun provideDetailFragmentViewModel(appRepository: AppRepository, rxSchedule: RxSchedule): DetailFragmentViewModel {
-        return DetailFragmentViewModel(appRepository, rxSchedule)
+    internal fun provideDetailFragmentViewModel(movieRepository: MovieRepository): DetailFragmentViewModel {
+        return DetailFragmentViewModel(movieRepository)
     }
 
     @Provides

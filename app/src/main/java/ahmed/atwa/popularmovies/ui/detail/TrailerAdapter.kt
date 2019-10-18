@@ -1,16 +1,11 @@
+package ahmed.atwa.popularmovies.ui.detail
 
-
-package ahmed.atwa.popularmovies.ui.main.detail
-
-import ahmed.atwa.popularmovies.data.api.Movie
-import ahmed.atwa.popularmovies.data.api.Trailer
-import ahmed.atwa.popularmovies.databinding.ItemMovieViewBinding
+import ahmed.atwa.popularmovies.data.model.Trailer
 import ahmed.atwa.popularmovies.databinding.ItemTrailerViewBinding
 import ahmed.atwa.popularmovies.ui.base.BaseViewHolder
-import ahmed.atwa.popularmovies.ui.main.home.MovieItemViewModel
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by Ahmed Atwa on 10/19/18.

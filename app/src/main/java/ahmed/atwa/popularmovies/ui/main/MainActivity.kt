@@ -1,5 +1,3 @@
-
-
 /*
  * *
  *  Created by Ahmed Atwa on  19/10/2018.
@@ -24,22 +22,22 @@
  * /
  */
 
-package ahmed.atwa.popularmovies.ui
+package ahmed.atwa.popularmovies.ui.main
 
 import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.api.Movie
-import ahmed.atwa.popularmovies.data.api.Trailer
+import ahmed.atwa.popularmovies.data.model.Movie
+import ahmed.atwa.popularmovies.data.model.Trailer
 import ahmed.atwa.popularmovies.databinding.ActivityMainBinding
 import ahmed.atwa.popularmovies.ui.base.BaseActivity
-import ahmed.atwa.popularmovies.ui.main.detail.DetailFragment
-import ahmed.atwa.popularmovies.ui.main.home.MoviesFragment
+import ahmed.atwa.popularmovies.ui.detail.DetailFragment
+import ahmed.atwa.popularmovies.ui.movies.MoviesFragment
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -49,9 +47,8 @@ import javax.inject.Inject
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupportFragmentInjector ,
-        MoviesFragment.MainFragmentListener, DetailFragment.DetailFragmentListener , MainNavigator {
-
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupportFragmentInjector,
+        MoviesFragment.MainFragmentListener, DetailFragment.DetailFragmentListener {
 
 
     @Inject
@@ -76,7 +73,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupp
         super.onCreate(savedInstanceState)
         mContext = this
         mActivityMainBinding = getViewDataBinding()
-        mMainViewModel.setNavigator(this)
         setUp()
     }
 
@@ -87,7 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupp
     }
 
 
-    fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         if (fragment is DetailFragment)
             supportFragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack("test").commit()
         else {
@@ -95,8 +91,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupp
         }
     }
 
-    override fun onMovieSelected(movie : Movie) {
-        val mDetailFragment =    DetailFragment(movie)
+    override fun onMovieSelected(movie: Movie) {
+        val mDetailFragment = DetailFragment(movie)
         mDetailFragment.mListener = this
         replaceFragment(mDetailFragment)
     }
@@ -115,7 +111,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupp
     override fun onBackPressed() {
         setUp()
     }
-
 
 
 }

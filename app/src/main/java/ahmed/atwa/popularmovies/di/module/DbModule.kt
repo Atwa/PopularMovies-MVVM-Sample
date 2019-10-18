@@ -6,10 +6,11 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.db.AppDatabase
+import ahmed.atwa.popularmovies.data.source.MovieDao
+import ahmed.atwa.popularmovies.data.source.MovieDb
 import ahmed.atwa.popularmovies.utils.AppConstants
-import android.arch.persistence.room.Room
 import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,8 +24,14 @@ class DbModule{
 
     @Provides
     @Singleton
-    internal fun provideAppDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, AppConstants.DB_NAME).fallbackToDestructiveMigration()
+    internal fun provideMovieDb(context: Context): MovieDb {
+        return Room.databaseBuilder(context, MovieDb::class.java, AppConstants.DB_NAME).fallbackToDestructiveMigration()
                 .build()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideMovieDao(context: Context): MovieDao {
+        return provideMovieDb(context).movieDao()
     }
 }

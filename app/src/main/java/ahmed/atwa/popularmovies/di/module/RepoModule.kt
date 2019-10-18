@@ -6,17 +6,18 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.AppRepository
-import ahmed.atwa.popularmovies.data.api.AppWebService
-import ahmed.atwa.popularmovies.data.db.AppDatabase
-import ahmed.atwa.popularmovies.data.prefrence.AppPrefrence
-import android.content.Context
+import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.data.source.MovieApi
+import ahmed.atwa.popularmovies.data.source.MovieDao
+import ahmed.atwa.popularmovies.data.source.TrailerApi
+import ahmed.atwa.popularmovies.data.work.DaggerWorkerFactory
+import androidx.work.WorkerFactory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 /**
- * Created by Ahmed Atwa on 11/8/2018.
+ * Created by Ahmed Atwa on 10/17/2019.
  */
 
 @Module
@@ -24,8 +25,14 @@ class RepoModule {
 
     @Provides
     @Singleton
-    internal fun provideAppRepository(mContext: Context, appdatabase: AppDatabase, appPrefrence: AppPrefrence, appWebService: AppWebService): AppRepository {
-        return AppRepository(mContext, appdatabase, appPrefrence, appWebService)
+    internal fun provideMovieRepository(movieDao: MovieDao, movieApi: MovieApi, trailerApi: TrailerApi): MovieRepository {
+        return MovieRepository(movieDao, movieApi, trailerApi)
+    }
+
+    @Provides
+    @Singleton
+    fun workerFactory(movieRepository: MovieRepository): WorkerFactory {
+        return DaggerWorkerFactory(movieRepository)
     }
 
 }

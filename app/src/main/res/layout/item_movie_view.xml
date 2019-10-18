@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,11 +10,11 @@
 
         <variable
             name="viewModel"
-            type="ahmed.atwa.popularmovies.ui.main.home.MovieItemViewModel" />
+            type="ahmed.atwa.popularmovies.ui.movies.MovieItemViewModel" />
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="250dp">
 
@@ -32,7 +30,7 @@
             android:onClick="@{() -> viewModel.onItemClick()}" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>

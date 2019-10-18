@@ -1,9 +1,7 @@
+package ahmed.atwa.popularmovies.ui.movies
 
-
-package ahmed.atwa.popularmovies.ui.main.home
-
-import ahmed.atwa.popularmovies.data.api.Movie
-import android.databinding.ObservableField
+import ahmed.atwa.popularmovies.data.model.Movie
+import androidx.lifecycle.MutableLiveData
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
@@ -11,7 +9,11 @@ import android.databinding.ObservableField
 
 class MovieItemViewModel(var movie: Movie, var mListener: MovieItemViewModelListener) {
 
-    var imageUrl: ObservableField<String> = ObservableField(movie.poster_path)
+    var imageUrl = MutableLiveData<String>()
+
+    init {
+        imageUrl.value = movie.poster_path
+    }
 
     fun onItemClick() {
         mListener.onItemClick(movie)

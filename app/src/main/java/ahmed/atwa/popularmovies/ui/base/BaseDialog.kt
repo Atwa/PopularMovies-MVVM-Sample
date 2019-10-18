@@ -4,21 +4,21 @@ package ahmed.atwa.popularmovies.ui.base
 
 import android.app.Dialog
 import android.content.Context
-import android.databinding.ViewDataBinding
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.RelativeLayout
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel<*>> : DialogFragment() {
+abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel> : DialogFragment() {
 
     var mActivity: BaseActivity<T, V>? = null
 

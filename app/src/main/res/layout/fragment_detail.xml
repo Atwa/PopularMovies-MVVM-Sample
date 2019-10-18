@@ -9,20 +9,20 @@
 
         <variable
             name="viewModel"
-            type="ahmed.atwa.popularmovies.ui.main.detail.DetailFragmentViewModel" />
+            type="ahmed.atwa.popularmovies.ui.detail.DetailFragmentViewModel" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="10dp">
 
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline5"
                 android:layout_width="0dp"
                 android:layout_height="11039dp"
@@ -46,7 +46,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline6"
                 android:layout_width="384dp"
                 android:layout_height="0dp"
@@ -162,21 +162,21 @@
                 app:layout_constraintLeft_toRightOf="@+id/guideline5"
                 app:layout_constraintTop_toBottomOf="@+id/title_tv" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trailersRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:padding="10dp"
-                app:adapter="@{viewModel.trailerObservableList}"
+                app:adapter="@{viewModel.trailerListLiveData}"
                 app:layout_constraintEnd_toEndOf="@+id/plot_tv"
                 app:layout_constraintStart_toStartOf="@+id/plot_tv"
                 app:layout_constraintTop_toBottomOf="@+id/release_tv"
                 tools:listitem="@layout/item_trailer_view" />
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </layout>

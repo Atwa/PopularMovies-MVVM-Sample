@@ -24,18 +24,17 @@
  * /
  */
 
-package ahmed.atwa.popularmovies.ui
+package ahmed.atwa.popularmovies.ui.main
 
-import ahmed.atwa.popularmovies.data.AppRepository
+import ahmed.atwa.popularmovies.data.repository.MovieRepository
 import ahmed.atwa.popularmovies.ui.base.BaseViewModel
-import ahmed.atwa.popularmovies.utils.RxSchedule
 import javax.inject.Inject
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MainViewModel @Inject constructor(appRepository: AppRepository, rxSchedule: RxSchedule) : BaseViewModel<MainNavigator>(appRepository, rxSchedule) {
+class MainViewModel @Inject constructor(movieRepository: MovieRepository) : BaseViewModel(movieRepository) {
 
 
 }

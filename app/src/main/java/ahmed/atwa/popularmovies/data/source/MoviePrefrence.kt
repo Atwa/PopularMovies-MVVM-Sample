@@ -1,6 +1,4 @@
-
-
-package ahmed.atwa.popularmovies.data.prefrence
+package ahmed.atwa.popularmovies.data.source
 
 import ahmed.atwa.popularmovies.utils.AppConstants
 import android.content.Context
@@ -13,7 +11,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class AppPrefrence @Inject constructor(mContext: Context){
+class MoviePrefrence @Inject constructor(mContext: Context) {
 
     private val PREF_KEY_ACCESS_TOKEN = "PREF_KEY_ACCESS_TOKEN"
 
@@ -31,7 +29,7 @@ class AppPrefrence @Inject constructor(mContext: Context){
 
 
     fun getAccessToken(): String {
-        return mPrefs.getString(PREF_KEY_ACCESS_TOKEN, null)
+        return mPrefs.getString(PREF_KEY_ACCESS_TOKEN, null).toString()
     }
 
     fun setAccessToken(accessToken: String) {
@@ -39,7 +37,7 @@ class AppPrefrence @Inject constructor(mContext: Context){
     }
 
     fun getCurrentUserEmail(): String {
-        return mPrefs.getString(PREF_KEY_CURRENT_USER_EMAIL, null)
+        return mPrefs.getString(PREF_KEY_CURRENT_USER_EMAIL, null).toString()
     }
 
     fun setCurrentUserEmail(email: String) {
@@ -66,7 +64,7 @@ class AppPrefrence @Inject constructor(mContext: Context){
     }
 
     fun getCurrentUserName(): String {
-        return mPrefs.getString(PREF_KEY_CURRENT_USER_NAME, null)
+        return mPrefs.getString(PREF_KEY_CURRENT_USER_NAME, null).toString()
     }
 
     fun setCurrentUserName(userName: String) {
@@ -74,7 +72,7 @@ class AppPrefrence @Inject constructor(mContext: Context){
     }
 
     fun getCurrentUserProfilePicUrl(): String {
-        return mPrefs.getString(PREF_KEY_CURRENT_USER_PROFILE_PIC_URL, null)
+        return mPrefs.getString(PREF_KEY_CURRENT_USER_PROFILE_PIC_URL, null).toString()
     }
 
     fun setCurrentUserProfilePicUrl(profilePicUrl: String) {

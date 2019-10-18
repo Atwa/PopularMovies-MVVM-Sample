@@ -2,7 +2,7 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.ui.main.home.MoviesFragment
+import ahmed.atwa.popularmovies.ui.movies.MoviesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

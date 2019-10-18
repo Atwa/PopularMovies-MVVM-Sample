@@ -1,14 +1,11 @@
+package ahmed.atwa.popularmovies.ui.movies
 
-
-package ahmed.atwa.popularmovies.ui.main.home
-
-import ahmed.atwa.popularmovies.data.api.Movie
+import ahmed.atwa.popularmovies.data.model.Movie
 import ahmed.atwa.popularmovies.databinding.ItemMovieViewBinding
 import ahmed.atwa.popularmovies.ui.base.BaseViewHolder
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import javax.inject.Inject
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
@@ -20,11 +17,7 @@ class MovieAdapter(var mMoviesList: MutableList<Movie>) : RecyclerView.Adapter<B
 
 
     override fun getItemCount(): Int {
-        return if (mMoviesList.size > 0) {
-            mMoviesList.size
-        } else {
-            0
-        }
+        return mMoviesList.size
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -52,15 +45,16 @@ class MovieAdapter(var mMoviesList: MutableList<Movie>) : RecyclerView.Adapter<B
         fun onItemClick(movie: Movie)
     }
 
-    inner class MovieViewHolder(val mBinding: ItemMovieViewBinding) : BaseViewHolder(mBinding.getRoot()), MovieItemViewModel.MovieItemViewModelListener {
+    inner class MovieViewHolder(private val mBinding: ItemMovieViewBinding) : BaseViewHolder(mBinding.getRoot()), MovieItemViewModel.MovieItemViewModelListener {
 
 
         private lateinit var mMovieItemViewModel: MovieItemViewModel
 
+
         override fun onBind(position: Int) {
             val movie = mMoviesList[position]
             mMovieItemViewModel = MovieItemViewModel(movie, this)
-            mBinding.setViewModel(mMovieItemViewModel)
+            mBinding.viewModel = mMovieItemViewModel
 
             // Immediate Binding
             // When a variable or observable changes, the binding will be scheduled to change before
@@ -71,7 +65,7 @@ class MovieAdapter(var mMoviesList: MutableList<Movie>) : RecyclerView.Adapter<B
 
         override fun onItemClick(movie: Movie) {
             mListener.onItemClick(movie)
-            }
         }
-
     }
+
+}

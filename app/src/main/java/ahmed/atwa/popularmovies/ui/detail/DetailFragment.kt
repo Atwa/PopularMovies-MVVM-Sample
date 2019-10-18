@@ -1,21 +1,20 @@
-
-
-package ahmed.atwa.popularmovies.ui.main.detail
+package ahmed.atwa.popularmovies.ui.detail
 
 import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.api.Movie
-import ahmed.atwa.popularmovies.data.api.Trailer
+import ahmed.atwa.popularmovies.data.model.Movie
+import ahmed.atwa.popularmovies.data.model.Trailer
 import ahmed.atwa.popularmovies.databinding.FragmentDetailBinding
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import javax.inject.Inject
 
 /**
@@ -23,8 +22,7 @@ import javax.inject.Inject
  */
 
 @SuppressLint("ValidFragment")
-class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, DetailFragmentViewModel>() ,TrailerAdapter.TrailerAdapterListener ,DetailsNavigator{
-
+class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, DetailFragmentViewModel>(), TrailerAdapter.TrailerAdapterListener {
 
 
     @Inject
@@ -39,29 +37,29 @@ class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, Det
 
     lateinit var mDetailFragmentViewModel: DetailFragmentViewModel
     private lateinit var mFragmentDetailBinding: FragmentDetailBinding
-    lateinit var mListener: DetailFragment.DetailFragmentListener
+    lateinit var mListener: DetailFragmentListener
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_detail
+    override fun getViewModel(): DetailFragmentViewModel = ViewModelProviders.of(this, mViewModelFactory).get(DetailFragmentViewModel::class.java)
+    override fun getLifeCycleOwner(): LifecycleOwner = this
 
-    override fun getViewModel(): DetailFragmentViewModel {
-        mDetailFragmentViewModel = ViewModelProviders.of(this, mViewModelFactory).get(DetailFragmentViewModel::class.java)
-        return mDetailFragmentViewModel
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mTrailerAdapter.mListener = this
-        mDetailFragmentViewModel.setNavigator(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mFragmentDetailBinding = getViewDataBinding()
         setUp()
-        subscribeToLiveData()
-        mDetailFragmentViewModel.setMovie(movie)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        getViewModel().toastMessage.observe(viewLifecycleOwner, Observer { showMessage(getString(it)) })
+        getViewModel().setMovie(movie)
     }
 
 
@@ -73,21 +71,14 @@ class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, Det
 
     }
 
-    private fun subscribeToLiveData() {
-        mDetailFragmentViewModel.trailerListLiveData.observe(this, Observer {mDetailFragmentViewModel.addTrailerItemsToList(it!!)} )
-    }
-
 
     override fun onItemClick(trailer: Trailer) {
         mListener.onTrailerSelected(trailer)
     }
 
-    interface DetailFragmentListener{
+    interface DetailFragmentListener {
         fun onTrailerSelected(trailer: Trailer)
     }
 
-    override fun showLikeMessage(message: Int) {
-        showMessage(getString(message))
-    }
 
 }

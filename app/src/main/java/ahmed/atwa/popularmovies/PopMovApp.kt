@@ -3,6 +3,9 @@ package ahmed.atwa.popularmovies
 import ahmed.atwa.popularmovies.di.component.DaggerAppComponent
 import android.app.Activity
 import android.app.Application
+import androidx.work.Configuration
+import androidx.work.WorkManager
+import androidx.work.WorkerFactory
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -13,13 +16,16 @@ import javax.inject.Inject
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class PopMovApp : Application(),HasActivityInjector {
+class PopMovApp : Application(), HasActivityInjector {
 
     @Inject
-    lateinit var activityDispatchingAndroidInjector : DispatchingAndroidInjector<Activity>
+    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
     @Inject
-    lateinit var mCalligraphyConfig : CalligraphyConfig
+    lateinit var mCalligraphyConfig: CalligraphyConfig
+
+    @Inject
+    lateinit var workerFactory: WorkerFactory
 
     override fun activityInjector(): AndroidInjector<Activity> {
         return activityDispatchingAndroidInjector
@@ -28,11 +34,16 @@ class PopMovApp : Application(),HasActivityInjector {
     override fun onCreate() {
         super.onCreate()
         DaggerAppComponent.builder().application(this).build().inject(this)
-/*        AndroidNetworking.initialize(applicationContext)
-        if (BuildConfig.DEBUG) {
-            AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BODY)
-        }*/
         CalligraphyConfig.initDefault(mCalligraphyConfig)
+        setupWorkManagerJob()
+    }
+
+    private fun setupWorkManagerJob() {
+        val config = Configuration.Builder().setMaxSchedulerLimit(100)
+                .setWorkerFactory(workerFactory)
+                .build()
+
+        WorkManager.initialize(this, config)
     }
 
 }

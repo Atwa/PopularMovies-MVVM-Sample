@@ -2,27 +2,21 @@
 
 package ahmed.atwa.popularmovies.ui.base
 
-import ahmed.atwa.popularmovies.R
-import android.app.Fragment
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import dagger.android.AndroidInjection
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleOwner
 import dagger.android.support.AndroidSupportInjection
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*>> : android.support.v4.app.Fragment() {
+abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : androidx.fragment.app.Fragment() {
 
     var mActivity: BaseActivity<T, V>? = null
     lateinit var mRootView: View
@@ -32,6 +26,7 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*>> : android
     abstract fun getBindingVariable(): Int
     abstract fun getLayoutId(): Int
     abstract fun getViewModel(): V
+    abstract fun getLifeCycleOwner(): LifecycleOwner
 
 
     override fun onAttach(context: Context?) {
@@ -63,8 +58,10 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*>> : android
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewDataBinding.setVariable(getBindingVariable(), mViewModel)
+        mViewDataBinding.setVariable(getBindingVariable(), getViewModel())
+        mViewDataBinding.lifecycleOwner = getLifeCycleOwner()
         mViewDataBinding.executePendingBindings()
+
     }
 
     private fun performDependencyInjection() {

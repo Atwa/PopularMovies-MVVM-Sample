@@ -2,9 +2,8 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.AppRepository
-import ahmed.atwa.popularmovies.ui.MainViewModel
-import ahmed.atwa.popularmovies.utils.RxSchedule
+import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.ui.main.MainViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -16,8 +15,8 @@ import dagger.Provides
 class MainActivityModule {
 
     @Provides
-    internal fun provideMainViewModel(appRepository: AppRepository, rxSchedule: RxSchedule): MainViewModel {
-        return MainViewModel(appRepository, rxSchedule)
+    internal fun provideMainViewModel(movieRepository: MovieRepository): MainViewModel {
+        return MainViewModel(movieRepository)
     }
 
    /* @Provides

@@ -1,6 +1,4 @@
-
-
-package ahmed.atwa.popularmovies.data.api
+package ahmed.atwa.popularmovies.data.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

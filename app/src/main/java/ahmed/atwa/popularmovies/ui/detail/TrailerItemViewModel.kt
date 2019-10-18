@@ -1,9 +1,7 @@
+package ahmed.atwa.popularmovies.ui.detail
 
-
-package ahmed.atwa.popularmovies.ui.main.detail
-
-import ahmed.atwa.popularmovies.data.api.Trailer
-import android.databinding.ObservableField
+import ahmed.atwa.popularmovies.data.model.Trailer
+import androidx.lifecycle.MutableLiveData
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
@@ -11,7 +9,11 @@ import android.databinding.ObservableField
 
 class TrailerItemViewModel (var trailer: Trailer, var mListener: TrailerItemViewModelListener)  {
 
-   var name: ObservableField<String> = ObservableField(trailer.name)
+    var name = MutableLiveData<String>()
+
+    init {
+        name.value = (trailer.name)
+    }
 
     fun onPlayVideo(){
         mListener.onItemClick(trailer)
