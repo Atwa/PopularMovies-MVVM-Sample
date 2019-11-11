@@ -1,8 +1,9 @@
 package ahmed.atwa.popularmovies.ui.movies
 
 import ahmed.atwa.popularmovies.data.model.Movie
-import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.data.source.MovieRepository
 import ahmed.atwa.popularmovies.ui.base.BaseViewModel
+import ahmed.atwa.popularmovies.utils.UIState
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -17,17 +18,18 @@ class MoviesFragmentViewModel @Inject constructor(val movieRepository: MovieRepo
 
     var movieListLiveData = MutableLiveData<List<Movie>>()
 
+
     init {
-        isLoading.value = true
+        uiState.value = UIState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             fetchMoviesLocal()
-            isLoading.postValue(false)
+            uiState.postValue(UIState.HasData)
             fetchMoviesRemote()
         }
     }
 
-    private fun storeMoviesLocal(results: List<Movie>) {
-        if (results.isNotEmpty())
+    private fun storeMoviesLocal(results: List<Movie>?) {
+        if (!results.isNullOrEmpty())
             movieListLiveData.postValue(movieRepository.syncFavWithDb(results))
     }
 

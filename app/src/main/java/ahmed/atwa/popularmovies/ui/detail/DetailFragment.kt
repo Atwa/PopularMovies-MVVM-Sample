@@ -6,6 +6,7 @@ import ahmed.atwa.popularmovies.data.model.Movie
 import ahmed.atwa.popularmovies.data.model.Trailer
 import ahmed.atwa.popularmovies.databinding.FragmentDetailBinding
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
+import ahmed.atwa.popularmovies.utils.UIState
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
@@ -58,7 +59,10 @@ class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, Det
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        getViewModel().toastMessage.observe(viewLifecycleOwner, Observer { showMessage(getString(it)) })
+        getViewModel().uiState.observe(viewLifecycleOwner, Observer {
+            if (it is UIState.MessageRes)
+                showMessage(getString(it.resId))
+        })
         getViewModel().setMovie(movie)
     }
 

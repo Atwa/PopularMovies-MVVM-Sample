@@ -1,7 +1,7 @@
 package ahmed.atwa.popularmovies.di.component
 
 import ahmed.atwa.popularmovies.PopMovApp
-import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.data.source.MovieRepository
 import ahmed.atwa.popularmovies.di.builder.ActivityBuilder
 import ahmed.atwa.popularmovies.di.module.AppModule
 import ahmed.atwa.popularmovies.di.module.DbModule

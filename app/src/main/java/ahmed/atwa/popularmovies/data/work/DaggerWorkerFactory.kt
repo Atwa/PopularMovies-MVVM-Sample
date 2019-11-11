@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.data.work
 
-import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.data.source.MovieRepository
 import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory

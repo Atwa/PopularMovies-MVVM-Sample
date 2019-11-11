@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.data.work
 
-import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.data.source.MovieRepository
 import ahmed.atwa.popularmovies.utils.AppConstants
 import android.content.Context
 import android.util.Log
@@ -22,9 +22,12 @@ class RefreshMoviesWork(context: Context, params: WorkerParameters) : Worker(con
     override fun doWork(): Result {
         return try {
             runBlocking {
-                repository.syncFavWithDb(repository.fetchMoviesApiCall())
-                Log.d(AppConstants.DEBUG_TAG, "Every thing is going on so fcking great and the worker is ok")
-                Result.success()
+                if (repository.fetchMoviesApiCall() != null) {
+                    repository.syncFavWithDb(repository.fetchMoviesApiCall()?.toList()!!)
+                    Log.d(AppConstants.DEBUG_TAG, "Every thing is going on so fcking great and the worker is ok")
+                    Result.success()
+                } else
+                    Result.failure()
             }
         } catch (e: Throwable) {
             Result.failure()

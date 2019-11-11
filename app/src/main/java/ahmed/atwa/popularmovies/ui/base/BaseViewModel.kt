@@ -1,5 +1,6 @@
 package ahmed.atwa.popularmovies.ui.base
 
+import ahmed.atwa.popularmovies.utils.UIState
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -9,12 +10,14 @@ import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel(obj: Any) : ViewModel() {
 
+    var uiState = MutableLiveData<UIState>()
 
-    var isLoading = MutableLiveData<Boolean>()
 
-    init {
-        isLoading.value = false
-    }
+    /*  var isLoading = MutableLiveData<Boolean>()
 
+      init {
+          isLoading.value = false
+      }
+  */
 
 }

@@ -4,7 +4,9 @@ import ahmed.atwa.popularmovies.data.model.Movie
 import ahmed.atwa.popularmovies.data.model.Trailer
 import ahmed.atwa.popularmovies.ui.detail.TrailerAdapter
 import ahmed.atwa.popularmovies.ui.movies.MovieAdapter
+import android.view.View
 import android.widget.ImageView
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -33,5 +35,10 @@ fun setImageUrl(imageView: ImageView, url: String?) {
     val context = imageView.context
     if (url != null)
         Glide.with(context).load("http://image.tmdb.org/t/p/w185$url").into(imageView)
+}
+
+@BindingAdapter("uiState")
+fun changeLoadingState(loadingProgressBar: ContentLoadingProgressBar, uiState: UIState) {
+    loadingProgressBar.visibility = if (uiState is UIState.Loading) View.VISIBLE else View.GONE
 }
 

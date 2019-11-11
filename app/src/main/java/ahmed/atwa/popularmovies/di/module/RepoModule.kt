@@ -6,9 +6,9 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.repository.MovieRepository
 import ahmed.atwa.popularmovies.data.source.MovieApi
 import ahmed.atwa.popularmovies.data.source.MovieDao
+import ahmed.atwa.popularmovies.data.source.MovieRepository
 import ahmed.atwa.popularmovies.data.source.TrailerApi
 import ahmed.atwa.popularmovies.data.work.DaggerWorkerFactory
 import androidx.work.WorkerFactory

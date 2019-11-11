@@ -2,7 +2,7 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.data.source.MovieRepository
 import ahmed.atwa.popularmovies.ui.main.MainViewModel
 import dagger.Module
 import dagger.Provides

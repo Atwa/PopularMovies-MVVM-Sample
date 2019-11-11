@@ -26,7 +26,7 @@
 
 package ahmed.atwa.popularmovies.ui.main
 
-import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.data.source.MovieRepository
 import ahmed.atwa.popularmovies.ui.base.BaseViewModel
 import javax.inject.Inject
 

@@ -3,7 +3,7 @@
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
-import ahmed.atwa.popularmovies.data.repository.MovieRepository
+import ahmed.atwa.popularmovies.data.source.MovieRepository
 import ahmed.atwa.popularmovies.ui.movies.MovieAdapter
 import ahmed.atwa.popularmovies.ui.movies.MovieAdapter.MovieAdapterListener
 import ahmed.atwa.popularmovies.ui.movies.MoviesFragment
