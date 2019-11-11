@@ -11,6 +11,12 @@ Android Sample app to show user latest movies implementing Kotlin + MVVM + Archi
 
 
 ##  Source Code representation :
+The repository has two branches
+
+1-master : It has the implementaion of latest technologies such as kotlin coroutines, workManager, LiveData and repository pattern.
+ ** Its the newest & latest version of the updated code .
+ 
+2-RxBranch : It has the implementation using RxJava and its the older version .
 
 - data : Contains data layer (local & remote)
 - di : Contains the dependency injection Modules & Components
