@@ -4,11 +4,14 @@ package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.source.MovieRepository
+import ahmed.atwa.popularmovies.domain.GetMovies
+import ahmed.atwa.popularmovies.domain.GetMoviesImp
 import ahmed.atwa.popularmovies.ui.movies.MovieAdapter
 import ahmed.atwa.popularmovies.ui.movies.MovieAdapter.MovieAdapterListener
 import ahmed.atwa.popularmovies.ui.movies.MoviesFragment
 import ahmed.atwa.popularmovies.ui.movies.MoviesFragmentViewModel
 import ahmed.atwa.popularmovies.utils.GridSpacingItemDecoration
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.Module
@@ -23,13 +26,19 @@ import javax.inject.Singleton
 class MoviesFragmentModule {
 
     @Provides
-    internal fun provideMainFragmentViewModel(movieRepository: MovieRepository): MoviesFragmentViewModel {
-        return MoviesFragmentViewModel(movieRepository)
+    internal fun getMoviesProvider(repository: MovieRepository): GetMovies {
+        return GetMoviesImp(repository)
+    }
+
+
+    @Provides
+    internal fun provideMainFragmentViewModel(getMovies: GetMovies): MoviesFragmentViewModel {
+        return MoviesFragmentViewModel(getMovies)
     }
 
     @Provides
     internal fun provideGridLayoutManager(fragment: MoviesFragment): GridLayoutManager {
-        return GridLayoutManager(fragment.activity!!, 2)
+        return GridLayoutManager((fragment.activity as Context?)!!, 2)
     }
 
     @Provides

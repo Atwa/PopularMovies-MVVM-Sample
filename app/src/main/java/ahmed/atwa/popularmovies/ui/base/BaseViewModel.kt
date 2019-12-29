@@ -1,6 +1,5 @@
 package ahmed.atwa.popularmovies.ui.base
 
-import ahmed.atwa.popularmovies.utils.UIState
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -8,7 +7,7 @@ import androidx.lifecycle.ViewModel
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseViewModel(obj: Any) : ViewModel() {
+abstract class BaseViewModel() : ViewModel() {
 
     var uiState = MutableLiveData<UIState>()
 

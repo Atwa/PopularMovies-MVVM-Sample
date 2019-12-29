@@ -1,6 +1,7 @@
 package ahmed.atwa.popularmovies.data.source
 
 import ahmed.atwa.popularmovies.data.model.Movie
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import javax.inject.Singleton
 
@@ -21,7 +22,7 @@ interface MovieDao {
     fun insertAll(movies: List<Movie>)
 
     @Query("SELECT * FROM movies order by popularity DESC")
-    fun fetchAllMovies(): List<Movie>
+    fun fetchAllMovies(): ArrayList<Movie>
 
     @Query("SELECT is_favourite FROM movies WHERE id = :movieId ")
     fun isMovieLiked(movieId: Int): List<Int?>

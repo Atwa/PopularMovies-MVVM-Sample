@@ -4,6 +4,8 @@ package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.source.MovieRepository
+import ahmed.atwa.popularmovies.domain.GetTrailers
+import ahmed.atwa.popularmovies.domain.GetTrailersImp
 import ahmed.atwa.popularmovies.ui.detail.DetailFragment
 import ahmed.atwa.popularmovies.ui.detail.DetailFragmentViewModel
 import ahmed.atwa.popularmovies.ui.detail.TrailerAdapter
@@ -19,10 +21,14 @@ import dagger.Provides
 @Module
 class DetailFragmentModule {
 
+    @Provides
+    internal fun getMoviesProvider(repository: MovieRepository): GetTrailers {
+        return GetTrailersImp(repository)
+    }
 
     @Provides
-    internal fun provideDetailFragmentViewModel(movieRepository: MovieRepository): DetailFragmentViewModel {
-        return DetailFragmentViewModel(movieRepository)
+    internal fun provideDetailFragmentViewModel(getTrailers: GetTrailers): DetailFragmentViewModel {
+        return DetailFragmentViewModel(getTrailers)
     }
 
     @Provides

@@ -3,9 +3,8 @@ package ahmed.atwa.popularmovies.ui.detail
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.data.model.Movie
 import ahmed.atwa.popularmovies.data.model.Trailer
-import ahmed.atwa.popularmovies.data.source.MovieRepository
+import ahmed.atwa.popularmovies.domain.GetTrailers
 import ahmed.atwa.popularmovies.ui.base.BaseViewModel
-import ahmed.atwa.popularmovies.utils.UIState
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class DetailFragmentViewModel(val movieRepository: MovieRepository) : BaseViewModel(movieRepository) {
+class DetailFragmentViewModel(val getTrailers: GetTrailers) : BaseViewModel() {
 
     private lateinit var movie: Movie
 

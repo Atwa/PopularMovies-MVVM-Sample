@@ -34,7 +34,7 @@ import javax.inject.Inject
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MainViewModel @Inject constructor(movieRepository: MovieRepository) : BaseViewModel(movieRepository) {
+class MainViewModel @Inject constructor(movieRepository: MovieRepository) : BaseViewModel() {
 
 
 }

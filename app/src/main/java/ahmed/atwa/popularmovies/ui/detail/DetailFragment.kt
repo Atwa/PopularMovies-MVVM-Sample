@@ -6,7 +6,6 @@ import ahmed.atwa.popularmovies.data.model.Movie
 import ahmed.atwa.popularmovies.data.model.Trailer
 import ahmed.atwa.popularmovies.databinding.FragmentDetailBinding
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
-import ahmed.atwa.popularmovies.utils.UIState
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
