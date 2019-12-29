@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="viewModel"
-            type="ahmed.atwa.popularmovies.ui.detail.TrailerItemViewModel" />
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp">
+        android:layout_height="75dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <TextView
             android:id="@+id/trailer_tv"
@@ -27,7 +16,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:lines="1"
-            android:text="@{viewModel.name}"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
@@ -65,4 +53,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</layout>

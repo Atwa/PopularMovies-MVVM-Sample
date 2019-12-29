@@ -6,6 +6,7 @@ import ahmed.atwa.popularmovies.data.remote.model.Movie
 import ahmed.atwa.popularmovies.data.remote.model.Trailer
 import ahmed.atwa.popularmovies.databinding.FragmentDetailBinding
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
+import ahmed.atwa.popularmovies.ui.base.UIState
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
@@ -22,7 +23,7 @@ import javax.inject.Inject
  */
 
 @SuppressLint("ValidFragment")
-class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, DetailFragmentViewModel>(), TrailerAdapter.TrailerAdapterListener {
+class DetailFragment(val movie: Movie) : BaseFragment< DetailFragmentViewModel>(), TrailerAdapter.TrailerAdapterListener {
 
 
     @Inject
@@ -39,7 +40,6 @@ class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, Det
     private lateinit var mFragmentDetailBinding: FragmentDetailBinding
     lateinit var mListener: DetailFragmentListener
 
-    override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_detail
     override fun getViewModel(): DetailFragmentViewModel = ViewModelProviders.of(this, mViewModelFactory).get(DetailFragmentViewModel::class.java)
     override fun getLifeCycleOwner(): LifecycleOwner = this
@@ -52,14 +52,13 @@ class DetailFragment(val movie: Movie) : BaseFragment<FragmentDetailBinding, Det
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mFragmentDetailBinding = getViewDataBinding()
         setUp()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getViewModel().uiState.observe(viewLifecycleOwner, Observer {
-            if (it is UIState.MessageRes)
+            if (it is UIState.messageRes)
                 showMessage(getString(it.resId))
         })
         getViewModel().setMovie(movie)

@@ -1,6 +1,6 @@
 
 
-package ahmed.atwa.popularmovies
+package ahmed.atwa.popularmovies.ui.commons
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -7,6 +7,7 @@ import ahmed.atwa.popularmovies.data.remote.MovieApi
 import ahmed.atwa.popularmovies.data.remote.TrailerApi
 import ahmed.atwa.popularmovies.ui.base.BaseRepository
 import ahmed.atwa.popularmovies.utils.AppConstants
+import androidx.lifecycle.LiveData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,14 +21,25 @@ class MovieRepoImp @Inject constructor(
         private val movieApi: MovieApi,
         private val trailerApi: TrailerApi) : BaseRepository() ,MovieRepo {
 
-    override suspend fun getMovies(): ArrayList<Movie> {
+
+
+   /* override suspend fun getMovies(): Flow<List<Movie>> {
         val localData = fetchMoviesLocal()
         val remoteData = fetchMoviesRemote()
         val syncedData = storeMoviesLocal(remoteData)
         return localData then syncedData
+    }*/
+
+    override suspend fun getMovies(): Flow<List<Movie>> = fl {
+        val localData = fetchMoviesLocal()
+        emit(localData)
+
+        val remoteData = fetchMoviesRemote()
+        val syncedData = storeMoviesLocal(remoteData)
+        emit(syncedData)
     }
 
-    private fun fetchMoviesLocal(): ArrayList<Movie> = movieDao.fetchAllMovies()
+    private fun fetchMoviesLocal(): LiveData<ArrayList<Movie>> = movieDao.fetchAllMovies()
 
     private suspend fun fetchMoviesRemote(): ArrayList<Movie>? {
         val data = safeApiCall({ movieApi.getMostPopular(AppConstants.API_KEY) },

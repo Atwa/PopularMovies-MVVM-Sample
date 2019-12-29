@@ -3,23 +3,25 @@ package ahmed.atwa.popularmovies.ui.movies
 import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.data.remote.model.Movie
-import ahmed.atwa.popularmovies.databinding.FragmentMoviesBinding
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
+import ahmed.atwa.popularmovies.ui.base.UIState
 import ahmed.atwa.popularmovies.utils.GridSpacingItemDecoration
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.android.synthetic.main.fragment_movies.*
 import javax.inject.Inject
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesFragmentViewModel>(), MovieAdapter.MovieAdapterListener {
+class MoviesFragment : BaseFragment< MoviesFragmentViewModel>(), MovieAdapter.callback {
 
 
     @Inject
@@ -36,11 +38,9 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesFragmentViewMod
 
 
     lateinit var mMoviesFragmentViewModel: MoviesFragmentViewModel
-    private lateinit var mFragmentMainBinding: FragmentMoviesBinding
     lateinit var mListener: MainFragmentListener
 
 
-    override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_movies
     override fun getViewModel(): MoviesFragmentViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MoviesFragmentViewModel::class.java)
     override fun getLifeCycleOwner(): LifecycleOwner = this
@@ -48,30 +48,42 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesFragmentViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mMovieAdapter.mListener = this
+        mMovieAdapter.setListener(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mFragmentMainBinding = getViewDataBinding()
         setUp()
     }
 
     private fun setUp() {
         mGridLayoutManager.reverseLayout = false
         mGridLayoutManager.isItemPrefetchEnabled = false
-        mFragmentMainBinding.moviesRecycler.setHasFixedSize(true)
-        mFragmentMainBinding.moviesRecycler.layoutManager = mGridLayoutManager
-        mFragmentMainBinding.moviesRecycler.addItemDecoration(mGridSpacingItemDecoration)
-        mFragmentMainBinding.moviesRecycler.itemAnimator = DefaultItemAnimator()
-        mFragmentMainBinding.moviesRecycler.adapter = mMovieAdapter
+        moviesRecycler.setHasFixedSize(true)
+        moviesRecycler.layoutManager = mGridLayoutManager
+        moviesRecycler.addItemDecoration(mGridSpacingItemDecoration)
+        moviesRecycler.itemAnimator = DefaultItemAnimator()
+        moviesRecycler.adapter = mMovieAdapter
+    }
+
+    override protected fun observeViewState() {
+        loading = loadingView
+        super.observeViewState()
+        getViewModel().uiState.observe(this, Observer {
+            when (it) {
+                is UIState.hasData<*> -> {
+                    mMovieAdapter.clearItems()
+                    mMovieAdapter.addItems(it.data as List<Movie>)
+                }
+            }
+        })
     }
 
     override fun onItemClick(movie: Movie) {
         mListener.onMovieSelected(movie)
     }
 
-    interface MainFragmentListener{
+    interface MainFragmentListener {
         fun onMovieSelected(movie: Movie)
     }
 

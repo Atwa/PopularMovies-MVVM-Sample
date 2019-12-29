@@ -47,7 +47,7 @@ import javax.inject.Inject
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupportFragmentInjector,
+class MainActivity : BaseActivity< MainViewModel>(), HasSupportFragmentInjector,
         MoviesFragment.MainFragmentListener, DetailFragment.DetailFragmentListener {
 
 
@@ -72,7 +72,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), HasSupp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = this
-        mActivityMainBinding = getViewDataBinding()
         setUp()
     }
 

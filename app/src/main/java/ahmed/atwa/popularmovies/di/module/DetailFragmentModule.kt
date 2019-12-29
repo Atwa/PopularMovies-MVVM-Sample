@@ -2,7 +2,7 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.ViewModelProviderFactory
+import ahmed.atwa.popularmovies.ui.commons.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.repo.MovieRepoImp
 import ahmed.atwa.popularmovies.domain.GetTrailers
 import ahmed.atwa.popularmovies.domain.GetTrailersImp

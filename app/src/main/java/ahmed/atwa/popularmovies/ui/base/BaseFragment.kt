@@ -1,5 +1,3 @@
-
-
 package ahmed.atwa.popularmovies.ui.base
 
 import android.content.Context
@@ -7,33 +5,42 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_movies.*
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : androidx.fragment.app.Fragment() {
+abstract class BaseFragment<V : BaseViewModel> : androidx.fragment.app.Fragment() {
 
-    var mActivity: BaseActivity<T, V>? = null
-    lateinit var mRootView: View
-    lateinit var mViewDataBinding: T
+    var mActivity: BaseActivity<V>? = null
     lateinit var mViewModel: V
 
-    abstract fun getBindingVariable(): Int
     abstract fun getLayoutId(): Int
     abstract fun getViewModel(): V
     abstract fun getLifeCycleOwner(): LifecycleOwner
+    var loading: ContentLoadingProgressBar?
+        get() {
+            return loading
+        }
+        set(value) {
+            loading = value
+        }
+
+
 
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is BaseActivity<*, *>) {
+        if (context is BaseActivity<*>) {
             val activity = context
-            mActivity = activity as BaseActivity<T, V>?
+            mActivity = activity as BaseActivity<V>?
             mActivity?.onFragmentAttached()
         }
     }
@@ -51,26 +58,42 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : androidx.f
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
-        mRootView = mViewDataBinding.root
-        return mRootView
+        var view = inflater.inflate(getLayoutId(), container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewDataBinding.setVariable(getBindingVariable(), getViewModel())
-        mViewDataBinding.lifecycleOwner = getLifeCycleOwner()
-        mViewDataBinding.executePendingBindings()
+        observeViewState()
 
+    }
+
+
+    protected open fun observeViewState() {
+        getViewModel().uiState.observe(this, Observer {
+            when (it) {
+                is UIState.messageText -> {
+                    showMessage(it.text);if (loading != null) {
+                        loading!!.visibility = View.VISIBLE
+                    }
+                }
+                is UIState.loading -> if (loading != null) {
+                    loading!!.visibility = View.VISIBLE
+                }
+                is UIState.errorText -> {
+                    onError(it.text);if (loading != null) {
+                        loading!!.visibility = View.VISIBLE
+                    }
+                }
+            }
+        })
     }
 
     private fun performDependencyInjection() {
         AndroidSupportInjection.inject(this)
     }
 
-    fun getBaseActivity(): BaseActivity<T, V>? = mActivity
-
-    fun getViewDataBinding(): T = mViewDataBinding
+    fun getBaseActivity(): BaseActivity<V>? = mActivity
 
     fun showLoading() = mActivity?.showLoading()
 
@@ -85,15 +108,13 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : androidx.f
         fun onFragmentDetached(tag: String)
     }
 
-    fun showMessage(message : String){
+    fun showMessage(message: String) {
         mActivity?.showMessage(message)
     }
 
     fun onError(message: String?) {
         mActivity?.onError(message)
     }
-
-
 
 
 }

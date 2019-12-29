@@ -2,12 +2,11 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.ViewModelProviderFactory
+import ahmed.atwa.popularmovies.ui.commons.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.repo.MovieRepoImp
 import ahmed.atwa.popularmovies.domain.GetMovies
 import ahmed.atwa.popularmovies.domain.GetMoviesImp
 import ahmed.atwa.popularmovies.ui.movies.MovieAdapter
-import ahmed.atwa.popularmovies.ui.movies.MovieAdapter.MovieAdapterListener
 import ahmed.atwa.popularmovies.ui.movies.MoviesFragment
 import ahmed.atwa.popularmovies.ui.movies.MoviesFragmentViewModel
 import ahmed.atwa.popularmovies.utils.GridSpacingItemDecoration
@@ -47,14 +46,8 @@ class MoviesFragmentModule {
     }
 
     @Provides
-    internal fun provideMovieAdapter(): MovieAdapter {
-        return MovieAdapter(ArrayList())
-    }
-
-    @Provides
-    @Singleton
-    internal fun provideMovieAdapterListener(listener: MovieAdapterListener): MovieAdapterListener {
-        return listener
+    internal fun provideMovieAdapter(context: Context): MovieAdapter {
+        return MovieAdapter(ArrayList(),context)
     }
 
 

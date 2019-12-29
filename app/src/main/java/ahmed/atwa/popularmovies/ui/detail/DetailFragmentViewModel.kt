@@ -5,6 +5,7 @@ import ahmed.atwa.popularmovies.data.remote.model.Movie
 import ahmed.atwa.popularmovies.data.remote.model.Trailer
 import ahmed.atwa.popularmovies.domain.GetTrailers
 import ahmed.atwa.popularmovies.ui.base.BaseViewModel
+import ahmed.atwa.popularmovies.ui.base.UIState
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -44,11 +45,11 @@ class DetailFragmentViewModel(val getTrailers: GetTrailers) : BaseViewModel() {
         voteAverage.value = movie.vote_average
         voteCount.value = movie.vote_count
         imageUrl.value = movie.poster_path
-        uiState.value = UIState.Loading
+        mUiState.value = UIState.loading
         viewModelScope.launch(Dispatchers.IO) {
             fetchLocalLikeState()
             fetchMovieTrailers()
-            uiState.postValue(UIState.HasData)
+            mUiState.postValue(UIState.hasData)
         }
     }
 

@@ -1,5 +1,6 @@
 package ahmed.atwa.popularmovies.ui.base
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -9,14 +10,7 @@ import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel() : ViewModel() {
 
-    var uiState = MutableLiveData<UIState>()
-
-
-    /*  var isLoading = MutableLiveData<Boolean>()
-
-      init {
-          isLoading.value = false
-      }
-  */
+    protected var mUiState = MutableLiveData<UIState>()
+    val uiState: LiveData<UIState> = mUiState
 
 }

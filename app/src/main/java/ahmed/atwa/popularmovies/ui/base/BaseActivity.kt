@@ -1,9 +1,7 @@
-
-
 package ahmed.atwa.popularmovies.ui.base
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.utils.AppUtils
+import ahmed.atwa.popularmovies.ui.commons.AppUtils
 import android.annotation.TargetApi
 import android.app.ProgressDialog
 import android.content.Context
@@ -26,13 +24,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatActivity(), BaseFragment.Callback {
+abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), BaseFragment.Callback {
 
     var mProgressDialog: ProgressDialog? = null
-    private lateinit var mViewDataBinding: T
     private var mViewModel: V? = null
-
-    fun getViewDataBinding(): T = mViewDataBinding
 
 
     abstract fun getBindingVariable(): Int
@@ -50,19 +45,14 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatA
     override fun onCreate(savedInstanceState: Bundle?) {
         performDependencyInjection()
         super.onCreate(savedInstanceState)
-        performDataBinding()
+        setContentView( getLayoutId())
     }
 
     private fun performDependencyInjection() {
         AndroidInjection.inject(this)
     }
 
-    private fun performDataBinding() {
-        mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
-        this.mViewModel = if (mViewModel == null) getViewModel() else mViewModel
-        mViewDataBinding.setVariable(getBindingVariable(), mViewModel)
-        mViewDataBinding.executePendingBindings()
-    }
+
 
     @TargetApi(Build.VERSION_CODES.M)
     fun hasPermission(permission: String): Boolean {
@@ -99,8 +89,8 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatA
         return AppUtils.isNetworkConnected(applicationContext)
     }
 
-    fun showMessage(message : String){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
+    fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     fun onError(message: String?) {
@@ -120,7 +110,6 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatA
         textView.setTextColor(ContextCompat.getColor(this, R.color.white))
         snackbar.show()
     }
-
 
 
 }

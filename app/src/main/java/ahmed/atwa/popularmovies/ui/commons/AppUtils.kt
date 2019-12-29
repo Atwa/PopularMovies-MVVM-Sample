@@ -1,6 +1,6 @@
 
 
-package ahmed.atwa.popularmovies.utils
+package ahmed.atwa.popularmovies.ui.commons
 
 import ahmed.atwa.popularmovies.R
 import android.app.ProgressDialog

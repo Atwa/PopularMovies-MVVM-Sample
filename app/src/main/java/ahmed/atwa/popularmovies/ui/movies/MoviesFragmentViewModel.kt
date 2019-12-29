@@ -17,13 +17,13 @@ class MoviesFragmentViewModel @Inject constructor(val getMovies: GetMovies) : Ba
 
 
     init {
-        uiState.value = UIState.loading
+        mUiState.value = UIState.loading
         viewModelScope.launch(Dispatchers.IO) {
             val movies = getMovies()
             if (movies.isNullOrEmpty())
-                uiState.postValue(UIState.errorText("No movies found"))
+                mUiState.postValue(UIState.errorText("No movies found"))
             else
-                uiState.postValue(UIState.hasData(movies))
+                mUiState.postValue(UIState.hasData(movies))
 
         }
     }
