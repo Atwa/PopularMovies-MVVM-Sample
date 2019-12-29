@@ -1,9 +1,9 @@
 package ahmed.atwa.popularmovies.domain
 
-import ahmed.atwa.popularmovies.data.model.Movie
+import ahmed.atwa.popularmovies.data.remote.model.Movie
 
 interface GetMovies {
 
-    operator fun invoke()  : ArrayList<Movie>
+    suspend operator fun invoke()  : ArrayList<Movie>
 
 }

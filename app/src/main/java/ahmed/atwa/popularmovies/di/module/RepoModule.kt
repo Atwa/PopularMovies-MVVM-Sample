@@ -6,11 +6,11 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.source.MovieApi
-import ahmed.atwa.popularmovies.data.source.MovieDao
-import ahmed.atwa.popularmovies.data.source.MovieRepository
-import ahmed.atwa.popularmovies.data.source.TrailerApi
-import ahmed.atwa.popularmovies.data.work.DaggerWorkerFactory
+import ahmed.atwa.popularmovies.data.remote.MovieApi
+import ahmed.atwa.popularmovies.data.local.MovieDao
+import ahmed.atwa.popularmovies.data.repo.MovieRepoImp
+import ahmed.atwa.popularmovies.data.remote.TrailerApi
+import ahmed.atwa.popularmovies.data.repo.MovieRepo
 import androidx.work.WorkerFactory
 import dagger.Module
 import dagger.Provides
@@ -25,14 +25,8 @@ class RepoModule {
 
     @Provides
     @Singleton
-    internal fun provideMovieRepository(movieDao: MovieDao, movieApi: MovieApi, trailerApi: TrailerApi): MovieRepository {
-        return MovieRepository(movieDao, movieApi, trailerApi)
-    }
-
-    @Provides
-    @Singleton
-    fun workerFactory(movieRepository: MovieRepository): WorkerFactory {
-        return DaggerWorkerFactory(movieRepository)
+    internal fun provideMovieRepository(movieDao: MovieDao, movieApi: MovieApi, trailerApi: TrailerApi): MovieRepo {
+        return MovieRepoImp(movieDao, movieApi, trailerApi)
     }
 
 }

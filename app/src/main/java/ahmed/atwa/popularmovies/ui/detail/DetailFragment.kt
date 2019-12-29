@@ -2,8 +2,8 @@ package ahmed.atwa.popularmovies.ui.detail
 
 import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.model.Movie
-import ahmed.atwa.popularmovies.data.model.Trailer
+import ahmed.atwa.popularmovies.data.remote.model.Movie
+import ahmed.atwa.popularmovies.data.remote.model.Trailer
 import ahmed.atwa.popularmovies.databinding.FragmentDetailBinding
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
 import android.annotation.SuppressLint

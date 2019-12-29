@@ -1,4 +1,4 @@
-package ahmed.atwa.popularmovies.data.network
+package ahmed.atwa.popularmovies.data.remote.networkConfig
 
 import android.content.Context
 import android.net.ConnectivityManager

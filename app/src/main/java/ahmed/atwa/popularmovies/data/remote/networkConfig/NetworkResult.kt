@@ -1,4 +1,4 @@
-package ahmed.atwa.popularmovies.data.network
+package ahmed.atwa.popularmovies.data.remote.networkConfig
 
 /**
  * Created by Ahmed Atwa on 11/7/2019.

@@ -3,7 +3,7 @@
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
-import ahmed.atwa.popularmovies.data.source.MovieRepository
+import ahmed.atwa.popularmovies.data.repo.MovieRepoImp
 import ahmed.atwa.popularmovies.domain.GetMovies
 import ahmed.atwa.popularmovies.domain.GetMoviesImp
 import ahmed.atwa.popularmovies.ui.movies.MovieAdapter
@@ -26,7 +26,7 @@ import javax.inject.Singleton
 class MoviesFragmentModule {
 
     @Provides
-    internal fun getMoviesProvider(repository: MovieRepository): GetMovies {
+    internal fun getMoviesProvider(repository: MovieRepoImp): GetMovies {
         return GetMoviesImp(repository)
     }
 

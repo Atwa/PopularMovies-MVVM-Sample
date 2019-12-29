@@ -1,12 +1,12 @@
-package ahmed.atwa.popularmovies.data.source
+package ahmed.atwa.popularmovies.data.repo
 
-import ahmed.atwa.popularmovies.data.model.Movie
-import ahmed.atwa.popularmovies.data.model.Trailer
+import ahmed.atwa.popularmovies.data.remote.model.Movie
+import ahmed.atwa.popularmovies.data.remote.model.Trailer
+import ahmed.atwa.popularmovies.data.local.MovieDao
+import ahmed.atwa.popularmovies.data.remote.MovieApi
+import ahmed.atwa.popularmovies.data.remote.TrailerApi
 import ahmed.atwa.popularmovies.ui.base.BaseRepository
 import ahmed.atwa.popularmovies.utils.AppConstants
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,15 +15,16 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class MovieRepository @Inject constructor(
+class MovieRepoImp @Inject constructor(
         private val movieDao: MovieDao,
         private val movieApi: MovieApi,
-        private val trailerApi: TrailerApi) : BaseRepository() {
+        private val trailerApi: TrailerApi) : BaseRepository() ,MovieRepo {
 
-    suspend fun getMovies(): ArrayList<Movie> {
-        val data = fetchMoviesLocal()
-        fetchMoviesRemote()
-        return data
+    override suspend fun getMovies(): ArrayList<Movie> {
+        val localData = fetchMoviesLocal()
+        val remoteData = fetchMoviesRemote()
+        val syncedData = storeMoviesLocal(remoteData)
+        return localData then syncedData
     }
 
     private fun fetchMoviesLocal(): ArrayList<Movie> = movieDao.fetchAllMovies()
@@ -34,12 +35,11 @@ class MovieRepository @Inject constructor(
         return if (data != null) data.results as ArrayList<Movie> else null
     }
 
-    private fun storeMoviesLocal(results: List<Movie>?) {
-        if (!results.isNullOrEmpty())
-            movieListLiveData.postValue(syncFavWithDb(results))
+    private fun storeMoviesLocal(results: List<Movie>?): ArrayList<Movie>? {
+        return if (!results.isNullOrEmpty()) syncFavWithDb(results) else null
     }
 
-    fun syncFavWithDb(movies: List<Movie>): ArrayList<Movie> {
+    private fun syncFavWithDb(movies: List<Movie>): ArrayList<Movie> {
         val tempList = ArrayList<Movie>()
         movies.forEach { movie -> movie.isFav = if (isMovieLiked(movie.id)) 1 else 0; tempList.add(movie) }
         movieDao.insertAll(tempList)
@@ -55,7 +55,7 @@ class MovieRepository @Inject constructor(
     fun changeMovieLikeState(movieId: Int, state: Boolean) = if (state) movieDao.setMovieLiked(movieId) else movieDao.setMovieUnLiked(movieId)
 
 
-    suspend fun fetchTrailersApiCall(movieId: Int): ArrayList<Trailer>? {
+    override suspend fun fetchTrailersApiCall(movieId: Int): ArrayList<Trailer>? {
         val data = safeApiCall({ trailerApi.getMovieTrailer(movieId, AppConstants.API_KEY) },
                 "Error fetching Trailers")
         return if (data != null) data.results as ArrayList<Trailer> else null

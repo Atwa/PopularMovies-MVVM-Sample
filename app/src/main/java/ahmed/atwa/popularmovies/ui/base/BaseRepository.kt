@@ -1,7 +1,7 @@
 package ahmed.atwa.popularmovies.ui.base
 
-import ahmed.atwa.popularmovies.data.network.NetworkResult
-import ahmed.atwa.popularmovies.data.network.NoConnectivityException
+import ahmed.atwa.popularmovies.data.remote.networkConfig.NetworkResult
+import ahmed.atwa.popularmovies.data.remote.networkConfig.NoConnectivityException
 import android.util.Log
 import org.json.JSONObject
 import retrofit2.Response

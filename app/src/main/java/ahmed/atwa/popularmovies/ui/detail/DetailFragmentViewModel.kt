@@ -1,8 +1,8 @@
 package ahmed.atwa.popularmovies.ui.detail
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.model.Movie
-import ahmed.atwa.popularmovies.data.model.Trailer
+import ahmed.atwa.popularmovies.data.remote.model.Movie
+import ahmed.atwa.popularmovies.data.remote.model.Trailer
 import ahmed.atwa.popularmovies.domain.GetTrailers
 import ahmed.atwa.popularmovies.ui.base.BaseViewModel
 import androidx.lifecycle.MutableLiveData

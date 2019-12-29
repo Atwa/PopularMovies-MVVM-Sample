@@ -1,13 +1,12 @@
 package ahmed.atwa.popularmovies.domain
 
-import ahmed.atwa.popularmovies.data.model.Movie
-import ahmed.atwa.popularmovies.data.source.MovieRepository
-import ahmed.atwa.popularmovies.ui.base.UIState
+import ahmed.atwa.popularmovies.data.remote.model.Movie
+import ahmed.atwa.popularmovies.data.repo.MovieRepo
 import javax.inject.Inject
 
-class GetMoviesImp @Inject constructor(val repository: MovieRepository) : GetMovies {
+class GetMoviesImp @Inject constructor(val repository: MovieRepo) : GetMovies {
 
-    override fun invoke() : ArrayList<Movie> {
+    override suspend fun invoke() : ArrayList<Movie> {
        return repository.getMovies()
     }
 

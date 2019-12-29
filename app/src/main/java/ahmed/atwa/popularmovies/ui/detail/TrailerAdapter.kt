@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.ui.detail
 
-import ahmed.atwa.popularmovies.data.model.Trailer
+import ahmed.atwa.popularmovies.data.remote.model.Trailer
 import ahmed.atwa.popularmovies.databinding.ItemTrailerViewBinding
 import ahmed.atwa.popularmovies.ui.base.BaseViewHolder
 import android.view.LayoutInflater

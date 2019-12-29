@@ -6,9 +6,9 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.network.NetworkConnectionInterceptor
-import ahmed.atwa.popularmovies.data.source.MovieApi
-import ahmed.atwa.popularmovies.data.source.TrailerApi
+import ahmed.atwa.popularmovies.data.remote.networkConfig.NetworkConnectionInterceptor
+import ahmed.atwa.popularmovies.data.remote.MovieApi
+import ahmed.atwa.popularmovies.data.remote.TrailerApi
 import ahmed.atwa.popularmovies.utils.AppConstants.Companion.BASE_URL
 import android.content.Context
 import dagger.Module

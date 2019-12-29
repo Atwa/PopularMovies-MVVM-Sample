@@ -1,4 +1,4 @@
-package ahmed.atwa.popularmovies.data.model
+package ahmed.atwa.popularmovies.data.remote.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

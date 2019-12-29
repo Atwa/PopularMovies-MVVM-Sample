@@ -1,4 +1,4 @@
-package ahmed.atwa.popularmovies.data.network
+package ahmed.atwa.popularmovies.data.remote.networkConfig
 
 import java.io.IOException
 

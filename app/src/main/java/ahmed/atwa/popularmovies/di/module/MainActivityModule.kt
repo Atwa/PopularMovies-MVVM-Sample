@@ -2,7 +2,7 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.source.MovieRepository
+import ahmed.atwa.popularmovies.data.repo.MovieRepoImp
 import ahmed.atwa.popularmovies.ui.main.MainViewModel
 import dagger.Module
 import dagger.Provides
@@ -15,7 +15,7 @@ import dagger.Provides
 class MainActivityModule {
 
     @Provides
-    internal fun provideMainViewModel(movieRepository: MovieRepository): MainViewModel {
+    internal fun provideMainViewModel(movieRepository: MovieRepoImp): MainViewModel {
         return MainViewModel(movieRepository)
     }
 

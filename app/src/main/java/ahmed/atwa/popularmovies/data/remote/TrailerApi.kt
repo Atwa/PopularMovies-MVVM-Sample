@@ -1,6 +1,6 @@
-package ahmed.atwa.popularmovies.data.source
+package ahmed.atwa.popularmovies.data.remote
 
-import ahmed.atwa.popularmovies.data.model.TrailerResponse
+import ahmed.atwa.popularmovies.data.remote.model.TrailerResponse
 import ahmed.atwa.popularmovies.utils.AppConstants
 import retrofit2.Response
 import retrofit2.http.GET

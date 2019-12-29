@@ -3,7 +3,7 @@
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.ViewModelProviderFactory
-import ahmed.atwa.popularmovies.data.source.MovieRepository
+import ahmed.atwa.popularmovies.data.repo.MovieRepoImp
 import ahmed.atwa.popularmovies.domain.GetTrailers
 import ahmed.atwa.popularmovies.domain.GetTrailersImp
 import ahmed.atwa.popularmovies.ui.detail.DetailFragment
@@ -22,7 +22,7 @@ import dagger.Provides
 class DetailFragmentModule {
 
     @Provides
-    internal fun getMoviesProvider(repository: MovieRepository): GetTrailers {
+    internal fun getMoviesProvider(repository: MovieRepoImp): GetTrailers {
         return GetTrailersImp(repository)
     }
 

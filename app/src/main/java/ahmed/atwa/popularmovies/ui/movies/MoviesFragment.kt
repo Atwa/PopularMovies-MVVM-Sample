@@ -2,7 +2,7 @@ package ahmed.atwa.popularmovies.ui.movies
 
 import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.model.Movie
+import ahmed.atwa.popularmovies.data.remote.model.Movie
 import ahmed.atwa.popularmovies.databinding.FragmentMoviesBinding
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
 import ahmed.atwa.popularmovies.utils.GridSpacingItemDecoration

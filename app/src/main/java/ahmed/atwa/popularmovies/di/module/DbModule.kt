@@ -6,8 +6,8 @@
 
 package ahmed.atwa.popularmovies.di.module
 
-import ahmed.atwa.popularmovies.data.source.MovieDao
-import ahmed.atwa.popularmovies.data.source.MovieDb
+import ahmed.atwa.popularmovies.data.local.MovieDao
+import ahmed.atwa.popularmovies.data.local.MovieDb
 import ahmed.atwa.popularmovies.utils.AppConstants
 import android.content.Context
 import androidx.room.Room

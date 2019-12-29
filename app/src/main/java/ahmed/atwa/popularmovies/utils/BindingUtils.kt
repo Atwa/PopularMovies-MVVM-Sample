@@ -1,7 +1,7 @@
 package ahmed.atwa.popularmovies.utils
 
-import ahmed.atwa.popularmovies.data.model.Movie
-import ahmed.atwa.popularmovies.data.model.Trailer
+import ahmed.atwa.popularmovies.data.remote.model.Movie
+import ahmed.atwa.popularmovies.data.remote.model.Trailer
 import ahmed.atwa.popularmovies.ui.detail.TrailerAdapter
 import ahmed.atwa.popularmovies.ui.movies.MovieAdapter
 import android.view.View

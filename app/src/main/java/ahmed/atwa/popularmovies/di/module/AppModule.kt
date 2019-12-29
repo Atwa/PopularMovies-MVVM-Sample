@@ -3,7 +3,7 @@
 package ahmed.atwa.popularmovies.di.module
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.source.MoviePrefrence
+import ahmed.atwa.popularmovies.data.local.MoviePrefrence
 import android.app.Application
 import android.content.Context
 import dagger.Module

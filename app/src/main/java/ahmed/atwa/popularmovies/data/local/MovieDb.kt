@@ -1,7 +1,6 @@
-package ahmed.atwa.popularmovies.data.source
+package ahmed.atwa.popularmovies.data.local
 
-import ahmed.atwa.popularmovies.data.model.Movie
-import androidx.lifecycle.LiveData
+import ahmed.atwa.popularmovies.data.remote.model.Movie
 import androidx.room.*
 import javax.inject.Singleton
 

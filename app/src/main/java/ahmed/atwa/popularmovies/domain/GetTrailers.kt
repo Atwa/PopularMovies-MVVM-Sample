@@ -2,7 +2,7 @@ package ahmed.atwa.popularmovies.domain
 
 interface GetTrailers {
 
-    operator fun invoke()
+    suspend operator fun invoke(movieId: Int)
 
 
 }

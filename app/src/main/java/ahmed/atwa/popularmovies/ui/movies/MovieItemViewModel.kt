@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.ui.movies
 
-import ahmed.atwa.popularmovies.data.model.Movie
+import ahmed.atwa.popularmovies.data.remote.model.Movie
 import androidx.lifecycle.MutableLiveData
 
 /**
