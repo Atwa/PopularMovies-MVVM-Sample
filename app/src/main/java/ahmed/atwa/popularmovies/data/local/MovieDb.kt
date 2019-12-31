@@ -10,7 +10,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Database(entities = [(Movie::class)], version = 1, exportSchema = false)
+@Database(entities = [(Movie::class)], version = 3, exportSchema = false)
 abstract class MovieDb : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 }
@@ -22,7 +22,7 @@ interface MovieDao {
     fun insertAll(movies: List<Movie>)
 
     @Query("SELECT * FROM movies order by popularity DESC")
-    fun fetchAllMovies(): LiveData<ArrayList<Movie>>
+    fun fetchAllMovies(): List<Movie>
 
     @Query("SELECT is_favourite FROM movies WHERE id = :movieId ")
     fun isMovieLiked(movieId: Int): List<Int?>

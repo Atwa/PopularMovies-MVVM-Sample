@@ -1,18 +1,23 @@
 package ahmed.atwa.popularmovies.ui.detail
 
+import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.data.remote.model.Trailer
-import ahmed.atwa.popularmovies.databinding.ItemTrailerViewBinding
-import ahmed.atwa.popularmovies.ui.base.BaseViewHolder
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class TrailerAdapter(var mTrailerList: MutableList<Trailer>) : RecyclerView.Adapter<BaseViewHolder>() {
+class TrailerAdapter(var mTrailerList: MutableList<Trailer>, val mContext: Context) : RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder>() {
 
+
+    val mLayoutInflater = LayoutInflater.from(mContext);
     lateinit var mListener: TrailerAdapterListener
 
 
@@ -24,14 +29,10 @@ class TrailerAdapter(var mTrailerList: MutableList<Trailer>) : RecyclerView.Adap
         }
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.onBind(position)
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        val mTrailerViewBinding = ItemTrailerViewBinding.inflate(LayoutInflater.from(parent.context),
-                parent, false)
-        return TrailerViewHolder(mTrailerViewBinding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrailerViewHolder {
+        val view = mLayoutInflater.inflate(R.layout.item_trailer_view, parent, false)
+        return TrailerViewHolder(view)
     }
 
     fun addItems(mList: List<Trailer>) {
@@ -49,26 +50,22 @@ class TrailerAdapter(var mTrailerList: MutableList<Trailer>) : RecyclerView.Adap
         fun onItemClick(trailer: Trailer)
     }
 
-    inner class TrailerViewHolder(val mBinding: ItemTrailerViewBinding) : BaseViewHolder(mBinding.getRoot()), TrailerItemViewModel.TrailerItemViewModelListener {
+    inner class TrailerViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var tvTrailerName: TextView
+        var play_btn: ImageView
 
-
-        private lateinit var mTrailerItemViewModel: TrailerItemViewModel
-
-        override fun onBind(position: Int) {
-            val trailer = mTrailerList[position]
-            mTrailerItemViewModel = TrailerItemViewModel(trailer, this)
-            mBinding.viewModel = mTrailerItemViewModel
-
-            // Immediate Binding
-            // When a variable or observable changes, the binding will be scheduled to change before
-            // the next frame. There are times, however, when binding must be executed immediately.
-            // To force execution, use the executePendingBindings() method.
-            mBinding.executePendingBindings()
+        init {
+            tvTrailerName = itemView.findViewById(R.id.trailer_tv) as TextView
+            play_btn = itemView.findViewById(R.id.play_btn) as ImageView
         }
 
-        override fun onItemClick(trailer: Trailer) {
-            mListener.onItemClick(trailer)
-        }
     }
+
+    override fun onBindViewHolder(holder: TrailerViewHolder, position: Int) {
+        val trailer = mTrailerList[position]
+        holder.tvTrailerName.text = trailer.name
+        holder.play_btn.setOnClickListener(View.OnClickListener { mListener.onItemClick(trailer) })
+    }
+
 
 }

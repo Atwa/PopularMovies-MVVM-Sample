@@ -1,12 +1,11 @@
 package ahmed.atwa.popularmovies.ui.detail
 
-import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.data.remote.model.Movie
 import ahmed.atwa.popularmovies.data.remote.model.Trailer
-import ahmed.atwa.popularmovies.databinding.FragmentDetailBinding
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
-import ahmed.atwa.popularmovies.ui.base.UIState
+import ahmed.atwa.popularmovies.ui.base.BaseViewState
+import ahmed.atwa.popularmovies.ui.base.DetailViewState
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
@@ -16,14 +15,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
+@Suppress("UNCHECKED_CAST")
 @SuppressLint("ValidFragment")
-class DetailFragment(val movie: Movie) : BaseFragment< DetailFragmentViewModel>(), TrailerAdapter.TrailerAdapterListener {
+class DetailFragment(val movie: Movie) : BaseFragment<DetailFragmentViewModel>(), TrailerAdapter.TrailerAdapterListener {
 
 
     @Inject
@@ -37,7 +39,6 @@ class DetailFragment(val movie: Movie) : BaseFragment< DetailFragmentViewModel>(
     lateinit var mTrailerAdapter: TrailerAdapter
 
     lateinit var mDetailFragmentViewModel: DetailFragmentViewModel
-    private lateinit var mFragmentDetailBinding: FragmentDetailBinding
     lateinit var mListener: DetailFragmentListener
 
     override fun getLayoutId(): Int = R.layout.fragment_detail
@@ -58,20 +59,50 @@ class DetailFragment(val movie: Movie) : BaseFragment< DetailFragmentViewModel>(
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getViewModel().uiState.observe(viewLifecycleOwner, Observer {
-            if (it is UIState.messageRes)
-                showMessage(getString(it.resId))
+            when (it) {
+                is BaseViewState.messageRes -> showMessage(getString(it.resId))
+                is BaseViewState.hasData<*> -> mTrailerAdapter.addItems(it.data as ArrayList<Trailer>)
+            }
         })
-        getViewModel().setMovie(movie)
     }
-
 
     private fun setUp() {
-        mFragmentDetailBinding.trailersRecycler.setHasFixedSize(true)
-        mFragmentDetailBinding.trailersRecycler.layoutManager = mLinearLayoutManager
-        mFragmentDetailBinding.trailersRecycler.itemAnimator = DefaultItemAnimator()
-        mFragmentDetailBinding.trailersRecycler.adapter = mTrailerAdapter
-
+        trailersRecycler.setHasFixedSize(true)
+        trailersRecycler.layoutManager = mLinearLayoutManager
+        trailersRecycler.itemAnimator = DefaultItemAnimator()
+        trailersRecycler.adapter = mTrailerAdapter
+        setMovie(movie)
+        observeViewState()
     }
+
+
+    private fun setMovie(movie: Movie) {
+        title_tv.text = movie.title
+        plot_tv.text = movie.overview
+        release_tv.text = "Released in : ${movie.release_date}"
+        ratingbar.rating = (movie.vote_average/2).toFloat()
+        count_tv.text = movie.vote_count.toString()
+        Glide.with(getBaseActivity()).load(movie.poster_path).into(moviePoster)
+        // Glide.with(getBaseActivity()).load("http://image.tmdb.org/t/p/w185$moviePoster").into(moviePoster)
+        getViewModel().fetchMovieDetails(movie)
+    }
+
+
+    private fun observeViewState() {
+        getViewModel().uiState.observe(this, Observer {
+            hideLoading()
+            when (it) {
+                is DetailViewState.errorText ->
+                    onError(it.text)
+                is DetailViewState.likeState ->
+                    like_img.setImageResource(it.imgSrc)
+                is DetailViewState.trailersFetched<*> ->
+                    mTrailerAdapter.addItems(it.data as ArrayList<Trailer>)
+
+            }
+        })
+    }
+
 
 
     override fun onItemClick(trailer: Trailer) {

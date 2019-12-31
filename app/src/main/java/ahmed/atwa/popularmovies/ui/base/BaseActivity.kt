@@ -14,8 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
@@ -24,13 +22,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), BaseFragment.Callback {
+abstract class BaseActivity<V : BaseViewModel<BaseViewState>> : AppCompatActivity(), BaseFragment.Callback {
 
     var mProgressDialog: ProgressDialog? = null
     private var mViewModel: V? = null
 
 
-    abstract fun getBindingVariable(): Int
     abstract fun getLayoutId(): Int
     abstract fun getViewModel(): V
 
@@ -45,13 +42,12 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), BaseFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         performDependencyInjection()
         super.onCreate(savedInstanceState)
-        setContentView( getLayoutId())
+        setContentView(getLayoutId())
     }
 
     private fun performDependencyInjection() {
         AndroidInjection.inject(this)
     }
-
 
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -75,9 +71,10 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), BaseFragme
     }
 
     fun hideLoading() {
-        if (mProgressDialog?.isShowing!!) {
-            mProgressDialog?.cancel()
-        }
+        if (mProgressDialog != null)
+            if (mProgressDialog!!.isShowing)
+                mProgressDialog?.cancel()
+
     }
 
     fun showLoading() {

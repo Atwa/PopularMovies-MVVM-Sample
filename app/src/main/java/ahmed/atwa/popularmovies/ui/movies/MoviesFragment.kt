@@ -1,10 +1,9 @@
 package ahmed.atwa.popularmovies.ui.movies
 
-import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.data.remote.model.Movie
 import ahmed.atwa.popularmovies.ui.base.BaseFragment
-import ahmed.atwa.popularmovies.ui.base.UIState
+import ahmed.atwa.popularmovies.ui.base.BaseViewState
 import ahmed.atwa.popularmovies.utils.GridSpacingItemDecoration
 import android.os.Bundle
 import android.view.View
@@ -21,7 +20,8 @@ import javax.inject.Inject
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MoviesFragment : BaseFragment< MoviesFragmentViewModel>(), MovieAdapter.callback {
+@Suppress("UNCHECKED_CAST")
+class MoviesFragment : BaseFragment<MoviesFragmentViewModel>(), MovieAdapter.callback {
 
 
     @Inject
@@ -37,7 +37,6 @@ class MoviesFragment : BaseFragment< MoviesFragmentViewModel>(), MovieAdapter.ca
     lateinit var mMovieAdapter: MovieAdapter
 
 
-    lateinit var mMoviesFragmentViewModel: MoviesFragmentViewModel
     lateinit var mListener: MainFragmentListener
 
 
@@ -45,11 +44,6 @@ class MoviesFragment : BaseFragment< MoviesFragmentViewModel>(), MovieAdapter.ca
     override fun getViewModel(): MoviesFragmentViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MoviesFragmentViewModel::class.java)
     override fun getLifeCycleOwner(): LifecycleOwner = this
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mMovieAdapter.setListener(this)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,17 +58,24 @@ class MoviesFragment : BaseFragment< MoviesFragmentViewModel>(), MovieAdapter.ca
         moviesRecycler.addItemDecoration(mGridSpacingItemDecoration)
         moviesRecycler.itemAnimator = DefaultItemAnimator()
         moviesRecycler.adapter = mMovieAdapter
+        mMovieAdapter.setListener(this)
+        observeViewState()
     }
 
-    override protected fun observeViewState() {
-        loading = loadingView
-        super.observeViewState()
+
+    private fun observeViewState() {
         getViewModel().uiState.observe(this, Observer {
+            hideLoading()
             when (it) {
-                is UIState.hasData<*> -> {
-                    mMovieAdapter.clearItems()
-                    mMovieAdapter.addItems(it.data as List<Movie>)
-                }
+                is BaseViewState.messageText ->
+                    showMessage(it.text)
+                is BaseViewState.loading ->
+                    showLoading()
+                is BaseViewState.errorText ->
+                    onError(it.text)
+                is BaseViewState.hasData<*> ->
+                    mMovieAdapter.addItems(it.data as ArrayList<Movie>)
+
             }
         })
     }

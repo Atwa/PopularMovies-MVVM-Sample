@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.RelativeLayout
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 
@@ -18,16 +17,16 @@ import androidx.fragment.app.FragmentManager
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel> : DialogFragment() {
+abstract class BaseDialog< V : BaseViewModel<BaseViewState>> : DialogFragment() {
 
-    var mActivity: BaseActivity<T, V>? = null
+    var mActivity: BaseActivity< V>? = null
 
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is BaseActivity<*, *>) {
+        if (context is BaseActivity< *>) {
             val activity = context
-            mActivity = activity as BaseActivity<T, V>?
+            mActivity = activity as BaseActivity< V>?
             mActivity?.onFragmentAttached()
         }
     }
@@ -74,7 +73,7 @@ abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel> : DialogFragme
         getBaseActivity()?.onFragmentDetached(tag)
     }
 
-    fun getBaseActivity(): BaseActivity<T, V>? = mActivity
+    fun getBaseActivity(): BaseActivity< V>? = mActivity
 
     fun showLoading() = mActivity?.showLoading()
 

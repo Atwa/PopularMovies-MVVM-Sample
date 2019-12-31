@@ -24,11 +24,9 @@
 
 package ahmed.atwa.popularmovies.ui.main
 
-import ahmed.atwa.popularmovies.BR
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.data.remote.model.Movie
 import ahmed.atwa.popularmovies.data.remote.model.Trailer
-import ahmed.atwa.popularmovies.databinding.ActivityMainBinding
 import ahmed.atwa.popularmovies.ui.base.BaseActivity
 import ahmed.atwa.popularmovies.ui.detail.DetailFragment
 import ahmed.atwa.popularmovies.ui.movies.MoviesFragment
@@ -57,11 +55,9 @@ class MainActivity : BaseActivity< MainViewModel>(), HasSupportFragmentInjector,
      internal lateinit var mViewModelFactory: ViewModelProvider.Factory*/
     @Inject
     lateinit var mMainViewModel: MainViewModel
-    private lateinit var mActivityMainBinding: ActivityMainBinding
 
     private lateinit var mContext: Context
 
-    override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_main
     override fun getViewModel(): MainViewModel = mMainViewModel
 

@@ -24,8 +24,6 @@ class PopMovApp : Application(), HasActivityInjector {
     @Inject
     lateinit var mCalligraphyConfig: CalligraphyConfig
 
-    @Inject
-    lateinit var workerFactory: WorkerFactory
 
     override fun activityInjector(): AndroidInjector<Activity> {
         return activityDispatchingAndroidInjector
@@ -35,15 +33,7 @@ class PopMovApp : Application(), HasActivityInjector {
         super.onCreate()
         DaggerAppComponent.builder().application(this).build().inject(this)
         CalligraphyConfig.initDefault(mCalligraphyConfig)
-        setupWorkManagerJob()
     }
 
-    private fun setupWorkManagerJob() {
-        val config = Configuration.Builder().setMaxSchedulerLimit(100)
-                .setWorkerFactory(workerFactory)
-                .build()
-
-        WorkManager.initialize(this, config)
-    }
 
 }

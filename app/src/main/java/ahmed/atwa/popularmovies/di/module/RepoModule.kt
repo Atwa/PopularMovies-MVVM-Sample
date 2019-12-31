@@ -11,7 +11,6 @@ import ahmed.atwa.popularmovies.data.local.MovieDao
 import ahmed.atwa.popularmovies.data.repo.MovieRepoImp
 import ahmed.atwa.popularmovies.data.remote.TrailerApi
 import ahmed.atwa.popularmovies.data.repo.MovieRepo
-import androidx.work.WorkerFactory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

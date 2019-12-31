@@ -24,7 +24,6 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(app: PopMovApp)
-    fun inject(movieRepository: MovieRepoImp)
 
     @Component.Builder
     interface Builder {

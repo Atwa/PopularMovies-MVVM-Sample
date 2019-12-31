@@ -31,12 +31,13 @@ class MovieAdapter(var mMoviesList: MutableList<Movie>, val mContext: Context) :
         listener=mCallback
     }
 
-    fun addItems(mList: List<Movie>) {
+    fun addItems(mList: ArrayList<Movie>) {
+        clearItems()
         mMoviesList.addAll(mList)
         notifyDataSetChanged()
     }
 
-    fun clearItems() {
+    private fun clearItems() {
         mMoviesList.clear()
     }
 

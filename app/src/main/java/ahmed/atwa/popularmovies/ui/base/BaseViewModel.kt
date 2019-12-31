@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseViewModel() : ViewModel() {
+abstract class BaseViewModel<T : BaseViewState>() : ViewModel() {
 
-    protected var mUiState = MutableLiveData<UIState>()
-    val uiState: LiveData<UIState> = mUiState
+    protected open var mUiState = MutableLiveData<T>()
+    open val uiState: LiveData<T> = mUiState
 
 }

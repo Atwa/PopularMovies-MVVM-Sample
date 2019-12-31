@@ -8,6 +8,8 @@ import ahmed.atwa.popularmovies.data.remote.TrailerApi
 import ahmed.atwa.popularmovies.ui.base.BaseRepository
 import ahmed.atwa.popularmovies.utils.AppConstants
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,31 +21,19 @@ import javax.inject.Singleton
 class MovieRepoImp @Inject constructor(
         private val movieDao: MovieDao,
         private val movieApi: MovieApi,
-        private val trailerApi: TrailerApi) : BaseRepository() ,MovieRepo {
+        private val trailerApi: TrailerApi) : BaseRepository(), MovieRepo {
 
 
-
-   /* override suspend fun getMovies(): Flow<List<Movie>> {
-        val localData = fetchMoviesLocal()
-        val remoteData = fetchMoviesRemote()
-        val syncedData = storeMoviesLocal(remoteData)
-        return localData then syncedData
-    }*/
-
-    override suspend fun getMovies(): Flow<List<Movie>> = fl {
-        val localData = fetchMoviesLocal()
-        emit(localData)
-
-        val remoteData = fetchMoviesRemote()
-        val syncedData = storeMoviesLocal(remoteData)
+    override fun getMovies(): Flow<List<Movie>?> = flow {
+        emit(fetchMoviesLocal())
+        val syncedData = storeMoviesLocal(fetchMoviesRemote())
         emit(syncedData)
     }
 
-    private fun fetchMoviesLocal(): LiveData<ArrayList<Movie>> = movieDao.fetchAllMovies()
+    private fun fetchMoviesLocal(): List<Movie> = movieDao.fetchAllMovies()
 
     private suspend fun fetchMoviesRemote(): ArrayList<Movie>? {
-        val data = safeApiCall({ movieApi.getMostPopular(AppConstants.API_KEY) },
-                "fetching movies")
+        val data = safeApiCall({ movieApi.getMostPopular(AppConstants.API_KEY) }, "fetching movies")
         return if (data != null) data.results as ArrayList<Movie> else null
     }
 
@@ -53,26 +43,22 @@ class MovieRepoImp @Inject constructor(
 
     private fun syncFavWithDb(movies: List<Movie>): ArrayList<Movie> {
         val tempList = ArrayList<Movie>()
-        movies.forEach { movie -> movie.isFav = if (isMovieLiked(movie.id)) 1 else 0; tempList.add(movie) }
+        movies.forEach { movie -> movie.isFav = if (getLikeState(movie.id)) 1 else 0; tempList.add(movie) }
         movieDao.insertAll(tempList)
         return tempList
     }
 
-
-    fun isMovieLiked(movieId: Int): Boolean {
-        val result = movieDao.isMovieLiked(movieId)
-        return if (result.isNotEmpty() && result[0] != null) result[0] == 1 else false
-    }
-
-    fun changeMovieLikeState(movieId: Int, state: Boolean) = if (state) movieDao.setMovieLiked(movieId) else movieDao.setMovieUnLiked(movieId)
-
-
     override suspend fun fetchTrailersApiCall(movieId: Int): ArrayList<Trailer>? {
-        val data = safeApiCall({ trailerApi.getMovieTrailer(movieId, AppConstants.API_KEY) },
-                "Error fetching Trailers")
+        val data = safeApiCall({ trailerApi.getMovieTrailer(movieId, AppConstants.API_KEY) }, "Error fetching Trailers")
         return if (data != null) data.results as ArrayList<Trailer> else null
 
     }
 
+    override fun getLikeState(id: Int): Boolean {
+        val result = movieDao.isMovieLiked(id)
+        return if (result.isNotEmpty() && result[0] != null) result[0] == 1 else false
+    }
+
+    override fun changeLikeState(id: Int, setLiked: Boolean) = if (setLiked) movieDao.setMovieLiked(id) else movieDao.setMovieUnLiked(id)
 
 }

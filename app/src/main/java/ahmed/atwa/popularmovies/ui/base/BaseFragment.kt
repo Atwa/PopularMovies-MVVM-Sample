@@ -5,19 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.ContentLoadingProgressBar
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_movies.*
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseFragment<V : BaseViewModel> : androidx.fragment.app.Fragment() {
+abstract class BaseFragment<V : BaseViewModel<BaseViewState>> : androidx.fragment.app.Fragment() {
 
     var mActivity: BaseActivity<V>? = null
     lateinit var mViewModel: V
@@ -25,15 +20,6 @@ abstract class BaseFragment<V : BaseViewModel> : androidx.fragment.app.Fragment(
     abstract fun getLayoutId(): Int
     abstract fun getViewModel(): V
     abstract fun getLifeCycleOwner(): LifecycleOwner
-    var loading: ContentLoadingProgressBar?
-        get() {
-            return loading
-        }
-        set(value) {
-            loading = value
-        }
-
-
 
 
     override fun onAttach(context: Context?) {
@@ -64,30 +50,10 @@ abstract class BaseFragment<V : BaseViewModel> : androidx.fragment.app.Fragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewState()
-
     }
 
 
-    protected open fun observeViewState() {
-        getViewModel().uiState.observe(this, Observer {
-            when (it) {
-                is UIState.messageText -> {
-                    showMessage(it.text);if (loading != null) {
-                        loading!!.visibility = View.VISIBLE
-                    }
-                }
-                is UIState.loading -> if (loading != null) {
-                    loading!!.visibility = View.VISIBLE
-                }
-                is UIState.errorText -> {
-                    onError(it.text);if (loading != null) {
-                        loading!!.visibility = View.VISIBLE
-                    }
-                }
-            }
-        })
-    }
+
 
     private fun performDependencyInjection() {
         AndroidSupportInjection.inject(this)
