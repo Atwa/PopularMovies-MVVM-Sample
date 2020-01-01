@@ -1,11 +1,8 @@
 package ahmed.atwa.popularmovies
 
-import ahmed.atwa.popularmovies.di.component.DaggerAppComponent
+import ahmed.atwa.popularmovies.presentation.di.component.DaggerAppComponent
 import android.app.Activity
 import android.app.Application
-import androidx.work.Configuration
-import androidx.work.WorkManager
-import androidx.work.WorkerFactory
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
