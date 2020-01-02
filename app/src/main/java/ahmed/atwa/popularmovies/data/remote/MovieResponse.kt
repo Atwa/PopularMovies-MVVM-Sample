@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-data class MovieRemote(
+data class MovieResponse(
 
         @Expose
         @SerializedName("page")
@@ -21,9 +21,9 @@ data class MovieRemote(
         var total_pages: Integer,
         @Expose
         @SerializedName("results")
-        var results: List<Movie>)
+        var results: List<MovieRemote>)
 
-data class Movie(
+data class MovieRemote(
         @Expose
         @SerializedName("vote_count")
         var vote_count: Int,

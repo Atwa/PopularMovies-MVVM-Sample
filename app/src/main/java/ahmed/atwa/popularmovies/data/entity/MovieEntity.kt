@@ -9,7 +9,7 @@ data class MovieEntity(
 
         var id: Int,
 
-        var isFav: Int? = 0,
+        var isFav: Boolean = false,
 
         var poster_path: String?,
 
@@ -23,13 +23,7 @@ data class MovieEntity(
 
         var title: String?,
 
-        var original_language: String?,
-
-        var original_title: String?,
-
         var backdrop_path: String? = "null",
-
-        var adult: Boolean = false,
 
         var overview: String?,
 

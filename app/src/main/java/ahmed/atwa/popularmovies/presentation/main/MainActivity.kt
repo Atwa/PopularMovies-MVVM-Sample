@@ -25,8 +25,8 @@
 package ahmed.atwa.popularmovies.presentation.main
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.remote.Movie
-import ahmed.atwa.popularmovies.data.remote.Trailer
+import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.data.remote.TrailerRemote
 import ahmed.atwa.popularmovies.presentation.base.BaseActivity
 import ahmed.atwa.popularmovies.presentation.detail.DetailFragment
 import ahmed.atwa.popularmovies.presentation.movies.MoviesFragment
@@ -86,19 +86,19 @@ class MainActivity : BaseActivity< MainViewModel>(), HasSupportFragmentInjector,
         }
     }
 
-    override fun onMovieSelected(movie: Movie) {
+    override fun onMovieSelected(movie: MovieEntity) {
         val mDetailFragment = DetailFragment(movie)
         mDetailFragment.mListener = this
         replaceFragment(mDetailFragment)
     }
 
-    override fun onTrailerSelected(trailer: Trailer) {
+    override fun onTrailerSelected(trailerRemote: TrailerRemote) {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:${trailer.key}"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:${trailerRemote.key}"))
             startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
             val intent = Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://www.youtube.com/watch?v=${trailer.key}"))
+                    Uri.parse("http://www.youtube.com/watch?v=${trailerRemote.key}"))
             startActivity(intent)
         }
     }

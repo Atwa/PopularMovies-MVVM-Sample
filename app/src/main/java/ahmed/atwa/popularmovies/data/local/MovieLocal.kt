@@ -32,17 +32,8 @@ data class MovieLocal(@PrimaryKey
                       @ColumnInfo(name = "title")
                       val title: String?,
 
-                      @ColumnInfo(name = "original_language")
-                      val original_language: String?,
-
-                      @ColumnInfo(name = "original_title")
-                      val original_title: String?,
-
                       @ColumnInfo(name = "backdrop_path")
                       val backdrop_path: String? = "null",
-
-                      @ColumnInfo(name = "adult")
-                      var adult: Boolean = false,
 
                       @ColumnInfo(name = "overview")
                       val overview: String?,

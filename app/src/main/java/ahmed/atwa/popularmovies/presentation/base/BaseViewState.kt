@@ -12,6 +12,8 @@ sealed class BaseViewState {
 sealed class DetailViewState : BaseViewState() {
     class trailersFetched<T : Any>(val data: T) : DetailViewState()
     class errorText(val text: String) : DetailViewState()
-    class likeState(val imgSrc: Int) : DetailViewState()
+    class likeState(val isLiked: Boolean) : DetailViewState()
+    class messageRes(val resId: Int) : DetailViewState()
+
 }
 

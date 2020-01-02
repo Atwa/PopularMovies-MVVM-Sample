@@ -142,9 +142,18 @@
                 android:layout_marginEnd="180dp"
                 android:layout_marginTop="24dp"
                 android:padding="5dp"
-                android:onClick="@{() -> viewModel.onLikeClick()}"
                 app:layout_constraintLeft_toRightOf="@+id/guideline5"
                 app:layout_constraintTop_toBottomOf="@+id/title_tv" />
+
+            <ProgressBar
+                android:id="@+id/trailers_loading"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="@+id/plot_tv"
+                app:layout_constraintStart_toStartOf="@+id/plot_tv"
+                app:layout_constraintTop_toBottomOf="@+id/release_tv"
+                android:layout_marginTop="20dp"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trailersRecycler"
@@ -153,6 +162,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:padding="10dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="@+id/plot_tv"
                 app:layout_constraintStart_toStartOf="@+id/plot_tv"
                 app:layout_constraintTop_toBottomOf="@+id/release_tv"

@@ -7,16 +7,16 @@ import com.google.gson.annotations.SerializedName
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-data class TrailerRemote(
+data class TrailerResponse(
 
         @Expose
         @SerializedName("id")
         var id: Integer,
         @Expose
         @SerializedName("results")
-        var results: List<Trailer>)
+        var results: List<TrailerRemote>)
 
-data class Trailer(
+data class TrailerRemote(
         @Expose
         @SerializedName("id")
         val id: String,

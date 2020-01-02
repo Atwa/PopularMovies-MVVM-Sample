@@ -1,12 +1,16 @@
 package ahmed.atwa.popularmovies.presentation.detail
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.remote.Movie
+import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.domain.useCase.ChangeLikeState
+import ahmed.atwa.popularmovies.domain.useCase.IsMovieLiked
+import ahmed.atwa.popularmovies.domain.useCase.GetTrailers
 import ahmed.atwa.popularmovies.presentation.base.BaseViewModel
 import ahmed.atwa.popularmovies.presentation.base.DetailViewState
 import ahmed.atwa.popularmovies.presentation.base.BaseViewState
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -17,13 +21,13 @@ import javax.inject.Inject
 
 class DetailFragmentViewModel @Inject constructor(
         val getTrailers: GetTrailers,
-        val getLikeState: GetLikeState,
+        val getLikeState: IsMovieLiked,
         val changeLikeState: ChangeLikeState) : BaseViewModel<BaseViewState>() {
 
-    private lateinit var movie: Movie
+    private lateinit var mMovie: MovieEntity
 
-    fun fetchMovieDetails(mMovie: Movie) {
-        movie = mMovie
+    fun fetchMovieDetails(movie: MovieEntity) {
+        mMovie = movie
         viewModelScope.launch(Dispatchers.IO) {
             fetchLocalLikeState()
             fetchMovieTrailers()
@@ -32,12 +36,12 @@ class DetailFragmentViewModel @Inject constructor(
 
 
     private suspend fun fetchLocalLikeState() {
-        val likeState = getLikeState(movie.id)
+        val likeState = getLikeState(mMovie.id)
         withContext(Dispatchers.Main) { mUiState.value = DetailViewState.likeState(likeState) }
     }
 
     private suspend fun fetchMovieTrailers() {
-        val trailerList = getTrailers(movie.id)
+        val trailerList = getTrailers(mMovie.id)
         withContext(Dispatchers.Main) {
             if (!trailerList.isNullOrEmpty())
                 mUiState.value = DetailViewState.trailersFetched(trailerList)
@@ -49,10 +53,13 @@ class DetailFragmentViewModel @Inject constructor(
 
     fun onLikeClick() {
         viewModelScope.launch(Dispatchers.IO) {
-            changeLikeState(movie.id, isLiked.value!!.not())
-            val resId = if (!isLiked.value!!) R.string.movie_liked else R.string.movie_unliked
-            isLiked.postValue(isLiked.value!!.not())
-            mUiState.postValue(BaseViewState.messageRes(resId))
+            val newLikeState = mMovie.isFav.not()
+            changeLikeState(mMovie.id, newLikeState).also { mMovie.isFav = newLikeState }
+            val resId = if (newLikeState) R.string.movie_liked else R.string.movie_unliked
+            withContext(Dispatchers.Main) {
+                mUiState.value = DetailViewState.messageRes(resId)
+                mUiState.value = DetailViewState.likeState(newLikeState)
+            }
         }
     }
 

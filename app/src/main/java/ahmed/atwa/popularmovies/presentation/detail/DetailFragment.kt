@@ -1,10 +1,9 @@
 package ahmed.atwa.popularmovies.presentation.detail
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.remote.Movie
-import ahmed.atwa.popularmovies.data.remote.Trailer
+import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.data.remote.TrailerRemote
 import ahmed.atwa.popularmovies.presentation.base.BaseFragment
-import ahmed.atwa.popularmovies.presentation.base.BaseViewState
 import ahmed.atwa.popularmovies.presentation.base.DetailViewState
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -25,7 +24,7 @@ import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
 @SuppressLint("ValidFragment")
-class DetailFragment(val movie: Movie) : BaseFragment<DetailFragmentViewModel>(), TrailerAdapter.TrailerAdapterListener {
+class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailFragmentViewModel>(), TrailerAdapter.TrailerAdapterListener {
 
 
     @Inject
@@ -56,35 +55,28 @@ class DetailFragment(val movie: Movie) : BaseFragment<DetailFragmentViewModel>()
         setUp()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        getViewModel().uiState.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is BaseViewState.messageRes -> showMessage(getString(it.resId))
-                is BaseViewState.hasData<*> -> mTrailerAdapter.addItems(it.data as ArrayList<Trailer>)
-            }
-        })
-    }
 
     private fun setUp() {
         trailersRecycler.setHasFixedSize(true)
         trailersRecycler.layoutManager = mLinearLayoutManager
         trailersRecycler.itemAnimator = DefaultItemAnimator()
         trailersRecycler.adapter = mTrailerAdapter
-        setMovie(movie)
+        initMovieUi(movie)
+        getViewModel().fetchMovieDetails(movie)
         observeViewState()
     }
 
 
-    private fun setMovie(movie: Movie) {
+    private fun initMovieUi(movie: MovieEntity) {
         title_tv.text = movie.title
         plot_tv.text = movie.overview
         release_tv.text = "Released in : ${movie.release_date}"
-        ratingbar.rating = (movie.vote_average/2).toFloat()
+        ratingbar.rating = (movie.vote_average / 2).toFloat()
         count_tv.text = movie.vote_count.toString()
-        Glide.with(getBaseActivity()).load(movie.poster_path).into(moviePoster)
-        // Glide.with(getBaseActivity()).load("http://image.tmdb.org/t/p/w185$moviePoster").into(moviePoster)
-        getViewModel().fetchMovieDetails(movie)
+        Glide.with(getBaseActivity())
+                .load("http://image.tmdb.org/t/p/w185${movie.poster_path}")
+                .into(moviePoster)
+        like_img.setOnClickListener{getViewModel().onLikeClick()}
     }
 
 
@@ -92,25 +84,30 @@ class DetailFragment(val movie: Movie) : BaseFragment<DetailFragmentViewModel>()
         getViewModel().uiState.observe(this, Observer {
             hideLoading()
             when (it) {
-                is DetailViewState.errorText ->
-                    onError(it.text)
-                is DetailViewState.likeState ->
-                    like_img.setImageResource(it.imgSrc)
-                is DetailViewState.trailersFetched<*> ->
-                    mTrailerAdapter.addItems(it.data as ArrayList<Trailer>)
-
+                is DetailViewState.messageRes -> showMessage(getString(it.resId))
+                is DetailViewState.errorText -> onError(it.text)
+                is DetailViewState.likeState -> renderLikeState(it.isLiked)
+                is DetailViewState.trailersFetched<*> -> renderTrailers(it.data as ArrayList<TrailerRemote>)
             }
         })
     }
 
+    private fun renderTrailers(trailers: ArrayList<TrailerRemote>) {
+        trailers_loading.visibility = View.GONE
+        mTrailerAdapter.addItems(trailers)
+    }
+
+    private fun renderLikeState(isLiked: Boolean) {
+        like_img.setImageResource(if (isLiked) R.drawable.like else R.drawable.dislike)
+    }
 
 
-    override fun onItemClick(trailer: Trailer) {
-        mListener.onTrailerSelected(trailer)
+    override fun onItemClick(trailerRemote: TrailerRemote) {
+        mListener.onTrailerSelected(trailerRemote)
     }
 
     interface DetailFragmentListener {
-        fun onTrailerSelected(trailer: Trailer)
+        fun onTrailerSelected(trailerRemote: TrailerRemote)
     }
 
 

@@ -1,6 +1,7 @@
 package ahmed.atwa.popularmovies.data.remote.dataSource
 
 import ahmed.atwa.popularmovies.data.remote.MovieRemote
+import ahmed.atwa.popularmovies.data.remote.MovieResponse
 import ahmed.atwa.popularmovies.presentation.commons.AppConstants.Companion.API_KEY_QUERY
 import retrofit2.Response
 import retrofit2.http.GET
@@ -23,7 +24,7 @@ interface MovieApi {
 
 
     @GET(POPULAR_MOVIES_QUERY)
-    suspend fun getMostPopular(@Query(API_KEY_QUERY) apiKey: String): Response<MovieRemote>
+    suspend fun getMostPopular(@Query(API_KEY_QUERY) apiKey: String): Response<MovieResponse>
 
 
 

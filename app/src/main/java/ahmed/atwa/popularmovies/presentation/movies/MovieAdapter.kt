@@ -1,7 +1,7 @@
 package ahmed.atwa.popularmovies.presentation.movies
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.remote.Movie
+import ahmed.atwa.popularmovies.data.entity.MovieEntity
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import android.widget.ImageView
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MovieAdapter(var mMoviesList: MutableList<Movie>, val mContext: Context) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(var mMoviesList: MutableList<MovieEntity>, val mContext: Context) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
 
     val mLayoutInflater = LayoutInflater.from(mContext);
@@ -31,7 +31,7 @@ class MovieAdapter(var mMoviesList: MutableList<Movie>, val mContext: Context) :
         listener=mCallback
     }
 
-    fun addItems(mList: ArrayList<Movie>) {
+    fun addItems(mList: ArrayList<MovieEntity>) {
         clearItems()
         mMoviesList.addAll(mList)
         notifyDataSetChanged()
@@ -59,12 +59,14 @@ class MovieAdapter(var mMoviesList: MutableList<Movie>, val mContext: Context) :
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val moviePoster = mMoviesList[position].poster_path
         if (moviePoster != null)
-            Glide.with(mContext).load("http://image.tmdb.org/t/p/w185$moviePoster").into(holder.myImgView)
+            Glide.with(mContext)
+                    .load("http://image.tmdb.org/t/p/w185$moviePoster")
+                    .into(holder.myImgView)
         holder.myImgView.setOnClickListener { listener.onItemClick(mMoviesList[position]) }
     }
 
     interface callback{
-        fun onItemClick(movie: Movie)
+        fun onItemClick(movieRemote: MovieEntity)
     }
 
 }

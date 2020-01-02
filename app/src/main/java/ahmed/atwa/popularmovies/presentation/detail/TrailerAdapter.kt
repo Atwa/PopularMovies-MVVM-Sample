@@ -1,7 +1,7 @@
 package ahmed.atwa.popularmovies.presentation.detail
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.remote.Trailer
+import ahmed.atwa.popularmovies.data.remote.TrailerRemote
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class TrailerAdapter(var mTrailerList: MutableList<Trailer>, val mContext: Context) : RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder>() {
+class TrailerAdapter(var mTrailerRemoteList: MutableList<TrailerRemote>, val mContext: Context) : RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder>() {
 
 
     val mLayoutInflater = LayoutInflater.from(mContext);
@@ -22,8 +22,8 @@ class TrailerAdapter(var mTrailerList: MutableList<Trailer>, val mContext: Conte
 
 
     override fun getItemCount(): Int {
-        return if (mTrailerList.size > 0) {
-            mTrailerList.size
+        return if (mTrailerRemoteList.size > 0) {
+            mTrailerRemoteList.size
         } else {
             0
         }
@@ -35,19 +35,19 @@ class TrailerAdapter(var mTrailerList: MutableList<Trailer>, val mContext: Conte
         return TrailerViewHolder(view)
     }
 
-    fun addItems(mList: List<Trailer>) {
-        mTrailerList.addAll(mList)
+    fun addItems(mList: List<TrailerRemote>) {
+        mTrailerRemoteList.addAll(mList)
         notifyDataSetChanged()
     }
 
     fun clearItems() {
-        mTrailerList.clear()
+        mTrailerRemoteList.clear()
     }
 
 
     interface TrailerAdapterListener {
 
-        fun onItemClick(trailer: Trailer)
+        fun onItemClick(trailerRemote: TrailerRemote)
     }
 
     inner class TrailerViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -62,7 +62,7 @@ class TrailerAdapter(var mTrailerList: MutableList<Trailer>, val mContext: Conte
     }
 
     override fun onBindViewHolder(holder: TrailerViewHolder, position: Int) {
-        val trailer = mTrailerList[position]
+        val trailer = mTrailerRemoteList[position]
         holder.tvTrailerName.text = trailer.name
         holder.play_btn.setOnClickListener(View.OnClickListener { mListener.onItemClick(trailer) })
     }

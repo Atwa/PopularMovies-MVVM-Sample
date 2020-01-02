@@ -1,10 +1,12 @@
 package ahmed.atwa.popularmovies.presentation.movies
 
-import ahmed.atwa.popularmovies.data.remote.Movie
+import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.domain.useCase.GetMovies
 import ahmed.atwa.popularmovies.presentation.base.BaseViewModel
 import ahmed.atwa.popularmovies.presentation.base.BaseViewState
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,7 +28,7 @@ class MoviesFragmentViewModel @Inject constructor(val getMovies: GetMovies) : Ba
         }
     }
 
-    private fun updateUI(it: List<Movie>?) {
+    private fun updateUI(it: List<MovieEntity>?) {
         if (!it.isNullOrEmpty())
             mUiState.postValue(BaseViewState.hasData(it))
         else

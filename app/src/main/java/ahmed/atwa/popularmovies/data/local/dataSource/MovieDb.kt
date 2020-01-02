@@ -9,7 +9,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Database(entities = [(MovieLocal::class)], version = 3, exportSchema = false)
+@Database(entities = [(MovieLocal::class)], version = 4, exportSchema = false)
 abstract class MovieDb : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 }

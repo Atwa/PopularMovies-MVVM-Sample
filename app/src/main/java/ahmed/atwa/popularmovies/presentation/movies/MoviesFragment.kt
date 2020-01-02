@@ -1,7 +1,9 @@
 package ahmed.atwa.popularmovies.presentation.movies
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.remote.Movie
+import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.data.remote.MovieRemote
+import ahmed.atwa.popularmovies.domain.model.Movie
 import ahmed.atwa.popularmovies.presentation.base.BaseFragment
 import ahmed.atwa.popularmovies.presentation.base.BaseViewState
 import ahmed.atwa.popularmovies.presentation.commons.GridSpacingItemDecoration
@@ -74,18 +76,18 @@ class MoviesFragment : BaseFragment<MoviesFragmentViewModel>(), MovieAdapter.cal
                 is BaseViewState.errorText ->
                     onError(it.text)
                 is BaseViewState.hasData<*> ->
-                    mMovieAdapter.addItems(it.data as ArrayList<Movie>)
+                    mMovieAdapter.addItems(it.data as ArrayList<MovieEntity>)
 
             }
         })
     }
 
-    override fun onItemClick(movie: Movie) {
+    override fun onItemClick(movie: MovieEntity) {
         mListener.onMovieSelected(movie)
     }
 
     interface MainFragmentListener {
-        fun onMovieSelected(movie: Movie)
+        fun onMovieSelected(movieRemote: MovieEntity)
     }
 
 

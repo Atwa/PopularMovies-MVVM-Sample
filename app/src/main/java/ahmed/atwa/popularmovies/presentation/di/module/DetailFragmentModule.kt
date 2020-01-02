@@ -3,7 +3,7 @@ package ahmed.atwa.popularmovies.presentation.di.module
 import ahmed.atwa.popularmovies.presentation.commons.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.repository.MovieRepoImp
 import ahmed.atwa.popularmovies.domain.useCase.ChangeLikeState
-import ahmed.atwa.popularmovies.domain.useCase.GetLikeState
+import ahmed.atwa.popularmovies.domain.useCase.IsMovieLiked
 import ahmed.atwa.popularmovies.domain.useCase.GetTrailers
 import ahmed.atwa.popularmovies.presentation.detail.DetailFragment
 import ahmed.atwa.popularmovies.presentation.detail.DetailFragmentViewModel
@@ -27,8 +27,8 @@ class DetailFragmentModule {
     }
 
     @Provides
-    internal fun getLikeStateProvider(repository: MovieRepoImp): GetLikeState {
-        return GetLikeState(repository)
+    internal fun getLikeStateProvider(repository: MovieRepoImp): IsMovieLiked {
+        return IsMovieLiked(repository)
     }
 
     @Provides
@@ -37,7 +37,7 @@ class DetailFragmentModule {
     }
 
     @Provides
-    internal fun provideDetailFragmentViewModel(getTrailers: GetTrailers, getLikeState: GetLikeState, changeLikeState: ChangeLikeState): DetailFragmentViewModel {
+    internal fun provideDetailFragmentViewModel(getTrailers: GetTrailers, getLikeState: IsMovieLiked, changeLikeState: ChangeLikeState): DetailFragmentViewModel {
         return DetailFragmentViewModel(getTrailers,getLikeState,changeLikeState)
     }
 

@@ -6,8 +6,8 @@ import javax.inject.Inject
 class ChangeLikeState @Inject constructor(val repository: MovieRepo) {
 
 
-     fun invoke(id: Int, setLiked: Boolean) {
-        repository.changeLikeState(id,setLiked)
+     operator fun invoke(id: Int, newLikeState: Boolean) {
+        repository.changeLikeState(id,newLikeState)
     }
 
 }
