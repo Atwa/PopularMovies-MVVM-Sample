@@ -13,8 +13,7 @@ Android Sample app to show user latest movies implementing  MVVM + Clean Archite
 ##  Source Code representation :
 The repository has two branches
 
-1-master : It has the implementaion of latest technologies such as kotlin coroutines, LiveData and repository pattern.
-Note : Its the newest & latest version of the updated code .
+1-master : It has the implementaion of latest technologies such as kotlin coroutines, LiveData and repository pattern and Its the newest & latest version of the updated code .
  
 2-RxBranch : It has the implementation using RxJava and its the older version .
 
