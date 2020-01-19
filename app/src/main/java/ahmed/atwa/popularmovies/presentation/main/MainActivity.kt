@@ -25,7 +25,7 @@
 package ahmed.atwa.popularmovies.presentation.main
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
 import ahmed.atwa.popularmovies.data.remote.TrailerRemote
 import ahmed.atwa.popularmovies.presentation.base.BaseActivity
 import ahmed.atwa.popularmovies.presentation.detail.DetailFragment

@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.domain.repository
 
-import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
 import ahmed.atwa.popularmovies.data.remote.TrailerRemote
 import kotlinx.coroutines.flow.Flow
 

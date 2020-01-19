@@ -1,4 +1,4 @@
-package ahmed.atwa.popularmovies.data.entity
+package ahmed.atwa.popularmovies.domain.mapper
 
 import androidx.room.ColumnInfo
 import androidx.room.PrimaryKey

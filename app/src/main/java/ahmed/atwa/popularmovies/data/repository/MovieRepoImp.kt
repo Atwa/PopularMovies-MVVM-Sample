@@ -1,13 +1,13 @@
 package ahmed.atwa.popularmovies.data.repository
 
-import ahmed.atwa.popularmovies.data.entity.MovieEntity
-import ahmed.atwa.popularmovies.data.entity.MovieMapper
+import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
 import ahmed.atwa.popularmovies.data.local.MovieLocal
 import ahmed.atwa.popularmovies.data.remote.MovieRemote
 import ahmed.atwa.popularmovies.data.remote.TrailerRemote
 import ahmed.atwa.popularmovies.data.local.dataSource.MovieDao
 import ahmed.atwa.popularmovies.data.remote.dataSource.MovieApi
 import ahmed.atwa.popularmovies.data.remote.dataSource.TrailerApi
+import ahmed.atwa.popularmovies.domain.mapper.MovieMapper
 import ahmed.atwa.popularmovies.domain.repository.MovieRepo
 import ahmed.atwa.popularmovies.presentation.commons.AppConstants
 import kotlinx.coroutines.flow.Flow
@@ -43,7 +43,6 @@ class MovieRepoImp @Inject constructor(
         val data = safeApiCall({ movieApi.getMostPopular(AppConstants.API_KEY) }, "fetching movies")
         return if (data != null) data.results as ArrayList<MovieRemote> else null
     }
-
 
     private fun syncFavWithDb(movieRemotes: ArrayList<MovieRemote>?): ArrayList<MovieLocal>? {
         val syncedMovies = movieRemotes?.map { movieMapper.mapFromRemoteToLocal(it, getLikeState(it.id)) }?.toList()

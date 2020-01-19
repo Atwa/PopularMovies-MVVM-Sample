@@ -1,15 +1,15 @@
-package ahmed.atwa.popularmovies.data.entity
+package ahmed.atwa.popularmovies.domain.mapper
 
 import ahmed.atwa.popularmovies.data.local.MovieLocal
 import ahmed.atwa.popularmovies.data.remote.MovieRemote
 
-class MovieMapper {
+class MovieMapperImp : MovieMapper {
 
 
-    fun mapFromLocal(from: MovieLocal): MovieEntity {
+    override fun mapFromLocal(from: MovieLocal): MovieEntity {
         return MovieEntity(
                 from.id,
-                if (from.isFav == 1) true else false,
+                from.isFav == 1,
                 from.poster_path, from.popularity,
                 from.vote_count,
                 from.video,
@@ -21,7 +21,7 @@ class MovieMapper {
         )
     }
 
-    fun mapFromRemoteToLocal(from: MovieRemote, isFav: Int): MovieLocal {
+    override fun mapFromRemoteToLocal(from: MovieRemote, isFav: Int): MovieLocal {
         return MovieLocal(
                 from.id,
                 isFav,

@@ -4,6 +4,7 @@ package ahmed.atwa.popularmovies.presentation.di.module
 
 import ahmed.atwa.popularmovies.presentation.commons.ViewModelProviderFactory
 import ahmed.atwa.popularmovies.data.repository.MovieRepoImp
+import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
 import ahmed.atwa.popularmovies.domain.useCase.GetMovies
 import ahmed.atwa.popularmovies.presentation.movies.MovieAdapter
 import ahmed.atwa.popularmovies.presentation.movies.MoviesFragment

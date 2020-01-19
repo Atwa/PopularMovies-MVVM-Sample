@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.presentation.movies
 
-import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
 import ahmed.atwa.popularmovies.domain.useCase.GetMovies
 import ahmed.atwa.popularmovies.presentation.base.BaseViewModel
 import ahmed.atwa.popularmovies.presentation.base.BaseViewState

@@ -1,7 +1,7 @@
 package ahmed.atwa.popularmovies.presentation.detail
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.data.entity.MovieEntity
+import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
 import ahmed.atwa.popularmovies.domain.useCase.ChangeLikeState
 import ahmed.atwa.popularmovies.domain.useCase.IsMovieLiked
 import ahmed.atwa.popularmovies.domain.useCase.GetTrailers
@@ -10,7 +10,6 @@ import ahmed.atwa.popularmovies.presentation.base.DetailViewState
 import ahmed.atwa.popularmovies.presentation.base.BaseViewState
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
