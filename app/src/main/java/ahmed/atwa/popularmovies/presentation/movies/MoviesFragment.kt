@@ -49,6 +49,7 @@ class MoviesFragment : BaseFragment<MoviesFragmentViewModel>(), MovieAdapter.cal
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUp()
+        getViewModel().getMovies()
     }
 
     private fun setUp() {

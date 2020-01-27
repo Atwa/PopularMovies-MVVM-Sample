@@ -18,8 +18,7 @@ import javax.inject.Inject
 class MoviesFragmentViewModel @Inject constructor(val getMovies: GetMovies) : BaseViewModel<BaseViewState>() {
 
 
-
-    init {
+    fun getMovies() {
         mUiState.value = BaseViewState.loading(true)
         viewModelScope.launch(Dispatchers.IO) {
             getMovies.invoke().collect {
