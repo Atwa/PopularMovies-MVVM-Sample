@@ -27,21 +27,24 @@ open class BaseRepoImp {
                 Log.e("BaseRepoImp ", " error context = $errorContext & Exception = ${result.exception}")
         }
 
-
         return data
-
     }
 
     private suspend fun <T : Any> safeApiResult(call: suspend () -> Response<T>): NetworkResult<T> {
+        var result: NetworkResult<T>;
         try {
             val response = call.invoke()
-            if (response.isSuccessful) return NetworkResult.Success(response.body()!!)
-            return NetworkResult.Error(IOException(setErrorMessage(response)))
+            if (response.isSuccessful)
+                result = NetworkResult.Success(response.body()!!)
+            else
+                result = NetworkResult.Error(IOException(setErrorMessage(response)))
         } catch (exception: IOException) {
-            if (exception is NoConnectivityException) return NetworkResult.NoConnection(exception)
-            return NetworkResult.Error(exception)
+            if (exception is NoConnectivityException)
+                result = NetworkResult.NoConnection(exception)
+            else
+                result = NetworkResult.Error(exception)
         }
-
+        return result
     }
 
     private fun <T : Any> setErrorMessage(response: Response<T>): String {

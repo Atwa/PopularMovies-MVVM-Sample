@@ -33,10 +33,12 @@ class MovieAdapter @Inject constructor(val mMoviesList: MutableList<MovieEntity>
         listener = mCallback
     }
 
-    fun addItems(mList: ArrayList<MovieEntity>) {
-        clearItems()
-        mMoviesList.addAll(mList)
-        notifyDataSetChanged()
+    fun addItems(mList: ArrayList<MovieEntity>?) {
+        if (mList != null) {
+            clearItems()
+            mMoviesList.addAll(mList)
+            notifyDataSetChanged()
+        }
     }
 
 
@@ -65,7 +67,7 @@ class MovieAdapter @Inject constructor(val mMoviesList: MutableList<MovieEntity>
             Glide.with(mContext)
                     .load("http://image.tmdb.org/t/p/w185$moviePoster")
                     .into(holder.myImgView)
-        Log.v("Img = ","http://image.tmdb.org/t/p/w185$moviePoster")
+        Log.v("Img = ", "http://image.tmdb.org/t/p/w185$moviePoster")
         holder.myImgView.setOnClickListener { listener.onItemClick(mMoviesList[position]) }
     }
 

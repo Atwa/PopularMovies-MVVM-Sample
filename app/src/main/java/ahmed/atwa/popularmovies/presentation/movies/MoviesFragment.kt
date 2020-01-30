@@ -6,7 +6,6 @@ import ahmed.atwa.popularmovies.presentation.base.BaseFragment
 import ahmed.atwa.popularmovies.presentation.base.BaseViewState
 import ahmed.atwa.popularmovies.presentation.commons.GridSpacingItemDecoration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -76,7 +75,7 @@ class MoviesFragment : BaseFragment<MoviesFragmentViewModel>(), MovieAdapter.cal
                 is BaseViewState.errorText ->
                     onError(it.text)
                 is BaseViewState.hasData<*> -> {
-                    mMovieAdapter.addItems(it.data as ArrayList<MovieEntity>)
+                    mMovieAdapter.addItems(it.data as ArrayList<MovieEntity>?)
                 }
 
             }

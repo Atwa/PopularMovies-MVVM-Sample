@@ -109,6 +109,8 @@ dependencies {
     // Mockito
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC3'
     testImplementation 'org.mockito:mockito-inline:2.8.47'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3'
+
 
 
 }
