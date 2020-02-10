@@ -12,7 +12,7 @@ import org.junit.Test
 
 class GetMoviesUseCaseTest {
 
-    val moviesRepo: MovieRepo = mock<MovieRepo>()
+    val moviesRepo: MovieRepo = mock()
     val getMoviesUseCase by lazy { GetMovies(moviesRepo) }
 
     @Test
