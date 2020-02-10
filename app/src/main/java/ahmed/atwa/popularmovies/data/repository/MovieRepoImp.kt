@@ -5,6 +5,7 @@ import ahmed.atwa.popularmovies.data.local.MovieLocal
 import ahmed.atwa.popularmovies.data.remote.MovieRemote
 import ahmed.atwa.popularmovies.data.remote.TrailerRemote
 import ahmed.atwa.popularmovies.data.local.dataSource.MovieDao
+import ahmed.atwa.popularmovies.data.networkConfig.NetworkResult
 import ahmed.atwa.popularmovies.data.remote.dataSource.MovieApi
 import ahmed.atwa.popularmovies.data.remote.dataSource.TrailerApi
 import ahmed.atwa.popularmovies.domain.mapper.MovieMapper
@@ -37,10 +38,14 @@ class MovieRepoImp @Inject constructor(
     }
 
 
+
     private fun fetchMoviesLocal(): List<MovieLocal> = movieDao.fetchAllMovies()
 
     private suspend fun fetchMoviesRemote(): ArrayList<MovieRemote>? {
         val data = safeApiCall({ movieApi.getMostPopular(AppConstants.API_KEY) }, "fetching movies")
+
+
+
         return if (data != null) data.results as ArrayList<MovieRemote> else null
     }
 
