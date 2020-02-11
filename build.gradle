@@ -39,8 +39,7 @@ ext {
     // App dependencies
     supportLibraryVersion = '27.1.1'
     gsonVersion = '2.8.2'
-    calligraphyVersion = '2.2.0'
-    glideVersion = '3.7.0'
+    glideVersion = '4.11.0'
     roomDatabase = '1.0.0'
     rx2FastAndroidNetworking = '1.0.1'
 

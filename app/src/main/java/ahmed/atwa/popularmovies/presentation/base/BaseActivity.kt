@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
@@ -34,9 +33,7 @@ abstract class BaseActivity<V : BaseViewModel<BaseViewState>> : AppCompatActivit
     override fun onFragmentAttached() {}
     override fun onFragmentDetached(tag: String) {}
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
-    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

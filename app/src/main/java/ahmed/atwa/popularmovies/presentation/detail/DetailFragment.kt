@@ -73,7 +73,7 @@ class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailFragmentViewMo
         release_tv.text = "Released in : ${movie.release_date}"
         ratingbar.rating = (movie.vote_average / 2).toFloat()
         count_tv.text = movie.vote_count.toString()
-        Glide.with(getBaseActivity())
+        Glide.with(this)
                 .load("http://image.tmdb.org/t/p/w185${movie.poster_path}")
                 .into(moviePoster)
         like_img.setOnClickListener{getViewModel().onLikeClick()}

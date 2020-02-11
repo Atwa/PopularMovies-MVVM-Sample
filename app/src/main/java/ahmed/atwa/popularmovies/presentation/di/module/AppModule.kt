@@ -8,7 +8,6 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import javax.inject.Singleton
 
 
@@ -25,15 +24,6 @@ class AppModule {
     @Singleton
     internal fun provideContext(application: Application): Context {
         return application
-    }
-
-    @Provides
-    @Singleton
-    internal fun provideCalligraphyDefaultConfig(): CalligraphyConfig {
-        return CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/source-sans-pro/SourceSansPro-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
     }
 
 

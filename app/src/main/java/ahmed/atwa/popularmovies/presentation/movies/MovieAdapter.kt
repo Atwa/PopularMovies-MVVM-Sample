@@ -4,6 +4,7 @@ import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +66,7 @@ class MovieAdapter @Inject constructor(val mMoviesList: MutableList<MovieEntity>
         val moviePoster = mMoviesList[position].poster_path
         if (moviePoster != null)
             Glide.with(mContext)
-                    .load("http://image.tmdb.org/t/p/w185$moviePoster")
+                    .load(Uri.parse("http://image.tmdb.org/t/p/w185$moviePoster"))
                     .into(holder.myImgView)
         Log.v("Img = ", "http://image.tmdb.org/t/p/w185$moviePoster")
         holder.myImgView.setOnClickListener { listener.onItemClick(mMoviesList[position]) }

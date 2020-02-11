@@ -30,9 +30,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [usesCleartextTraffic:"false"]
         }
         debug{
             minifyEnabled false
+            manifestPlaceholders = [usesCleartextTraffic:"true"]
         }
     }
 }
@@ -64,7 +66,6 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.0.0'
 
     // font
-    implementation "uk.co.chrisjenx:calligraphy:$rootProject.calligraphyVersion"
 
     // image
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
