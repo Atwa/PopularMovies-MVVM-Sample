@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import dagger.android.support.AndroidSupportInjection
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseFragment<V : BaseViewModel<BaseViewState>> : androidx.fragment.app.Fragment() {
+abstract class BaseFragment<V : BaseViewModel> : androidx.fragment.app.Fragment() {
 
     var mActivity: BaseActivity<V>? = null
     lateinit var mViewModel: V
@@ -20,13 +21,23 @@ abstract class BaseFragment<V : BaseViewModel<BaseViewState>> : androidx.fragmen
     abstract fun getLayoutId(): Int
     abstract fun getViewModel(): V
     abstract fun getLifeCycleOwner(): LifecycleOwner
+    abstract fun initUI() // For initializing views using kotlin synthetics
+
+    /**
+     *  Called in case of success or some data emitted from the liveData in viewModel
+     */
+    open fun onSuccess(data: Any) {}
+
+    /**
+     *  Called in case of failure or some error emitted from the liveData in viewModel
+     */
+    open fun onFailure(error: String) {}
 
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is BaseActivity<*>) {
-            val activity = context
-            mActivity = activity as BaseActivity<V>?
+            mActivity = context as BaseActivity<V>?
             mActivity?.onFragmentAttached()
         }
     }
@@ -43,17 +54,30 @@ abstract class BaseFragment<V : BaseViewModel<BaseViewState>> : androidx.fragmen
         setHasOptionsMenu(false)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        var view = inflater.inflate(getLayoutId(), container, false)
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initUI()
     }
 
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        configureObserver()
+    }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(getLayoutId(), container, false)
+    }
+
+    private fun configureObserver() {
+        getViewModel().uiState.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            when(it){
+                is ViewState.HasData<*> -> onSuccess(it.data)
+                is ViewState.HasError -> onFailure(it.error)
+            }
+        })
+    }
 
     private fun performDependencyInjection() {
         AndroidSupportInjection.inject(this)

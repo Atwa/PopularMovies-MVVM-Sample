@@ -1,15 +1,12 @@
 package ahmed.atwa.popularmovies.presentation.detail
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
 import ahmed.atwa.popularmovies.data.remote.TrailerRemote
+import ahmed.atwa.popularmovies.domain.MovieEntity
 import ahmed.atwa.popularmovies.presentation.base.BaseFragment
-import ahmed.atwa.popularmovies.presentation.base.DetailViewState
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -21,10 +18,8 @@ import javax.inject.Inject
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
-
 @Suppress("UNCHECKED_CAST")
-@SuppressLint("ValidFragment")
-class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailFragmentViewModel>(), TrailerAdapter.TrailerAdapterListener {
+class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailViewModel>(), TrailerAdapter.TrailerAdapterListener {
 
 
     @Inject
@@ -37,11 +32,10 @@ class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailFragmentViewMo
     @Inject
     lateinit var mTrailerAdapter: TrailerAdapter
 
-    lateinit var mDetailFragmentViewModel: DetailFragmentViewModel
     lateinit var mListener: DetailFragmentListener
 
     override fun getLayoutId(): Int = R.layout.fragment_detail
-    override fun getViewModel(): DetailFragmentViewModel = ViewModelProviders.of(this, mViewModelFactory).get(DetailFragmentViewModel::class.java)
+    override fun getViewModel(): DetailViewModel = ViewModelProviders.of(this, mViewModelFactory).get(DetailViewModel::class.java)
     override fun getLifeCycleOwner(): LifecycleOwner = this
 
 
@@ -50,22 +44,16 @@ class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailFragmentViewMo
         mTrailerAdapter.mListener = this
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUp()
-    }
 
-
-    private fun setUp() {
+    override fun initUI() {
         trailersRecycler.setHasFixedSize(true)
         trailersRecycler.layoutManager = mLinearLayoutManager
         trailersRecycler.itemAnimator = DefaultItemAnimator()
         trailersRecycler.adapter = mTrailerAdapter
         initMovieUi(movie)
-        getViewModel().fetchMovieDetails(movie)
-        observeViewState()
+        getViewModel().getLikeState(movie.id)
+        getViewModel().fetchMovieTrailers(movie.id)
     }
-
 
     private fun initMovieUi(movie: MovieEntity) {
         title_tv.text = movie.title
@@ -76,20 +64,19 @@ class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailFragmentViewMo
         Glide.with(this)
                 .load("http://image.tmdb.org/t/p/w185${movie.poster_path}")
                 .into(moviePoster)
-        like_img.setOnClickListener{getViewModel().onLikeClick()}
+        like_img.setOnClickListener { getViewModel().updateLikeStatus(movie) }
     }
 
+    override fun onSuccess(data: Any) {
+        when (data) {
+            is DetailViewState.MessageRes -> showMessage(getString(data.resId))
+            is DetailViewState.LikeState -> renderLikeState(data.isLiked)
+            is DetailViewState.TrailersFetched<*> -> renderTrailers(data.data as ArrayList<TrailerRemote>)
+        }
+    }
 
-    private fun observeViewState() {
-        getViewModel().uiState.observe(this, Observer {
-            hideLoading()
-            when (it) {
-                is DetailViewState.messageRes -> showMessage(getString(it.resId))
-                is DetailViewState.errorText -> onError(it.text)
-                is DetailViewState.likeState -> renderLikeState(it.isLiked)
-                is DetailViewState.trailersFetched<*> -> renderTrailers(it.data as ArrayList<TrailerRemote>)
-            }
-        })
+    override fun onFailure(error: String) {
+        onError(error)
     }
 
     private fun renderTrailers(trailers: ArrayList<TrailerRemote>) {
@@ -98,6 +85,7 @@ class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailFragmentViewMo
     }
 
     private fun renderLikeState(isLiked: Boolean) {
+        if (isLiked) R.string.movie_liked else R.string.movie_unliked
         like_img.setImageResource(if (isLiked) R.drawable.like else R.drawable.dislike)
     }
 

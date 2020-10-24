@@ -32,17 +32,17 @@ open class BaseRepoImp {
 
     private suspend fun <T : Any> safeApiResult(call: suspend () -> Response<T>): NetworkResult<T> {
         var result: NetworkResult<T>;
-        try {
+        result = try {
             val response = call.invoke()
             if (response.isSuccessful)
-                result = NetworkResult.Success(response.body()!!)
+                NetworkResult.Success(response.body()!!)
             else
-                result = NetworkResult.Error(IOException(setErrorMessage(response)))
+                NetworkResult.Error(IOException(setErrorMessage(response)))
         } catch (exception: IOException) {
             if (exception is NoConnectivityException)
-                result = NetworkResult.NoConnection(exception)
+                NetworkResult.NoConnection(exception)
             else
-                result = NetworkResult.Error(exception)
+                NetworkResult.Error(exception)
         }
         return result
     }

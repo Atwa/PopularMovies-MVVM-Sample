@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies
 
-import ahmed.atwa.popularmovies.presentation.di.component.DaggerAppComponent
+import ahmed.atwa.popularmovies.di.component.DaggerAppComponent
 import android.app.Activity
 import android.app.Application
 import dagger.android.AndroidInjector

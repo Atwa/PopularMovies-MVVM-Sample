@@ -28,14 +28,14 @@ package ahmed.atwa.popularmovies.presentation.main
 
 import ahmed.atwa.popularmovies.data.repository.MovieRepoImp
 import ahmed.atwa.popularmovies.presentation.base.BaseViewModel
-import ahmed.atwa.popularmovies.presentation.base.BaseViewState
+import ahmed.atwa.popularmovies.presentation.base.ViewState
 import javax.inject.Inject
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MainViewModel @Inject constructor(movieRepository: MovieRepoImp) : BaseViewModel<BaseViewState>() {
+class MainViewModel @Inject constructor(movieRepository: MovieRepoImp) : BaseViewModel() {
 
 
 }

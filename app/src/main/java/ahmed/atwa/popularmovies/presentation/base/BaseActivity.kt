@@ -21,7 +21,7 @@ import dagger.android.AndroidInjection
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseActivity<V : BaseViewModel<BaseViewState>> : AppCompatActivity(), BaseFragment.Callback {
+abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), BaseFragment.Callback {
 
     var mProgressDialog: ProgressDialog? = null
     private var mViewModel: V? = null

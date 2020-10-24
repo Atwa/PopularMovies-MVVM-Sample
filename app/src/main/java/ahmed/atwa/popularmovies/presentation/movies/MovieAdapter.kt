@@ -1,7 +1,7 @@
 package ahmed.atwa.popularmovies.presentation.movies
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
+import ahmed.atwa.popularmovies.domain.MovieEntity
 
 import android.content.Context
 import android.net.Uri

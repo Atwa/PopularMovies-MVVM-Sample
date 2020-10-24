@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentManager
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseDialog< V : BaseViewModel<BaseViewState>> : DialogFragment() {
+abstract class BaseDialog< V : BaseViewModel> : DialogFragment() {
 
     var mActivity: BaseActivity< V>? = null
 

@@ -1,15 +1,13 @@
 package ahmed.atwa.popularmovies.data.repository
 
-import ahmed.atwa.popularmovies.domain.mapper.MovieEntity
+import ahmed.atwa.popularmovies.domain.MovieEntity
 import ahmed.atwa.popularmovies.data.local.MovieLocal
 import ahmed.atwa.popularmovies.data.remote.MovieRemote
 import ahmed.atwa.popularmovies.data.remote.TrailerRemote
 import ahmed.atwa.popularmovies.data.local.dataSource.MovieDao
-import ahmed.atwa.popularmovies.data.networkConfig.NetworkResult
 import ahmed.atwa.popularmovies.data.remote.dataSource.MovieApi
 import ahmed.atwa.popularmovies.data.remote.dataSource.TrailerApi
-import ahmed.atwa.popularmovies.domain.mapper.MovieMapper
-import ahmed.atwa.popularmovies.domain.repository.MovieRepo
+import ahmed.atwa.popularmovies.domain.MovieMapper
 import ahmed.atwa.popularmovies.presentation.commons.AppConstants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -43,9 +41,6 @@ class MovieRepoImp @Inject constructor(
 
     private suspend fun fetchMoviesRemote(): ArrayList<MovieRemote>? {
         val data = safeApiCall({ movieApi.getMostPopular(AppConstants.API_KEY) }, "fetching movies")
-
-
-
         return if (data != null) data.results as ArrayList<MovieRemote> else null
     }
 
@@ -55,7 +50,7 @@ class MovieRepoImp @Inject constructor(
         return syncedMovies as ArrayList<MovieLocal>?
     }
 
-    override suspend fun fetchTrailersApiCall(movieId: Int): ArrayList<TrailerRemote>? {
+    override suspend fun fetchMovieTrailers(movieId: Int): ArrayList<TrailerRemote>? {
         val data = safeApiCall({ trailerApi.getMovieTrailer(movieId, AppConstants.API_KEY) }, "Error fetching Trailers")
         return if (data != null) data.results as ArrayList<TrailerRemote> else null
     }
