@@ -18,8 +18,9 @@ The repository has two branches
 2-RxBranch : It has the implementation using RxJava and its the older version .
 
 - data : Contains data layer which has local & remote data sources with repository implementation.
-- domain : Contains the domain layer and useCases with repository interfaces.
-- presentation : Contains the view layer that consists of views & viewModels
+- domain : Contains the domain layer wiht entity and mapper.
+- di : Contains all dagger depndencies mapping.
+- presentation : Contains the view layer that consists of views & viewModels.
 
 
 **Please note that each developer has his own style in coding ,The goal is to implement the concepts of the design and architecting in the right way .**
