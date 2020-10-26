@@ -1,27 +1,3 @@
-/*
- * *
- *  Created by Ahmed Atwa on  19/10/2018.
- * /
- */
-
-/*
- * *
- *  Created by Ahmed Atwa on  19/10/2018.
- * /
- */
-
-/*
- * *
- *  Created by Ahmed Atwa on  19/10/2018.
- * /
- */
-
-/*
- * *
- *  Created by Ahmed Atwa on  19/10/2018.
- * /
- */
-
 package ahmed.atwa.popularmovies.presentation.main
 
 import ahmed.atwa.popularmovies.R
@@ -51,8 +27,7 @@ class MainActivity : BaseActivity< MainViewModel>(), HasSupportFragmentInjector,
 
     @Inject
     internal lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
-    /* @Inject
-     internal lateinit var mViewModelFactory: ViewModelProvider.Factory*/
+
     @Inject
     lateinit var mMainViewModel: MainViewModel
 
@@ -80,7 +55,7 @@ class MainActivity : BaseActivity< MainViewModel>(), HasSupportFragmentInjector,
 
     private fun replaceFragment(fragment: Fragment) {
         if (fragment is DetailFragment)
-            supportFragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack("test").commit()
+            supportFragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack("details").commit()
         else {
             supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
         }

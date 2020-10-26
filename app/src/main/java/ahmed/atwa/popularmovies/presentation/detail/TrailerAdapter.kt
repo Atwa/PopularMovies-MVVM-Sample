@@ -51,20 +51,15 @@ class TrailerAdapter(var mTrailerRemoteList: MutableList<TrailerRemote>, val mCo
     }
 
     inner class TrailerViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvTrailerName: TextView
-        var play_btn: ImageView
-
-        init {
-            tvTrailerName = itemView.findViewById(R.id.trailer_tv) as TextView
-            play_btn = itemView.findViewById(R.id.play_btn) as ImageView
-        }
+        var tvTrailerName: TextView = itemView.findViewById(R.id.trailer_tv) as TextView
+        var playBtn: ImageView = itemView.findViewById(R.id.play_btn) as ImageView
 
     }
 
     override fun onBindViewHolder(holder: TrailerViewHolder, position: Int) {
         val trailer = mTrailerRemoteList[position]
         holder.tvTrailerName.text = trailer.name
-        holder.play_btn.setOnClickListener(View.OnClickListener { mListener.onItemClick(trailer) })
+        holder.playBtn.setOnClickListener { mListener.onItemClick(trailer) }
     }
 
 

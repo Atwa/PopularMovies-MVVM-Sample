@@ -20,7 +20,7 @@ import javax.inject.Inject
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MovieAdapter @Inject constructor(val mMoviesList: MutableList<MovieEntity>, val mContext: Context) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter @Inject constructor(private val mMoviesList: MutableList<MovieEntity>, val mContext: Context) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
 
     val mLayoutInflater = LayoutInflater.from(mContext);
@@ -54,11 +54,7 @@ class MovieAdapter @Inject constructor(val mMoviesList: MutableList<MovieEntity>
 
     // stores and recycles views as they are scrolled off screen
     inner class MovieViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var myImgView: ImageView
-
-        init {
-            myImgView = itemView.findViewById(R.id.movieImg) as ImageView
-        }
+        var myImgView: ImageView = itemView.findViewById(R.id.movieImg) as ImageView
 
     }
 

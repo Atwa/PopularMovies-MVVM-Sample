@@ -50,8 +50,10 @@ open class BaseRepoImp {
     private fun <T : Any> setErrorMessage(response: Response<T>): String {
         val code = response.code().toString()
         val message = try {
-            val jObjError = JSONObject(response.errorBody()?.string())
-            jObjError.getJSONObject("error").getString("message")
+            response.errorBody()?.string()?.let {
+                val jObjError = JSONObject(it)
+                jObjError.getJSONObject("error").getString("message")
+            }
         } catch (e: Exception) {
             e.message
         }

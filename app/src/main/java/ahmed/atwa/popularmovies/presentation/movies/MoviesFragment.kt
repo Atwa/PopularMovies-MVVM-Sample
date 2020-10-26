@@ -56,7 +56,7 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), MovieAdapter.callback {
     }
 
     override fun onFailure(error: String) {
-        onError(error)
+        showMessage(error)
     }
 
     override fun onItemClick(movieRemote: MovieEntity) {

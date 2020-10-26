@@ -14,7 +14,7 @@ abstract class BaseViewModel() : ViewModel() {
     private val mUiState = MutableLiveData<ViewState>()
     open val uiState: LiveData<ViewState> = mUiState.toSingleEvent()
 
-    protected fun <T : Any> onSuccess(result: T) {
+    fun <T : Any> onSuccess(result: T) {
         mUiState.value = ViewState.HasData(result)
     }
 

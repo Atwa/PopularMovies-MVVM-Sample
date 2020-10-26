@@ -76,7 +76,8 @@ class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailViewModel>(), 
     }
 
     override fun onFailure(error: String) {
-        onError(error)
+        trailers_loading.visibility = View.GONE
+        showMessage(error)
     }
 
     private fun renderTrailers(trailers: ArrayList<TrailerRemote>) {

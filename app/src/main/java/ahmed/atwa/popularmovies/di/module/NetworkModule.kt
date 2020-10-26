@@ -10,6 +10,7 @@ import ahmed.atwa.popularmovies.data.networkConfig.NetworkConnectionInterceptor
 import ahmed.atwa.popularmovies.data.remote.dataSource.MovieApi
 import ahmed.atwa.popularmovies.data.remote.dataSource.TrailerApi
 import ahmed.atwa.popularmovies.presentation.commons.AppConstants.Companion.BASE_URL
+import ahmed.atwa.popularmovies.presentation.commons.AppConstants.Companion.BASE_URL_KEY
 import android.content.Context
 import dagger.Module
 import dagger.Provides
@@ -17,6 +18,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -51,11 +53,11 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideRetrofit(okHttpClient: OkHttpClient.Builder): Retrofit {
+    internal fun provideRetrofit(@Named(BASE_URL_KEY) baseUrl: String,okHttpClient: OkHttpClient.Builder): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient.build())
-                .baseUrl(BASE_URL)
+                .baseUrl(baseUrl)
                 .build()
     }
 

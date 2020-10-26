@@ -22,6 +22,8 @@ class AppConstants {
 
         const val BASE_URL: String = ("https://api.themoviedb.org/3/")
 
+        const val BASE_URL_KEY: String = ("BASE_URL")
+
         const val DEBUG_TAG: String = ("PopMovTest")
 
     }
