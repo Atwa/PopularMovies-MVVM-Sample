@@ -24,7 +24,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "ahmed.atwa.popularmovies.commons.UiRunner"
+        testInstrumentationRunner "ahmed.atwa.popularmovies.util.UiRunner"
     }
     buildTypes {
         release {

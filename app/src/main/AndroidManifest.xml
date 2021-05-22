@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="${usesCleartextTraffic}"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.main.MainActivity">
+        <activity android:name="ahmed.atwa.popularmovies.main.presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

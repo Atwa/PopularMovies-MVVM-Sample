@@ -6,5 +6,5 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ahmed.atwa.popularmovies.presentation.main.MainActivity" />
+    tools:context="ahmed.atwa.popularmovies.main.presentation.MainActivity" />
 
