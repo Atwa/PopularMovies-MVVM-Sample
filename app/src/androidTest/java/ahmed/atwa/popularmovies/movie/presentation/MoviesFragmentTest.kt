@@ -3,7 +3,7 @@ package ahmed.atwa.popularmovies.movie.presentation
 
 import ahmed.atwa.popularmovies.PopMovApp
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.config.di.DaggerTestAppComponent
+import ahmed.atwa.popularmovies.utils.di.DaggerTestAppComponent
 import ahmed.atwa.popularmovies.main.presentation.MainActivity
 import ahmed.atwa.popularmovies.movies.presentation.MovieAdapter
 import android.content.Intent

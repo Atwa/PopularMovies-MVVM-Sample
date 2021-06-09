@@ -13,7 +13,7 @@ import dagger.android.support.AndroidSupportInjection
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-abstract class BaseFragment<V : BaseViewModel> : androidx.fragment.app.Fragment() {
+abstract class BaseFragment< V : BaseViewModel> : androidx.fragment.app.Fragment() {
 
     var mActivity: BaseActivity<V>? = null
     lateinit var mViewModel: V
@@ -26,15 +26,9 @@ abstract class BaseFragment<V : BaseViewModel> : androidx.fragment.app.Fragment(
     /**
      *  Called in case of success or some data emitted from the liveData in viewModel
      */
-    open fun onSuccess(data: Any) {}
+    open fun renderViewState(data: Any) {}
 
-    /**
-     *  Called in case of failure or some error emitted from the liveData in viewModel
-     */
-    open fun onFailure(error: String) {}
-
-
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity<*>) {
             mActivity = context as BaseActivity<V>?
@@ -70,12 +64,9 @@ abstract class BaseFragment<V : BaseViewModel> : androidx.fragment.app.Fragment(
     }
 
     private fun configureObserver() {
-        getViewModel().uiState.observe(viewLifecycleOwner, Observer {
+        getViewModel().uiState.observe(viewLifecycleOwner, Observer { viewState ->
             hideLoading()
-            when(it){
-                is ViewState.HasData<*> -> onSuccess(it.data)
-                is ViewState.HasError -> onFailure(it.error)
-            }
+            viewState?.let { renderViewState(it) }
         })
     }
 

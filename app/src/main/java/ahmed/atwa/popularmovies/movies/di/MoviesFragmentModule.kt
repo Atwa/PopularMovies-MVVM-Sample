@@ -2,14 +2,9 @@
 
 package ahmed.atwa.popularmovies.movies.di
 
-import ahmed.atwa.popularmovies.movies.data.MovieRepoImp
-import ahmed.atwa.popularmovies.config.commons.GridSpacingItemDecoration
-import ahmed.atwa.popularmovies.config.commons.ViewModelProviderFactory
+import ahmed.atwa.popularmovies.utils.commons.GridSpacingItemDecoration
 import ahmed.atwa.popularmovies.movies.presentation.MovieAdapter
 import ahmed.atwa.popularmovies.movies.presentation.MoviesFragment
-import ahmed.atwa.popularmovies.movies.presentation.MoviesViewModel
-import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.Module
 import dagger.Provides
@@ -21,15 +16,9 @@ import dagger.Provides
 @Module
 class MoviesFragmentModule {
 
-
-    @Provides
-    internal fun provideMainFragmentViewModel(movieRepoImp: MovieRepoImp): MoviesViewModel {
-        return MoviesViewModel(movieRepoImp)
-    }
-
     @Provides
     internal fun provideGridLayoutManager(fragment: MoviesFragment): GridLayoutManager {
-        return GridLayoutManager((fragment.activity as Context?)!!, 2)
+        return GridLayoutManager(fragment.requireContext(), 2)
     }
 
     @Provides
@@ -38,14 +27,8 @@ class MoviesFragmentModule {
     }
 
     @Provides
-    internal fun provideMovieAdapter(context: Context): MovieAdapter {
-        return MovieAdapter(ArrayList(), context)
-    }
-
-
-    @Provides
-    internal fun mainFragmentViewModelProvider(moviesViewModel: MoviesViewModel): ViewModelProvider.Factory {
-        return ViewModelProviderFactory(moviesViewModel)
+    internal fun provideMovieAdapter(): MovieAdapter {
+        return MovieAdapter(ArrayList())
     }
 
 }

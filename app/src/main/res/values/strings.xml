@@ -1,15 +1,11 @@
-<!--
-  ~ /**
-  ~  * Created by Ahmed Atwa on 19/10/2018
-  ~  * Copyright (c) 19/10/2018 . All rights reserved.
-  ~  **/
-  -->
-
 <resources>
     <string name="app_name">PopularMovies</string>
-    <string name="released_on">Released in </string>
-    <string name="votes_count">Votes : </string>
-    <string name="some_error">Some error occured !</string>
-    <string name="movie_unliked">Movie Removed from favourites</string>
+    <string name="released_in">Released in : %s</string>
+    <string name="votes_count">Votes : %s</string>
+    <string name="some_error">Some error occurred !</string>
+    <string name="movie_disliked">Movie Removed from favourites</string>
     <string name="movie_liked">Movie added to favourites</string>
+    <string name="fetch_movies_error">No movies found</string>
+    <string name="fetch_trailers_error">No trailers found</string>
+
 </resources>

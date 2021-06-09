@@ -1,7 +1,7 @@
 package ahmed.atwa.popularmovies.base
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.config.commons.AppUtils
+import ahmed.atwa.popularmovies.utils.commons.AppUtils
 import android.annotation.TargetApi
 import android.app.ProgressDialog
 import android.content.Context

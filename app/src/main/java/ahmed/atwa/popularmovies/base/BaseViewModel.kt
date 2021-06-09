@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.base
 
-import ahmed.atwa.popularmovies.config.commons.toSingleEvent
+import ahmed.atwa.popularmovies.utils.commons.toSingleEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,16 +11,11 @@ import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel() : ViewModel() {
 
-    private val mUiState = MutableLiveData<ViewState>()
-    open val uiState: LiveData<ViewState> = mUiState.toSingleEvent()
+    private val mUiState = MutableLiveData<Any>()
+    open val uiState: LiveData<Any> = mUiState.toSingleEvent()
 
-    fun <T : Any> onSuccess(result: T) {
-        mUiState.value = ViewState.HasData(result)
+    fun <T : Any> updateViewState(result: T) {
+        mUiState.value = result
     }
-
-    protected fun onError(error: String) {
-        mUiState.value = ViewState.HasError(error)
-    }
-
 
 }

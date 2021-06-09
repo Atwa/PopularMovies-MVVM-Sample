@@ -6,7 +6,7 @@ import ahmed.atwa.popularmovies.movies.data.MovieRemote
 class MovieMapperImp : MovieMapper {
 
 
-    override fun mapFromLocal(from: MovieLocal): MovieEntity {
+    override fun mapFromLocalToEntity(from: MovieLocal): MovieEntity {
         return MovieEntity(
                 from.id,
                 from.isFav == 1,

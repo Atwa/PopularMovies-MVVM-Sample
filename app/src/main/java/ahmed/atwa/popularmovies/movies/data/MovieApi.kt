@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.movies.data
 
-import ahmed.atwa.popularmovies.config.commons.AppConstants.Companion.API_KEY_QUERY
+import ahmed.atwa.popularmovies.utils.commons.AppConstants.Companion.API_KEY_QUERY
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

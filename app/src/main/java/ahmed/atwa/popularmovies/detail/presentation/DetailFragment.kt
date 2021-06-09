@@ -1,9 +1,12 @@
 package ahmed.atwa.popularmovies.detail.presentation
 
 import ahmed.atwa.popularmovies.R
-import ahmed.atwa.popularmovies.detail.data.TrailerRemote
-import ahmed.atwa.popularmovies.movies.domain.MovieEntity
 import ahmed.atwa.popularmovies.base.BaseFragment
+import ahmed.atwa.popularmovies.detail.data.TrailerRemote
+import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
@@ -18,9 +21,7 @@ import javax.inject.Inject
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
-@Suppress("UNCHECKED_CAST")
-class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailViewModel>(), TrailerAdapter.TrailerAdapterListener {
-
+class DetailFragment : BaseFragment<MoviesViewModel>(), TrailerAdapter.TrailerAdapterListener {
 
     @Inject
     internal lateinit var mViewModelFactory: ViewModelProvider.Factory
@@ -28,75 +29,76 @@ class DetailFragment(val movie: MovieEntity) : BaseFragment<DetailViewModel>(), 
     @Inject
     lateinit var mLinearLayoutManager: LinearLayoutManager
 
-
     @Inject
     lateinit var mTrailerAdapter: TrailerAdapter
 
-    lateinit var mListener: DetailFragmentListener
-
     override fun getLayoutId(): Int = R.layout.fragment_detail
-    override fun getViewModel(): DetailViewModel = ViewModelProviders.of(this, mViewModelFactory).get(DetailViewModel::class.java)
+    override fun getViewModel(): MoviesViewModel = ViewModelProviders.of(requireActivity(), mViewModelFactory).get(MoviesViewModel::class.java)
     override fun getLifeCycleOwner(): LifecycleOwner = this
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mTrailerAdapter.mListener = this
+        mTrailerAdapter.setListener(this)
     }
-
 
     override fun initUI() {
-        trailersRecycler.setHasFixedSize(true)
-        trailersRecycler.layoutManager = mLinearLayoutManager
-        trailersRecycler.itemAnimator = DefaultItemAnimator()
-        trailersRecycler.adapter = mTrailerAdapter
-        initMovieUi(movie)
-        getViewModel().getLikeState(movie.id)
-        getViewModel().fetchMovieTrailers(movie.id)
+        recycler_trailer.setHasFixedSize(true)
+        recycler_trailer.layoutManager = mLinearLayoutManager
+        recycler_trailer.itemAnimator = DefaultItemAnimator()
+        recycler_trailer.adapter = mTrailerAdapter
+        renderMovieDetails()
     }
 
-    private fun initMovieUi(movie: MovieEntity) {
-        title_tv.text = movie.title
-        plot_tv.text = movie.overview
-        release_tv.text = "Released in : ${movie.release_date}"
-        ratingbar.rating = (movie.vote_average / 2).toFloat()
-        count_tv.text = movie.vote_count.toString()
-        Glide.with(this)
-                .load("http://image.tmdb.org/t/p/w185${movie.poster_path}")
-                .into(moviePoster)
-        like_img.setOnClickListener { getViewModel().updateLikeStatus(movie) }
-    }
-
-    override fun onSuccess(data: Any) {
-        when (data) {
-            is DetailViewState.MessageRes -> showMessage(getString(data.resId))
-            is DetailViewState.LikeState -> renderLikeState(data.isLiked)
-            is DetailViewState.TrailersFetched<*> -> renderTrailers(data.data as ArrayList<TrailerRemote>)
+    private fun renderMovieDetails() {
+        getViewModel().getSelectedMovie()?.apply {
+            tv_title.text = title
+            tv_plot.text = overview
+            tv_rating.text = vote_average.toString()
+            tv_release_date.text = String.format(getString(R.string.released_in), release_date)
+            tv_votes_count.text = String.format(getString(R.string.votes_count), vote_count.toString())
+            rating_bar.rating = (vote_average / 2).toFloat()
+            Glide.with(requireActivity())
+                    .load("${getViewModel().posterBaseUrl}${poster_path}")
+                    .into(img_poster)
+            img_like.setOnClickListener { getViewModel().updateLikeStatus(this) }
+            getViewModel().fetchMovieTrailers(id)
+           // getViewModel().getLikeState(id)
         }
     }
 
-    override fun onFailure(error: String) {
-        trailers_loading.visibility = View.GONE
-        showMessage(error)
+    override fun renderViewState(data: Any) {
+        when (data) {
+            is DetailViewState.MessageRes -> showMessage(getString(data.resId))
+            is DetailViewState.LikeState -> renderLikeState(data.isLiked)
+            is DetailViewState.TrailersFetchedSuccess -> renderTrailers(data.trailers)
+            is DetailViewState.TrailersFetchedError -> renderFetchingTrailerError()
+        }
     }
 
-    private fun renderTrailers(trailers: ArrayList<TrailerRemote>) {
+    private fun renderFetchingTrailerError() {
+        trailers_loading.visibility = View.GONE
+        showMessage(getString(R.string.fetch_trailers_error))
+    }
+
+    private fun renderTrailers(trailers: List<TrailerRemote>) {
         trailers_loading.visibility = View.GONE
         mTrailerAdapter.addItems(trailers)
     }
 
     private fun renderLikeState(isLiked: Boolean) {
-        if (isLiked) R.string.movie_liked else R.string.movie_unliked
-        like_img.setImageResource(if (isLiked) R.drawable.like else R.drawable.dislike)
+        if (isLiked) R.string.movie_liked else R.string.movie_disliked
+        img_like.setImageResource(if (isLiked) R.drawable.like else R.drawable.dislike)
     }
 
 
-    override fun onItemClick(trailerRemote: TrailerRemote) {
-        mListener.onTrailerSelected(trailerRemote)
-    }
-
-    interface DetailFragmentListener {
-        fun onTrailerSelected(trailerRemote: TrailerRemote)
+    override fun onTrailerClicked(trailerRemote: TrailerRemote) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${getViewModel().youtubeAppUri}${trailerRemote.key}"))
+            startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${getViewModel().youtubeWebUri}${trailerRemote.key}"))
+            startActivity(intent)
+        }
     }
 
 

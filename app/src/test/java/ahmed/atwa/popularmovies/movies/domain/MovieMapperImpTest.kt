@@ -2,9 +2,6 @@ package ahmed.atwa.popularmovies.movies.domain
 
 import ahmed.atwa.popularmovies.movies.data.MovieLocal
 import ahmed.atwa.popularmovies.movies.data.MovieRemote
-import ahmed.atwa.popularmovies.movies.domain.MovieEntity
-import ahmed.atwa.popularmovies.movies.domain.MovieMapper
-import ahmed.atwa.popularmovies.movies.domain.MovieMapperImp
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import org.junit.Assert
 import org.junit.Before
@@ -34,7 +31,7 @@ class MovieMapperImpTest {
     @Test
     fun test_mapFromLocal(){
         val expected = mockMovieEntity
-        val actual = movieMapper.mapFromLocal(mockMovieLocal)
+        val actual = movieMapper.mapFromLocalToEntity(mockMovieLocal)
         Assert.assertEquals(expected, actual)
     }
 

@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ /**
-  ~  * Created by Ahmed Atwa on 19/10/2018
-  ~  * Copyright (c) 19/10/2018 . All rights reserved.
-  ~  **/
-  -->
-
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="movie_title_padding">10dp</dimen>
-    <dimen name="movie_title">15dp</dimen>
-    <dimen name="movie_cover_height">160dp</dimen>
-    <dimen name="card_movie_radius">0dp</dimen>
-    <dimen name="card_margin">5dp</dimen>
-    <dimen name="user_rating_padding_bottom">5dp</dimen>
-    <dimen name="user_rating">12dp</dimen>
-    <dimen name="detail_backdrop_height">400dp</dimen>
-    <dimen name="layout_margin_left">10dp</dimen>
-    <dimen name="layout_margin_top">3dp</dimen>
-    <dimen name="layout_margin_top2">10dp</dimen>
-    <dimen name="padding_layout">16dp</dimen></resources>
+    <dimen name="padding_layout">16dp</dimen>
+    <dimen name="view_margin">8dp</dimen>
+    <dimen name="movie_poster_height">150dp</dimen>
+    <dimen name="movie_thumb_height">250dp</dimen>
+    <dimen name="fav_icon_width">35dp</dimen>
+</resources>

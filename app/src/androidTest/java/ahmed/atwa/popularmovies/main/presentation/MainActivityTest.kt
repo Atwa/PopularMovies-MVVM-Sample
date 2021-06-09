@@ -3,7 +3,7 @@ package ahmed.atwa.popularmovies.main.presentation
 import ahmed.atwa.popularmovies.PopMovApp
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.util.CustomMatcher.clickItemWithId
-import ahmed.atwa.popularmovies.config.di.DaggerTestAppComponent
+import ahmed.atwa.popularmovies.utils.di.DaggerTestAppComponent
 import ahmed.atwa.popularmovies.detail.presentation.TrailerAdapter
 import ahmed.atwa.popularmovies.movies.presentation.MovieAdapter
 import android.app.Instrumentation
@@ -37,9 +37,6 @@ class MainActivityTest {
     @get:Rule
     val activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule<MainActivity>(MainActivity::class.java)
 
-    private lateinit var expectedIntent: Matcher<Intent>
-
-
     private lateinit var mockServer: MockWebServer
 
     private lateinit var app: PopMovApp
@@ -71,7 +68,6 @@ class MainActivityTest {
 
     @Test
     fun onCreate() {
-        onView(withId(R.id.container)).check(matches(isDisplayed()))
         onView(withId(R.id.moviesRecycler)).check(matches(isDisplayed()))
     }
 
@@ -79,31 +75,8 @@ class MainActivityTest {
     fun onMovieSelected() {
         onView(withId(R.id.moviesRecycler))
                 .perform(actionOnItemAtPosition<MovieAdapter.MovieViewHolder>(0, click()))
-        onView(withId(R.id.title_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.trailersRecycler)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun onTrailerSelected() {
-        Intents.init()
-        expectedIntent = hasAction(Intent.ACTION_VIEW)
-        intending(expectedIntent).respondWith(Instrumentation.ActivityResult(0, null))
-        onView(withId(R.id.moviesRecycler))
-                .perform(actionOnItemAtPosition<MovieAdapter.MovieViewHolder>(0, click()))
-
-        mockServer.enqueue(MockResponse().setResponseCode(200).setBody(
-                "{\"id\":528085,\"results\":[" +
-                        "{\"id\":\"5f6ec227ea394900383ed28d\",\"iso_639_1\":\"en\",\"iso_3166_1\":\"US\",\"key\":\"cU5875rHQ8k\",\"name\":\"2067 (2020) Trailer\",\"site\":\"YouTube\",\"size\":1080,\"type\":\"Trailer\"}," +
-                        "{\"id\":\"5f6ec227ea394900383ed28d\",\"iso_639_1\":\"en\",\"iso_3166_1\":\"US\",\"key\":\"cU5875rHQ8k\",\"name\":\"2067 (2020) Trailer2\",\"site\":\"YouTube\",\"size\":1080,\"type\":\"Trailer\"}" +
-                        "]}"
-        ))
-        SystemClock.sleep(2000)
-
-        onView(withId(R.id.trailersRecycler))
-                .perform(actionOnItemAtPosition<TrailerAdapter.TrailerViewHolder>(0,clickItemWithId(R.id.play_btn)))
-
-        intended(expectedIntent)
-        Intents.release()
+        onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.recycler_trailer)).check(matches(isDisplayed()))
     }
     
 }

@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ahmed.atwa.popularmovies.main.presentation.MainActivity" />
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/nav_movies_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:navGraph="@navigation/movies_graph"
+        tools:ignore="FragmentTagUsage" />
+
+</FrameLayout>
 

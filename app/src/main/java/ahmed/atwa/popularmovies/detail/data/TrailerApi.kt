@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.detail.data
 
-import ahmed.atwa.popularmovies.config.commons.AppConstants
+import ahmed.atwa.popularmovies.utils.commons.AppConstants
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
