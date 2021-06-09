@@ -8,10 +8,4 @@
 /build
 /captures
 .externalNativeBuild
-/app/src/main/java/ahmed/atwa/popularmovies/detail/DetailFragment_MembersInjector.java
-/app/src/main/java/ahmed/atwa/popularmovies/movies/MoviesViewModel_Factory.java
-/app/src/main/java/ahmed/atwa/popularmovies/detail/DetailViewModel_Factory.java
-/app/src/main/java/ahmed/atwa/popularmovies/movies/MoviesFragment_MembersInjector.java
-/app/src/main/java/ahmed/atwa/popularmovies/movies/MovieAdapter_Factory.java
-/app/src/main/java/ahmed/atwa/popularmovies/main/MainActivity_MembersInjector.java
 
