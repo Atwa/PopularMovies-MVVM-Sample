@@ -4,6 +4,6 @@ import ahmed.atwa.popularmovies.movies.domain.MovieEntity
 
 
 sealed class MoviesViewState {
-    object FetchingMoviesError : MoviesViewState()
-    class FetchingMoviesSuccess(val movies: List<MovieEntity>?) : MoviesViewState()
+    class FetchingMoviesError(val errorMessage: String?) : MoviesViewState()
+    class FetchingMoviesSuccess(val movies: List<MovieEntity>) : MoviesViewState()
 }

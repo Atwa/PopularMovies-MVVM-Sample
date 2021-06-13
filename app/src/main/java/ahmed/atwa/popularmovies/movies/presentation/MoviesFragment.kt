@@ -56,12 +56,12 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), MovieAdapter.OnItemClick
     override fun renderViewState(data: Any) {
         when(data){
             is MoviesViewState.FetchingMoviesSuccess -> mMovieAdapter.addItems(data.movies)
-            is MoviesViewState.FetchingMoviesError -> renderFetchingMoviesError()
+            is MoviesViewState.FetchingMoviesError -> renderFetchingMoviesError(data.errorMessage)
         }
     }
 
-    private fun renderFetchingMoviesError() {
-        showMessage(getString(R.string.fetch_movies_error))
+    private fun renderFetchingMoviesError(errorMessage: String?) {
+        showMessage(errorMessage ?: getString(R.string.fetch_movies_error))
     }
 
     override fun onMovieClicked(movieEntity: MovieEntity) {

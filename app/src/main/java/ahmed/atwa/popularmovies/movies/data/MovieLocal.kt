@@ -9,9 +9,6 @@ data class MovieLocal(@PrimaryKey
                       @ColumnInfo(name = "id")
                       var id: Int,
 
-                      @ColumnInfo(name = "is_favourite")
-                      var isFav: Int? = 0,
-
                       @ColumnInfo(name = "poster_path")
                       val poster_path: String?,
 

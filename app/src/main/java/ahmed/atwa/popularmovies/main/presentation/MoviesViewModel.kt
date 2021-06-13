@@ -27,15 +27,14 @@ class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
 
     fun getMovies() {
         viewModelScope.launch(dispatcher.IO) {
-            val localData = movieRepo.fetchMoviesLocal()
-            if (!localData.isNullOrEmpty()) withContext(dispatcher.Main) { updateViewState(MoviesViewState.FetchingMoviesSuccess(localData)) }
-            var syncedData:List<MovieEntity>? = null
-            movieRepo.fetchMoviesRemote()?.also {
-                if (it is NetworkResult.Success) syncedData = movieRepo.syncFavWithDb(it.data.results)
-            }
+            val result = movieRepo.fetchMoviesRemote()
             withContext(dispatcher.Main) {
-                if (syncedData != null) updateViewState(MoviesViewState.FetchingMoviesSuccess(syncedData!!))
-                else updateViewState(MoviesViewState.FetchingMoviesError)
+                when (result) {
+                    is NetworkResult.Success<List<MovieEntity>> ->
+                        updateViewState(MoviesViewState.FetchingMoviesSuccess(result.data))
+                    is NetworkResult.Error ->
+                        updateViewState(MoviesViewState.FetchingMoviesError(result.error.message))
+                }
             }
         }
     }
@@ -59,8 +58,8 @@ class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
 
     fun updateLikeStatus(movie: MovieEntity) {
         viewModelScope.launch(dispatcher.IO) {
-            val newLikeState = movie.isFav.not()
-            movieRepo.changeLikeState(movie.id, newLikeState).also { movie.isFav = newLikeState }
+            val newLikeState = movieRepo.isMovieLiked(movie.id).not()
+            movieRepo.changeLikeState(movie, newLikeState)
             withContext(dispatcher.Main) {
                 updateViewState(DetailViewState.LikeState(newLikeState))
             }

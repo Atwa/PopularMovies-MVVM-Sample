@@ -1,7 +1,6 @@
 package ahmed.atwa.popularmovies.movies.data
 
 import ahmed.atwa.popularmovies.detail.data.TrailerApi
-import ahmed.atwa.popularmovies.detail.data.TrailerRemote
 import ahmed.atwa.popularmovies.detail.data.TrailerResponse
 import ahmed.atwa.popularmovies.movies.domain.MovieEntity
 import ahmed.atwa.popularmovies.movies.domain.MovieMapper
@@ -23,18 +22,13 @@ class MovieRepoImp @Inject constructor(
         private val trailerApi: TrailerApi,
         private val movieMapper: MovieMapper) : MovieRepo {
 
-    override fun fetchMoviesLocal(): List<MovieEntity> {
-        return movieDao.fetchAllMovies().map { movieMapper.mapFromLocalToEntity(it) }.toList()
-    }
-
-    override suspend fun fetchMoviesRemote(): NetworkResult<MovieResponse>? {
-        return NetworkRouter.invokeCall { movieApi.getMostPopular(AppConstants.API_KEY) }
-    }
-
-    override fun syncFavWithDb(movieRemotes: List<MovieRemote>?): List<MovieEntity>? {
-        return movieRemotes?.map { movieMapper.mapFromRemoteToLocal(it, getLikeState(it.id)) }?.toList()
-                ?.also { movieDao.insertAll(it) }
-                ?.run { this.map { local -> movieMapper.mapFromLocalToEntity(local) }.toList() }
+    override suspend fun fetchMoviesRemote(): NetworkResult<List<MovieEntity>> {
+        val result = NetworkRouter.invokeCall { movieApi.getMostPopular(AppConstants.API_KEY) }
+        return when (result) {
+            is NetworkResult.Success -> result.data.results.map { movieMapper.mapFromRemoteToEntity(it) }
+                    .toList().run { NetworkResult.Success(this) }
+            is NetworkResult.Error -> NetworkResult.Error(result.error)
+        }
     }
 
     override suspend fun fetchMovieTrailers(movieId: Int): NetworkResult<TrailerResponse>? {
@@ -42,14 +36,14 @@ class MovieRepoImp @Inject constructor(
     }
 
     override fun isMovieLiked(id: Int): Boolean {
-        val result = movieDao.isMovieLiked(id)
-        return if (result.isNotEmpty() && result[0] != null) result[0] == 1 else false
+        return movieDao.fetchFavouriteMovies().contains(id)
     }
 
-    private fun getLikeState(id: Int): Int {
-        return if (isMovieLiked(id)) 1 else 0
+    override fun changeLikeState(movie: MovieEntity, newLikeState: Boolean) {
+        movieMapper.mapFromEntityToLocal(movie).run {
+            if (newLikeState) movieDao.insertMovie(this)
+            else movieDao.removeMovie(this)
+        }
     }
-
-    override fun changeLikeState(id: Int, newLikeState: Boolean) = if (newLikeState) movieDao.setMovieLiked(id) else movieDao.setMovieUnLiked(id)
 
 }

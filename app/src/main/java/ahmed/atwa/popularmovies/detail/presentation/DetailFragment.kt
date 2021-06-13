@@ -53,16 +53,16 @@ class DetailFragment : BaseFragment<MoviesViewModel>(), TrailerAdapter.TrailerAd
         getViewModel().getSelectedMovie()?.apply {
             tv_title.text = title
             tv_plot.text = overview
-            tv_rating.text = vote_average.toString()
-            tv_release_date.text = String.format(getString(R.string.released_in), release_date)
-            tv_votes_count.text = String.format(getString(R.string.votes_count), vote_count.toString())
-            rating_bar.rating = (vote_average / 2).toFloat()
+            tv_rating.text = voteAverage.toString()
+            tv_release_date.text = String.format(getString(R.string.released_in), releaseDate)
+            tv_votes_count.text = String.format(getString(R.string.votes_count), voteCount.toString())
+            rating_bar.rating = (voteAverage / 2).toFloat()
             Glide.with(requireActivity())
-                    .load("${getViewModel().posterBaseUrl}${poster_path}")
+                    .load("${getViewModel().posterBaseUrl}${posterPath}")
                     .into(img_poster)
             img_like.setOnClickListener { getViewModel().updateLikeStatus(this) }
+            getViewModel().getLikeState(id)
             getViewModel().fetchMovieTrailers(id)
-           // getViewModel().getLikeState(id)
         }
     }
 

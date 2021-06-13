@@ -1,27 +1,18 @@
 package ahmed.atwa.popularmovies.utils.database
 
 import ahmed.atwa.popularmovies.movies.data.MovieLocal
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(movies: List<MovieLocal>)
+    fun insertMovie(movie: MovieLocal)
 
-    @Query("SELECT * FROM movies order by popularity DESC")
-    fun fetchAllMovies(): List<MovieLocal>
+    @Query("SELECT id FROM movies")
+    fun fetchFavouriteMovies(): List<Int?>
 
-    @Query("SELECT is_favourite FROM movies WHERE id = :movieId ")
-    fun isMovieLiked(movieId: Int): List<Int?>
-
-    @Query("update movies set is_favourite = 1 where id = :movieId")
-    fun setMovieLiked(movieId: Int): Int
-
-    @Query("update movies set is_favourite = 0  where id = :movieId ")
-    fun setMovieUnLiked(movieId: Int): Int
+    @Delete()
+    fun removeMovie(movie: MovieLocal)
 
 }

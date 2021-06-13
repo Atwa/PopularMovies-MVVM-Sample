@@ -4,6 +4,6 @@ import ahmed.atwa.popularmovies.movies.data.MovieLocal
 import ahmed.atwa.popularmovies.movies.data.MovieRemote
 
 interface MovieMapper {
-     fun mapFromLocalToEntity(from: MovieLocal): MovieEntity
-     fun mapFromRemoteToLocal(from: MovieRemote, isFav: Int): MovieLocal
+     fun mapFromRemoteToEntity(from: MovieRemote): MovieEntity
+     fun mapFromEntityToLocal(from: MovieEntity): MovieLocal
 }

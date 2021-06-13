@@ -1,26 +1,14 @@
 package ahmed.atwa.popularmovies.movies.domain
 
 data class MovieEntity(
-
         var id: Int,
-
-        var isFav: Boolean = false,
-
-        var poster_path: String?,
-
+        var posterPath: String?,
         var popularity: Double,
-
-        var vote_count: Int,
-
+        var voteCount: Int,
         var video: Boolean,
-
-        var vote_average: Double,
-
+        var voteAverage: Double,
         var title: String?,
-
-        var backdrop_path: String? = "null",
-
+        var backdropPath: String? = "null",
         var overview: String?,
-
-        var release_date: String?
+        var releaseDate: String?
 )

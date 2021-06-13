@@ -21,10 +21,10 @@ abstract class BaseFragment< V : BaseViewModel> : androidx.fragment.app.Fragment
     abstract fun getLayoutId(): Int
     abstract fun getViewModel(): V
     abstract fun getLifeCycleOwner(): LifecycleOwner
-    abstract fun initUI() // For initializing views using kotlin synthetics
+    abstract fun initUI()
 
     /**
-     *  Called in case of success or some data emitted from the liveData in viewModel
+     *  Called in case of some data emitted from the liveData in viewModel
      */
     open fun renderViewState(data: Any) {}
 
@@ -48,15 +48,10 @@ abstract class BaseFragment< V : BaseViewModel> : androidx.fragment.app.Fragment
         setHasOptionsMenu(false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initUI()
-    }
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         configureObserver()
+        initUI()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

@@ -21,12 +21,13 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_poster"
             android:layout_width="0dp"
-            android:layout_height="@dimen/movie_poster_height"
+            android:layout_height="0dp"
             android:layout_marginEnd="@dimen/view_margin"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/img_like"
+            app:layout_constraintTop_toTopOf="@id/tv_title" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_title"
@@ -83,11 +84,10 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_like"
-            android:layout_width="@dimen/fav_icon_width"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/fav_icon_dimen"
+            android:layout_height="@dimen/fav_icon_dimen"
             android:layout_marginTop="@dimen/view_margin"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="@+id/img_poster"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/rating_bar" />
 

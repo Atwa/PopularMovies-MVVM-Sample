@@ -54,7 +54,7 @@ class MovieAdapter @Inject constructor(private val mMoviesList: MutableList<Movi
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val moviePoster = mMoviesList[position].poster_path
+        val moviePoster = mMoviesList[position].posterPath
         moviePoster?.let {
             holder.myImgView.apply {
                 Glide.with(context)
