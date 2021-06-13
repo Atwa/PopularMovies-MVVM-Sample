@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 
-class LiveEvent<T> : MediatorLiveData<T>() {
+class LiveEvent<T:Any> : MediatorLiveData<T>() {
 
     private val observers = ArraySet<ObserverWrapper<in T>>()
 
@@ -68,7 +68,7 @@ class LiveEvent<T> : MediatorLiveData<T>() {
 /**
  * Extension Function to make liveData only single event to avoid duplicate triggers
  */
-fun <T> LiveData<T>.toSingleEvent(): LiveData<T> {
+fun <T:Any> LiveData<T>.toSingleEvent(): LiveData<T> {
     val result = LiveEvent<T>()
     result.addSource(this) {
         result.value = it

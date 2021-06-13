@@ -21,7 +21,6 @@ abstract class BaseFragment< V : BaseViewModel> : androidx.fragment.app.Fragment
     abstract fun getLayoutId(): Int
     abstract fun getViewModel(): V
     abstract fun getLifeCycleOwner(): LifecycleOwner
-    abstract fun initUI()
 
     /**
      *  Called in case of some data emitted from the liveData in viewModel
@@ -48,10 +47,9 @@ abstract class BaseFragment< V : BaseViewModel> : androidx.fragment.app.Fragment
         setHasOptionsMenu(false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         configureObserver()
-        initUI()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

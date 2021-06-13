@@ -28,7 +28,7 @@ class MoviesFragmentModule {
 
     @Provides
     internal fun provideMovieAdapter(): MovieAdapter {
-        return MovieAdapter(ArrayList())
+        return MovieAdapter()
     }
 
 }

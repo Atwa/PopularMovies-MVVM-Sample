@@ -6,7 +6,7 @@ import java.io.IOException
 
 class NetworkErrorHandler : INetworkErrorHandler {
 
-    override fun <T : Any> resolveErrorMessage(response: Response<T>): NetworkResult.Error {
+    override fun <T : Any> resolveErrorMessage(response: Response<T>): ResultType.Error {
         val code = response.code().toString()
         val message = try {
             response.errorBody()?.string()?.let {
@@ -18,6 +18,6 @@ class NetworkErrorHandler : INetworkErrorHandler {
         }
         val errorMessage = if (message.isNullOrEmpty()) " error code = $code "
         else " error code = $code  & error message = $message "
-        return NetworkResult.Error(IOException(errorMessage))
+        return ResultType.Error(IOException(errorMessage))
     }
 }

@@ -5,12 +5,12 @@ import ahmed.atwa.popularmovies.detail.data.TrailerRemote
 import ahmed.atwa.popularmovies.detail.data.TrailerResponse
 import ahmed.atwa.popularmovies.detail.presentation.DetailViewState
 import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel
-import ahmed.atwa.popularmovies.movies.data.MovieRemote
+import ahmed.atwa.popularmovies.movies.data.Movie
 import ahmed.atwa.popularmovies.movies.data.MovieRepo
 import ahmed.atwa.popularmovies.movies.data.MovieResponse
 import ahmed.atwa.popularmovies.movies.domain.MovieEntity
 import ahmed.atwa.popularmovies.utils.commons.TestDispatcher
-import ahmed.atwa.popularmovies.utils.network.NetworkResult
+import ahmed.atwa.popularmovies.utils.network.ResultType
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,7 +36,7 @@ class MoviesViewModelTest {
     private lateinit var moviesViewModel: MoviesViewModel
 
     private val mockMovieEntity = MovieEntity(1, true, "", 3.4, 12, true, 2.3, "test", "", "", "")
-    private val mockMovieRemote = MovieRemote(10, 1, true, 7.8, "", 3.4,
+    private val mockMovieRemote = Movie(10, 1, true, 7.8, "", 3.4,
             "test", "", "", "", true, "", "")
     private val mockMovieEntityList = listOf(mockMovieEntity, mockMovieEntity, mockMovieEntity)
     private val mockMovieResponse = MovieResponse(page = 1,
@@ -75,7 +75,7 @@ class MoviesViewModelTest {
     fun testingGetMoviesRemote_success() {
         val expected = mockMovieEntityList
         runBlockingTest {
-            whenever(moviesRepo.fetchMoviesRemote()).thenReturn(NetworkResult.Success(mockMovieResponse))
+            whenever(moviesRepo.getPopularMovies()).thenReturn(ResultType.Success(mockMovieResponse))
             whenever(moviesRepo.syncFavWithDb(mockMovieResponse.results)).thenReturn(mockMovieEntityList)
         }
         moviesViewModel.apply {
@@ -91,13 +91,13 @@ class MoviesViewModelTest {
     @Test
     fun testingGetMoviesRemote_failure() {
         runBlockingTest {
-            whenever(moviesRepo.fetchMoviesRemote()).thenReturn(NetworkResult.Error(IOException()))
+            whenever(moviesRepo.getPopularMovies()).thenReturn(ResultType.Error(IOException()))
             moviesViewModel.apply {
                 getMovies()
                 uiState.observeForever {
                     assert(it is MoviesViewState.FetchingMoviesError)
                 }
-                verify(moviesRepo, times(1)).fetchMoviesRemote()
+                verify(moviesRepo, times(1)).getPopularMovies()
             }
         }
     }
@@ -106,7 +106,7 @@ class MoviesViewModelTest {
     fun test_GetTrailers_success() {
         val expected = mockTrailerResponse
         runBlockingTest {
-            whenever(moviesRepo.fetchMovieTrailers(any())).thenReturn(NetworkResult.Success(mockTrailerResponse))
+            whenever(moviesRepo.fetchMovieTrailers(any())).thenReturn(ResultType.Success(mockTrailerResponse))
             moviesViewModel.apply {
                 fetchMovieTrailers(1)
                 uiState.observeForever {
@@ -122,7 +122,7 @@ class MoviesViewModelTest {
     @Test
     fun test_GetTrailers_failure() {
         runBlockingTest {
-            whenever(moviesRepo.fetchMovieTrailers(any())).thenReturn(NetworkResult.Error(IOException()))
+            whenever(moviesRepo.fetchMovieTrailers(any())).thenReturn(ResultType.Error(IOException()))
             moviesViewModel.apply {
                 fetchMovieTrailers(1)
                 uiState.observeForever { assert(it is DetailViewState.TrailersFetchedError) }

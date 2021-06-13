@@ -15,14 +15,14 @@ interface MovieApi {
 
 
     companion object {
-
         const val POPULAR_MOVIES_QUERY: String = ("discover/movie?sort_by=popularity.desc")
+        const val PAGE_QUERY: String = ("page")
     }
 
 
 
     @GET(POPULAR_MOVIES_QUERY)
-    suspend fun getMostPopular(@Query(API_KEY_QUERY) apiKey: String): Response<MovieResponse>
+    suspend fun getMostPopular(@Query(API_KEY_QUERY) apiKey: String,@Query(PAGE_QUERY) page:Int): Response<MovieResponse>
 
 
 

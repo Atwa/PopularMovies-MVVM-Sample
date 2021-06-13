@@ -4,6 +4,9 @@ import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.base.BaseFragment
 import ahmed.atwa.popularmovies.detail.data.TrailerRemote
 import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel
+import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel.Companion.POSTER_BASE_URL
+import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel.Companion.YOUTUBE_APP_URI
+import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel.Companion.YOUTUBE_WEB_URI
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -41,7 +44,12 @@ class DetailFragment : BaseFragment<MoviesViewModel>(), TrailerAdapter.TrailerAd
         mTrailerAdapter.setListener(this)
     }
 
-    override fun initUI() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initUI()
+    }
+
+    fun initUI() {
         recycler_trailer.setHasFixedSize(true)
         recycler_trailer.layoutManager = mLinearLayoutManager
         recycler_trailer.itemAnimator = DefaultItemAnimator()
@@ -53,12 +61,12 @@ class DetailFragment : BaseFragment<MoviesViewModel>(), TrailerAdapter.TrailerAd
         getViewModel().getSelectedMovie()?.apply {
             tv_title.text = title
             tv_plot.text = overview
-            tv_rating.text = voteAverage.toString()
-            tv_release_date.text = String.format(getString(R.string.released_in), releaseDate)
-            tv_votes_count.text = String.format(getString(R.string.votes_count), voteCount.toString())
-            rating_bar.rating = (voteAverage / 2).toFloat()
+            tv_rating.text = vote_average.toString()
+            tv_release_date.text = String.format(getString(R.string.released_in), release_date)
+            tv_votes_count.text = String.format(getString(R.string.votes_count), vote_count.toString())
+            rating_bar.rating = (vote_average / 2).toFloat()
             Glide.with(requireActivity())
-                    .load("${getViewModel().posterBaseUrl}${posterPath}")
+                    .load("$POSTER_BASE_URL${poster_path}")
                     .into(img_poster)
             img_like.setOnClickListener { getViewModel().updateLikeStatus(this) }
             getViewModel().getLikeState(id)
@@ -93,10 +101,10 @@ class DetailFragment : BaseFragment<MoviesViewModel>(), TrailerAdapter.TrailerAd
 
     override fun onTrailerClicked(trailerRemote: TrailerRemote) {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${getViewModel().youtubeAppUri}${trailerRemote.key}"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("$YOUTUBE_APP_URI${trailerRemote.key}"))
             startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${getViewModel().youtubeWebUri}${trailerRemote.key}"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("$YOUTUBE_WEB_URI${trailerRemote.key}"))
             startActivity(intent)
         }
     }

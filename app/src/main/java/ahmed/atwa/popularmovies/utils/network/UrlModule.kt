@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.utils.network
 
-import ahmed.atwa.popularmovies.utils.commons.AppConstants
+import ahmed.atwa.popularmovies.BuildConfig
 import ahmed.atwa.popularmovies.utils.commons.AppConstants.Companion.BASE_URL_KEY
 import dagger.Module
 import dagger.Provides
@@ -13,6 +13,6 @@ class UrlModule {
     @Singleton
     @Named(BASE_URL_KEY)
     fun provideBaseUrl(): String {
-        return AppConstants.BASE_URL
+        return BuildConfig.BASE_URL
     }
 }

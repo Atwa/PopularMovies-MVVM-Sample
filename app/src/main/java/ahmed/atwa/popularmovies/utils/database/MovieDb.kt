@@ -1,6 +1,6 @@
 package ahmed.atwa.popularmovies.utils.database
 
-import ahmed.atwa.popularmovies.movies.data.MovieLocal
+import ahmed.atwa.popularmovies.movies.data.Movie
 import androidx.room.*
 import javax.inject.Singleton
 
@@ -9,7 +9,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Database(entities = [(MovieLocal::class)], version = 4, exportSchema = false)
+@Database(entities = [(Movie::class)], version = 1, exportSchema = false)
 abstract class MovieDb : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 }

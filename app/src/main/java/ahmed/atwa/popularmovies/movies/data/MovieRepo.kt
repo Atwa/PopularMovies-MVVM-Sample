@@ -1,12 +1,11 @@
 package ahmed.atwa.popularmovies.movies.data
 
-import ahmed.atwa.popularmovies.movies.domain.MovieEntity
 import ahmed.atwa.popularmovies.detail.data.TrailerResponse
-import ahmed.atwa.popularmovies.utils.network.NetworkResult
+import ahmed.atwa.popularmovies.utils.network.ResultType
 
 interface MovieRepo {
-    suspend fun fetchMoviesRemote(): NetworkResult<List<MovieEntity>>
-    suspend fun fetchMovieTrailers(movieId: Int): NetworkResult<TrailerResponse>?
+    suspend fun getPopularMovies(page:Int): ResultType<MovieResponse>
+    suspend fun fetchMovieTrailers(movieId: Int): ResultType<TrailerResponse>?
     fun isMovieLiked(id: Int): Boolean
-    fun changeLikeState(movie: MovieEntity, newLikeState: Boolean)
+    fun changeLikeState(movie: Movie, newLikeState: Boolean)
 }

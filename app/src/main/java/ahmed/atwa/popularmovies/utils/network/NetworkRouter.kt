@@ -11,14 +11,14 @@ object NetworkRouter {
 
     private val networkErrorHandler: INetworkErrorHandler = NetworkErrorHandler()
 
-    suspend fun <T : Any> invokeCall(call: suspend () -> Response<T>): NetworkResult<T> {
+    suspend fun <T : Any> invokeCall(call: suspend () -> Response<T>): ResultType<T> {
         return try {
             val response = call.invoke()
-            if (isSuccessResponse(response)) NetworkResult.Success(response.body()!!)
+            if (isSuccessResponse(response)) ResultType.Success(response.body()!!)
             else networkErrorHandler.resolveErrorMessage(response)
         } catch (exception: IOException) {
-            if (exception is NoConnectionException) NetworkResult.Error(exception)
-            else NetworkResult.Error(exception)
+            if (exception is NoConnectionException) ResultType.Error(exception)
+            else ResultType.Error(exception)
         }
     }
 

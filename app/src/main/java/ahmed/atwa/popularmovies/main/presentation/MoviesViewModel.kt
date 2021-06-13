@@ -2,12 +2,18 @@ package ahmed.atwa.popularmovies.main.presentation
 
 import ahmed.atwa.popularmovies.base.BaseViewModel
 import ahmed.atwa.popularmovies.detail.presentation.DetailViewState
+import ahmed.atwa.popularmovies.movies.data.Movie
+import ahmed.atwa.popularmovies.movies.data.MoviePaging
 import ahmed.atwa.popularmovies.movies.data.MovieRepo
-import ahmed.atwa.popularmovies.movies.domain.MovieEntity
+import ahmed.atwa.popularmovies.movies.data.MovieResponse
+import ahmed.atwa.popularmovies.movies.presentation.MovieModel
 import ahmed.atwa.popularmovies.movies.presentation.MoviesViewState
 import ahmed.atwa.popularmovies.utils.commons.CoroutineDispatcher
-import ahmed.atwa.popularmovies.utils.network.NetworkResult
+import ahmed.atwa.popularmovies.utils.network.ResultType
 import androidx.lifecycle.viewModelScope
+import androidx.paging.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -19,24 +25,28 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
                                           private val dispatcher: CoroutineDispatcher = CoroutineDispatcher()) : BaseViewModel() {
 
-    val youtubeAppUri = "vnd.youtube:"
-    val youtubeWebUri = "http://www.youtube.com/watch?v="
-    val posterBaseUrl = "http://image.tmdb.org/t/p/w185"
 
-    private var movie: MovieEntity? = null
+    companion object {
+        private const val PAGE_SIZE = 20
+        const val YOUTUBE_APP_URI = "vnd.youtube:"
+        const val YOUTUBE_WEB_URI = "http://www.youtube.com/watch?v="
+        const val POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185"
+    }
 
-    fun getMovies() {
-        viewModelScope.launch(dispatcher.IO) {
-            val result = movieRepo.fetchMoviesRemote()
-            withContext(dispatcher.Main) {
-                when (result) {
-                    is NetworkResult.Success<List<MovieEntity>> ->
-                        updateViewState(MoviesViewState.FetchingMoviesSuccess(result.data))
-                    is NetworkResult.Error ->
-                        updateViewState(MoviesViewState.FetchingMoviesError(result.error.message))
+    private var movie: Movie? = null
+
+    val movies: Flow<PagingData<MovieModel>> = getMovieListStream()
+            .map { pagingData -> pagingData.map { MovieModel.MovieItem(it) } }
+            .map {
+                it.insertSeparators { before, after ->
+                    if (after == null) return@insertSeparators MovieModel.SeparatorItem("End of list")
+                    if (before == null) return@insertSeparators null
+                    else null
                 }
             }
-        }
+
+    private fun getMovieListStream(): Flow<PagingData<Movie>> {
+        return Pager(PagingConfig(PAGE_SIZE)) { MoviePaging(movieRepo) }.flow
     }
 
     fun getLikeState(movieId: Int) {
@@ -50,13 +60,13 @@ class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
         viewModelScope.launch(dispatcher.IO) {
             val trailerList = movieRepo.fetchMovieTrailers(movieId)
             withContext(dispatcher.Main) {
-                if (trailerList is NetworkResult.Success) updateViewState(DetailViewState.TrailersFetchedSuccess(trailerList.data.results))
+                if (trailerList is ResultType.Success) updateViewState(DetailViewState.TrailersFetchedSuccess(trailerList.data.results))
                 else updateViewState(DetailViewState.TrailersFetchedError)
             }
         }
     }
 
-    fun updateLikeStatus(movie: MovieEntity) {
+    fun updateLikeStatus(movie: Movie) {
         viewModelScope.launch(dispatcher.IO) {
             val newLikeState = movieRepo.isMovieLiked(movie.id).not()
             movieRepo.changeLikeState(movie, newLikeState)
@@ -66,11 +76,11 @@ class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
         }
     }
 
-    fun setSelectedMovie(movie: MovieEntity) {
+    fun setSelectedMovie(movie: Movie) {
         this.movie = movie
     }
 
-    fun getSelectedMovie(): MovieEntity? {
+    fun getSelectedMovie(): Movie? {
         return movie
     }
 

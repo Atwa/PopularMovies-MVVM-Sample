@@ -5,4 +5,5 @@
     <dimen name="movie_poster_height">150dp</dimen>
     <dimen name="movie_thumb_height">250dp</dimen>
     <dimen name="fav_icon_dimen">30dp</dimen>
+    <dimen name="progress_bar_dimen">60dp</dimen>
 </resources>
