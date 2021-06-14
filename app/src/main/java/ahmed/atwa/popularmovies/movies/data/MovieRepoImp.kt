@@ -19,8 +19,19 @@ class MovieRepoImp @Inject constructor(
         private val movieApi: MovieApi,
         private val trailerApi: TrailerApi) : MovieRepo {
 
+    var moviesResponse: MovieResponse? = null
+
     override suspend fun getPopularMovies(page: Int): ResultType<MovieResponse> {
-        return NetworkRouter.invokeCall { movieApi.getMostPopular(BuildConfig.API_KEY, page) }
+        val result = NetworkRouter.invokeCall { movieApi.getMostPopular(BuildConfig.API_KEY, page) }
+        if (result is ResultType.Success) moviesResponse = result.data
+        return result
+    }
+
+    override suspend fun getFilteredPopularMovies(filterText: String): MovieResponse? {
+        val result = moviesResponse?.results?.filter {
+            movie -> movie.title?.contains(filterText,true) == true }?.toList()
+        result?.let { return moviesResponse?.copy(results = it) }
+        return null
     }
 
     override suspend fun fetchMovieTrailers(movieId: Int): ResultType<TrailerResponse> {

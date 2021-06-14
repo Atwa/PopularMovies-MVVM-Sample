@@ -2,15 +2,15 @@ package ahmed.atwa.popularmovies.movies.presentation
 
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.base.BaseFragment
-import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel
 import ahmed.atwa.popularmovies.movies.data.Movie
 import ahmed.atwa.popularmovies.utils.commons.GridSpacingItemDecoration
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.SearchView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
@@ -18,16 +18,16 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_movies.*
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
+
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MoviesFragment : BaseFragment<MoviesViewModel>(), MovieAdapter.OnItemClick, (CombinedLoadStates) -> Unit {
+class MoviesFragment : BaseFragment<MoviesViewModel>(), MovieAdapter.OnItemClick, (CombinedLoadStates) -> Unit, SearchView.OnQueryTextListener {
 
     @Inject
     internal lateinit var mViewModelFactory: ViewModelProvider.Factory
@@ -42,8 +42,25 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), MovieAdapter.OnItemClick
     lateinit var mMovieAdapter: MovieAdapter
 
     override fun getLayoutId(): Int = R.layout.fragment_movies
-    override fun getViewModel(): MoviesViewModel = ViewModelProviders.of(requireActivity(), mViewModelFactory).get(MoviesViewModel::class.java)
     override fun getLifeCycleOwner(): LifecycleOwner = this
+
+    override val viewModel by lazy {
+        ViewModelProvider(requireActivity(), mViewModelFactory).get(MoviesViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val inflater = requireActivity().menuInflater
+        inflater.inflate(R.menu.search_menu, menu);
+        val mSearchMenuItem: MenuItem = menu.findItem(R.id.action_search)
+        val searchView: SearchView = mSearchMenuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+        searchView.queryHint = resources.getString(R.string.search_placeholder)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,19 +86,14 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), MovieAdapter.OnItemClick
     }
 
     private fun listenForAdapterStates() {
-        lifecycleScope.launch {
-            getViewModel().movies.collectLatest {
-                mMovieAdapter.submitData(it)
-            }
-        }
-        btn_retry.setOnClickListener {
-            mMovieAdapter.retry()
-        }
+        viewModel.movies.observe(viewLifecycleOwner,
+                { paging -> lifecycleScope.launch { mMovieAdapter.submitData(paging) } })
+        btn_retry.setOnClickListener { mMovieAdapter.retry() }
         mMovieAdapter.addLoadStateListener(this)
     }
 
     override fun onMovieClicked(movieEntity: Movie) {
-        getViewModel().setSelectedMovie(movieEntity)
+        viewModel.setSelectedMovie(movieEntity)
         activity?.let { findNavController().navigate(R.id.details, Bundle()) }
     }
 
@@ -100,11 +112,17 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), MovieAdapter.OnItemClick
                 }
                 else -> null
             }
-            errorState?.let {
-                Toast.makeText(requireContext(), it.error.message, Toast.LENGTH_LONG).show()
-            }
+            errorState?.error?.localizedMessage?.let { showMessage(it) }
         }
     }
 
+    override fun onQueryTextChange(newText: String?): Boolean {
+        newText?.let { viewModel.getSearchLiveData().postValue(it) }
+        return true
+    }
 
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
 }
+

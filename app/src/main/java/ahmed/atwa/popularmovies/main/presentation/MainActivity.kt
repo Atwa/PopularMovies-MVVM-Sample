@@ -2,6 +2,7 @@ package ahmed.atwa.popularmovies.main.presentation
 
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.base.BaseActivity
+import ahmed.atwa.popularmovies.movies.presentation.MoviesViewModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider

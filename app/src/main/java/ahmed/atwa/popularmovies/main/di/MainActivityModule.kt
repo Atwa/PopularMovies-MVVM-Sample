@@ -1,8 +1,9 @@
 package ahmed.atwa.popularmovies.main.di
 
 import ahmed.atwa.popularmovies.utils.commons.ViewModelProviderFactory
-import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel
+import ahmed.atwa.popularmovies.movies.presentation.MoviesViewModel
 import ahmed.atwa.popularmovies.movies.data.MovieRepoImp
+import ahmed.atwa.popularmovies.movies.domain.MovieSourceFactory
 import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
@@ -15,8 +16,8 @@ import dagger.Provides
 class MainActivityModule {
 
     @Provides
-    internal fun provideMoviesViewModel(movieRepoImp: MovieRepoImp): MoviesViewModel {
-        return MoviesViewModel(movieRepoImp)
+    internal fun provideMoviesViewModel(movieRepoImp: MovieRepoImp,sourceFactory:MovieSourceFactory): MoviesViewModel {
+        return MoviesViewModel(movieRepoImp,sourceFactory)
     }
 
     @Provides

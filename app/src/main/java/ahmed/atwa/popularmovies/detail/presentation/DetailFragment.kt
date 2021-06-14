@@ -3,10 +3,10 @@ package ahmed.atwa.popularmovies.detail.presentation
 import ahmed.atwa.popularmovies.R
 import ahmed.atwa.popularmovies.base.BaseFragment
 import ahmed.atwa.popularmovies.detail.data.TrailerRemote
-import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel
-import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel.Companion.POSTER_BASE_URL
-import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel.Companion.YOUTUBE_APP_URI
-import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel.Companion.YOUTUBE_WEB_URI
+import ahmed.atwa.popularmovies.movies.presentation.MoviesViewModel
+import ahmed.atwa.popularmovies.movies.presentation.MoviesViewModel.Companion.POSTER_BASE_URL
+import ahmed.atwa.popularmovies.movies.presentation.MoviesViewModel.Companion.YOUTUBE_APP_URI
+import ahmed.atwa.popularmovies.movies.presentation.MoviesViewModel.Companion.YOUTUBE_WEB_URI
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -36,8 +35,11 @@ class DetailFragment : BaseFragment<MoviesViewModel>(), TrailerAdapter.TrailerAd
     lateinit var mTrailerAdapter: TrailerAdapter
 
     override fun getLayoutId(): Int = R.layout.fragment_detail
-    override fun getViewModel(): MoviesViewModel = ViewModelProviders.of(requireActivity(), mViewModelFactory).get(MoviesViewModel::class.java)
     override fun getLifeCycleOwner(): LifecycleOwner = this
+
+    override val viewModel by lazy {
+        ViewModelProvider(requireActivity(), mViewModelFactory).get(MoviesViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +60,7 @@ class DetailFragment : BaseFragment<MoviesViewModel>(), TrailerAdapter.TrailerAd
     }
 
     private fun renderMovieDetails() {
-        getViewModel().getSelectedMovie()?.apply {
+        viewModel.getSelectedMovie()?.apply {
             tv_title.text = title
             tv_plot.text = overview
             tv_rating.text = vote_average.toString()
@@ -68,9 +70,9 @@ class DetailFragment : BaseFragment<MoviesViewModel>(), TrailerAdapter.TrailerAd
             Glide.with(requireActivity())
                     .load("$POSTER_BASE_URL${poster_path}")
                     .into(img_poster)
-            img_like.setOnClickListener { getViewModel().updateLikeStatus(this) }
-            getViewModel().getLikeState(id)
-            getViewModel().fetchMovieTrailers(id)
+            img_like.setOnClickListener { viewModel.updateLikeStatus(this) }
+            viewModel.getLikeState(id)
+            viewModel.fetchMovieTrailers(id)
         }
     }
 

@@ -4,7 +4,6 @@ import ahmed.atwa.popularmovies.CoroutineTestingRule
 import ahmed.atwa.popularmovies.detail.data.TrailerRemote
 import ahmed.atwa.popularmovies.detail.data.TrailerResponse
 import ahmed.atwa.popularmovies.detail.presentation.DetailViewState
-import ahmed.atwa.popularmovies.main.presentation.MoviesViewModel
 import ahmed.atwa.popularmovies.movies.data.Movie
 import ahmed.atwa.popularmovies.movies.data.MovieRepo
 import ahmed.atwa.popularmovies.movies.data.MovieResponse

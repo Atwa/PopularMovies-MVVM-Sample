@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +19,7 @@ import com.bumptech.glide.Glide
  * Created by Ahmed Atwa on 10/19/18.
  */
 
-class MovieAdapter : PagingDataAdapter<MovieModel, RecyclerView.ViewHolder>(MovieModelComparator) {
+class MovieAdapter : PagingDataAdapter<Movie, RecyclerView.ViewHolder>(MovieModelComparator) {
 
     private lateinit var listener: OnItemClick
 
@@ -28,58 +27,26 @@ class MovieAdapter : PagingDataAdapter<MovieModel, RecyclerView.ViewHolder>(Movi
         listener = mOnItemClick
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is MovieModel.MovieItem -> R.layout.item_movie_view
-            is MovieModel.SeparatorItem -> R.layout.item_movie_seperator
-            null -> throw UnsupportedOperationException("Unknown view")
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            R.layout.item_movie_view -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie_view, parent, false)
-                MovieViewHolder(view)
-            }
-            else -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie_seperator, parent, false)
-                SeparatorViewHolder(view)
-            }
-        }
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie_view, parent, false)
+        return MovieViewHolder(view)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val movieModel: MovieModel = getItem(position)!!
-        movieModel.let {
-            when (movieModel) {
-                is MovieModel.MovieItem -> {
-                    val viewHolder = holder as MovieViewHolder
-                    movieModel.movie.poster_path?.let {
-                        holder.iv_poster.apply {
-                            Glide.with(context)
-                                    .load(Uri.parse("${BuildConfig.IMAGE_URL}$it"))
-                                    .into(this)
-                            setOnClickListener { listener.onMovieClicked(movieModel.movie) }
-                        }
-                    }
-                }
-                is MovieModel.SeparatorItem -> {
-                    val viewHolder = holder as SeparatorViewHolder
-                    viewHolder.tv_separator.text = movieModel.description
-                }
-            }
+        val viewHolder = holder as MovieViewHolder
+        val movie = getItem(position)
+        movie?.poster_path?.let {
+            Glide.with(viewHolder.itemView.context)
+                    .load(Uri.parse("${BuildConfig.IMAGE_URL}$it"))
+                    .into(viewHolder.ivPoster)
+            viewHolder.ivPoster.setOnClickListener { listener.onMovieClicked(movie) }
         }
     }
 
 
     inner class MovieViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var iv_poster: ImageView = itemView.findViewById(R.id.movieImg) as ImageView
-    }
-
-    inner class SeparatorViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tv_separator: TextView = itemView.findViewById(R.id.separator_description) as TextView
+        var ivPoster: ImageView = itemView.findViewById(R.id.movieImg) as ImageView
     }
 
     interface OnItemClick {
@@ -88,16 +55,14 @@ class MovieAdapter : PagingDataAdapter<MovieModel, RecyclerView.ViewHolder>(Movi
 
 
     companion object {
-        private val MovieModelComparator = object : DiffUtil.ItemCallback<MovieModel>() {
-            override fun areItemsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
-                return (oldItem is MovieModel.MovieItem && newItem is MovieModel.MovieItem &&
-                        oldItem.movie.id == newItem.movie.id) ||
-                        (oldItem is MovieModel.SeparatorItem && newItem is MovieModel.SeparatorItem &&
-                                oldItem.description == newItem.description)
+        private val MovieModelComparator = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean =
-                    oldItem == newItem
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 

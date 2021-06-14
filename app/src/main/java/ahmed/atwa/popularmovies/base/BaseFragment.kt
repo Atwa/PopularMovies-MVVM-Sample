@@ -16,10 +16,9 @@ import dagger.android.support.AndroidSupportInjection
 abstract class BaseFragment< V : BaseViewModel> : androidx.fragment.app.Fragment() {
 
     var mActivity: BaseActivity<V>? = null
-    lateinit var mViewModel: V
+    abstract val viewModel: V
 
     abstract fun getLayoutId(): Int
-    abstract fun getViewModel(): V
     abstract fun getLifeCycleOwner(): LifecycleOwner
 
     /**
@@ -43,7 +42,6 @@ abstract class BaseFragment< V : BaseViewModel> : androidx.fragment.app.Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         performDependencyInjection()
         super.onCreate(savedInstanceState)
-        mViewModel = getViewModel()
         setHasOptionsMenu(false)
     }
 
@@ -57,7 +55,7 @@ abstract class BaseFragment< V : BaseViewModel> : androidx.fragment.app.Fragment
     }
 
     private fun configureObserver() {
-        getViewModel().uiState.observe(viewLifecycleOwner, Observer { viewState ->
+        viewModel.uiState.observe(viewLifecycleOwner, Observer { viewState ->
             hideLoading()
             viewState?.let { renderViewState(it) }
         })

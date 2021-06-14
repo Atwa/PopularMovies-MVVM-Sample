@@ -1,28 +1,27 @@
-package ahmed.atwa.popularmovies.main.presentation
+package ahmed.atwa.popularmovies.movies.presentation
 
 import ahmed.atwa.popularmovies.base.BaseViewModel
 import ahmed.atwa.popularmovies.detail.presentation.DetailViewState
 import ahmed.atwa.popularmovies.movies.data.Movie
-import ahmed.atwa.popularmovies.movies.data.MoviePaging
 import ahmed.atwa.popularmovies.movies.data.MovieRepo
-import ahmed.atwa.popularmovies.movies.data.MovieResponse
-import ahmed.atwa.popularmovies.movies.presentation.MovieModel
-import ahmed.atwa.popularmovies.movies.presentation.MoviesViewState
+import ahmed.atwa.popularmovies.movies.domain.MovieSourceFactory
 import ahmed.atwa.popularmovies.utils.commons.CoroutineDispatcher
 import ahmed.atwa.popularmovies.utils.network.ResultType
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
 
 /**
  * Created by Ahmed Atwa on 10/19/18.
  */
 
 class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
+                                          private val sourceFactory: MovieSourceFactory,
                                           private val dispatcher: CoroutineDispatcher = CoroutineDispatcher()) : BaseViewModel() {
 
 
@@ -34,19 +33,18 @@ class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
     }
 
     private var movie: Movie? = null
+    private val searchTextLiveData: MutableLiveData<String> = MutableLiveData("")
+    var movies: LiveData<PagingData<Movie>> = MediatorLiveData()
 
-    val movies: Flow<PagingData<MovieModel>> = getMovieListStream()
-            .map { pagingData -> pagingData.map { MovieModel.MovieItem(it) } }
-            .map {
-                it.insertSeparators { before, after ->
-                    if (after == null) return@insertSeparators MovieModel.SeparatorItem("End of list")
-                    if (before == null) return@insertSeparators null
-                    else null
-                }
-            }
+    init {
+      movies =  Transformations.switchMap(searchTextLiveData) { input: String ->
+            return@switchMap getMoviesStream(input)
+        }
+    }
 
-    private fun getMovieListStream(): Flow<PagingData<Movie>> {
-        return Pager(PagingConfig(PAGE_SIZE)) { MoviePaging(movieRepo) }.flow
+    private fun getMoviesStream(input: String): LiveData<PagingData<Movie>> {
+        val result = viewModelScope.async { Pager(PagingConfig(PAGE_SIZE)) { sourceFactory.getSource(input) } }
+        return runBlocking { result.await().liveData.cachedIn(viewModelScope)}
     }
 
     fun getLikeState(movieId: Int) {
@@ -82,6 +80,10 @@ class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
 
     fun getSelectedMovie(): Movie? {
         return movie
+    }
+
+    fun getSearchLiveData(): MutableLiveData<String> {
+        return searchTextLiveData
     }
 
 }

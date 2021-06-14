@@ -2,6 +2,8 @@
 
 package ahmed.atwa.popularmovies.movies.di
 
+import ahmed.atwa.popularmovies.movies.data.MovieRepoImp
+import ahmed.atwa.popularmovies.movies.domain.MovieSourceFactory
 import ahmed.atwa.popularmovies.utils.commons.GridSpacingItemDecoration
 import ahmed.atwa.popularmovies.movies.presentation.MovieAdapter
 import ahmed.atwa.popularmovies.movies.presentation.MoviesFragment
@@ -24,6 +26,11 @@ class MoviesFragmentModule {
     @Provides
     internal fun provideGridSpacingItemDecoration(): GridSpacingItemDecoration {
         return GridSpacingItemDecoration(2, 5, true)
+    }
+
+    @Provides
+    internal fun provideMoviesSource(movieRepoImp: MovieRepoImp): MovieSourceFactory {
+        return MovieSourceFactory(movieRepoImp)
     }
 
     @Provides

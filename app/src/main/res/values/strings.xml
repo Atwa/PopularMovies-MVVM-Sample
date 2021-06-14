@@ -8,4 +8,5 @@
     <string name="fetch_movies_error">No movies found</string>
     <string name="fetch_trailers_error">No trailers found</string>
     <string name="button_retry">Retry</string>
+    <string name="search_placeholder">Search movies</string>
 </resources>
