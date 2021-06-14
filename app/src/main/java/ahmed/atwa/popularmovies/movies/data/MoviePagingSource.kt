@@ -3,8 +3,9 @@ package ahmed.atwa.popularmovies.movies.data
 import ahmed.atwa.popularmovies.utils.network.ResultType
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import javax.inject.Inject
 
-class MoviePagingSource(private val repo: MovieRepo) : PagingSource<Int, Movie>() {
+class MoviePagingSource @Inject constructor(private val repo: MovieRepo) : PagingSource<Int, Movie>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {

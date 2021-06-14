@@ -29,11 +29,6 @@ class MoviesFragmentModule {
     }
 
     @Provides
-    internal fun provideMoviesSource(movieRepoImp: MovieRepoImp): MovieSourceFactory {
-        return MovieSourceFactory(movieRepoImp)
-    }
-
-    @Provides
     internal fun provideMovieAdapter(): MovieAdapter {
         return MovieAdapter()
     }

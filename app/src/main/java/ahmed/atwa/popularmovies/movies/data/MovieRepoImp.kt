@@ -27,15 +27,22 @@ class MovieRepoImp @Inject constructor(
             if (moviesResponse == null) moviesResponse = response.data
             else
         moviesResponse?.results.also {
-                it?.addAll(response.data.results)
-            }?.let {moviesResponse = response.data.copy(results = it) }
+            it?.addAll(response.data.results)
+        }?.let {
+            moviesResponse = response.data.copy()
+            moviesResponse!!.results = it
+        }
         }
         return response
     }
 
     override suspend fun getFilteredPopularMovies(filterText: String): MovieResponse? {
         val result = moviesResponse?.results?.filter { movie -> movie.title?.contains(filterText, true) == true }?.toList()
-        result?.let { return moviesResponse?.copy(results = ArrayList(it)) }
+        result?.let {
+            val response = moviesResponse?.copy()
+            response?.results = ArrayList(it)
+            return response
+        }
         return null
     }
 
