@@ -24,7 +24,6 @@ class MoviesViewModel @Inject constructor(private val movieRepo: MovieRepo,
                                           private val sourceFactory: MovieSourceFactory,
                                           private val dispatcher: CoroutineDispatcher = CoroutineDispatcher()) : BaseViewModel() {
 
-
     companion object {
         private const val PAGE_SIZE = 20
         const val YOUTUBE_APP_URI = "vnd.youtube:"

@@ -6,6 +6,7 @@ import ahmed.atwa.popularmovies.movies.data.Movie
 import ahmed.atwa.popularmovies.utils.commons.GridSpacingItemDecoration
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
@@ -53,13 +54,14 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), MovieAdapter.OnItemClick
         setHasOptionsMenu(true)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val inflater = requireActivity().menuInflater
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
         inflater.inflate(R.menu.search_menu, menu);
         val mSearchMenuItem: MenuItem = menu.findItem(R.id.action_search)
         val searchView: SearchView = mSearchMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(this)
         searchView.queryHint = resources.getString(R.string.search_placeholder)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
